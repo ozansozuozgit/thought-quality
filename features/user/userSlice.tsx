@@ -1,32 +1,36 @@
-import { createSlice,PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {RootState} from '../../app/store';
 
 export interface UserState {
   name: string;
-  id: number;
+  uid: string;
   notes: Array<string>;
-
+  email: string;
+  photoURL: string;
 }
 
 const initialState: UserState = {
   name: '',
-  id: 0,
-  notes: ['']
+  uid: '',
+  notes: [''],
+  email: '',
+  photoURL: '',
 };
-
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserName: (state, action: PayloadAction<string>) => {
-      state.name += action.payload;
+    setUserDetailsFromGoogle: (state, action: PayloadAction<UserState>) => {
+      state.name = action.payload.name;
+      state.uid = action.payload.uid;
+      state.email = action.payload.name;
+      state.photoURL = action.payload.photoURL;
     },
   },
 });
 
-export const { setUserName } = userSlice.actions;
+export const {setUserDetailsFromGoogle} = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;
 
