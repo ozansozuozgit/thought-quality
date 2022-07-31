@@ -1,30 +1,67 @@
-import React from 'react';
-import { StyleSheet, Button, Image, ImageStyle } from 'react-native';
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps, emotionArray } from '../types';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import React, {useState} from 'react';
+import {StyleSheet, Button, Image, ImageStyle} from 'react-native';
+import {Text, View} from '../components/Themed';
+import {RootTabScreenProps, emotionArray} from '../types';
+import {useAppSelector, useAppDispatch} from '../app/hooks';
 import Emotions from '../components/Emotions';
 import Thoughts from '../components/Thoughts';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {EmotionsEnums} from '../types';
 
 export default function MainScreen({
   navigation,
 }: RootTabScreenProps<'MainScreen'>) {
-  const user = useAppSelector((state) => state.user);
-  console.log('user is', user);
-  const [value, onChangeText] = React.useState('Useless Multiline Placeholder');
+  // const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
+  const [textValue, onChangeText] = React.useState('');
+  const [selectedEmotion, setSelectedEmotion] = useState<number>(
+    EmotionsEnums.Neutral,
+  );
+
+  async function signOut() {
+    return auth().signOut();
+  }
+
+  function setEmotion(emotion: number) {
+    setSelectedEmotion(emotion);
+  }
+
+  function submitThoughtQuality() {
+    // const lastWeek = new Date(new Date().setDate(new Date().getDate() - 26));
+    firestore()
+      .collection('Users')
+      .add({
+        name: user.name,
+        uid: user.uid,
+        email: user.email,
+        note: textValue,
+        photoURL: user.photoURL,
+        emotionQuality: selectedEmotion,
+        createdAt: firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => {
+        console.log('User added!');
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Rate the quality of your thoughts</Text>
-      <Emotions />
+      <Emotions setEmotion={setEmotion} emotion={selectedEmotion} />
       <Thoughts
         multiline
         numberOfLines={4}
         onChangeText={(text: string) => onChangeText(text)}
-        value={value}
-        style={{ padding: 10 }}
+        value={textValue}
+        style={{padding: 10}}
       />
-      <Button title='Submit' />
+      <Button title="Submit" onPress={submitThoughtQuality} />
+      <Button title="Sign Out" onPress={signOut} />
+
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>

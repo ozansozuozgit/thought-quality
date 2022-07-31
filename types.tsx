@@ -3,12 +3,12 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 declare global {
   namespace ReactNavigation {
@@ -40,6 +40,14 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
 export interface Emotion {
   rating: number;
   name: string;
+}
+
+export enum EmotionsEnums {
+  Mad = 1,
+  Sad,
+  Neutral,
+  Happy,
+  Joy,
 }
 
 export const emotionArray: Array<Emotion> = [

@@ -1,4 +1,4 @@
-import {AppRegistry} from 'react-native';
+import {AppRegistry, LogBox} from 'react-native';
 import React from 'react';
 import App from './App';
 import {name as appName} from './app.json';
@@ -12,4 +12,5 @@ const RNRedux = () => (
   </Provider>
 );
 
+LogBox.ignoreLogs(['Require cycle: node_modules/victory']);
 AppRegistry.registerComponent(appName, () => RNRedux);
