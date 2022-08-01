@@ -10,8 +10,8 @@ export default function Thoughts(props: any) {
         {...props}
         editable
         maxLength={500}
-        placeholder="Any thoughts?"
-        style={[styles.thoughts, {backgroundColor: active ? 'white' : ''}]}
+        placeholder="Strongest thoughts/feelings?"
+        style={styles.thoughts}
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
       />
@@ -23,11 +23,19 @@ const styles = StyleSheet.create({
   thoughtsContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '20%',
+    // height: '25%',
+    // backgroundColor: 'rgba(0, 0, 0, 0.07)',
+    maxHeight: '10%',
   },
   thoughts: {
     width: '90%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.07)',
+    // height: '100%',
+    // backgroundColor: 'rgba(0, 0, 0, 0.07)',
+    color: '#000',
+    fontSize: 16,
+    borderColor: 'rgba(0, 0, 0, 0.07)',
+    borderWidth: 1,
+    padding: 5,
+    // maxHeight: '50%',
   },
 });

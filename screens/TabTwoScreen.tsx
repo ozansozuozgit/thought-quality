@@ -83,7 +83,8 @@ export default function TabTwoScreen() {
       />
       <VictoryPie
         data={userGraphData}
-        colorScale={['tomato', 'orange', 'gold', 'cyan', 'navy']}
+        colorScale={['tomato', 'orange', 'gold', 'cyan', 'navy','green']}
+        
       />
       <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
     </View>

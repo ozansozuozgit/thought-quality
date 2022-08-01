@@ -89,6 +89,7 @@ function BottomTabNavigator() {
         name="MainScreen"
         component={MainScreen}
         options={({navigation}: RootTabScreenProps<'MainScreen'>) => ({
+          headerShown: false,
           title: 'MainScreen',
           // tabBarIcon: ({color}) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {StyleSheet, Button, Image, ImageStyle} from 'react-native';
+import {StyleSheet, Button, Image, ImageStyle, Platform} from 'react-native';
 import {Text, View} from '../components/Themed';
-import {RootTabScreenProps, emotionArray} from '../types';
+import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import Emotions from '../components/Emotions';
 import Thoughts from '../components/Thoughts';
@@ -24,6 +24,7 @@ export default function MainScreen({
   }
 
   function setEmotion(emotion: number) {
+    console.log('emotion',emotion);
     setSelectedEmotion(emotion);
   }
 
@@ -38,7 +39,8 @@ export default function MainScreen({
         note: textValue,
         photoURL: user.photoURL,
         emotionQuality: selectedEmotion,
-        createdAt: firestore.FieldValue.serverTimestamp()
+        createdAt: firestore.FieldValue.serverTimestamp(),
+        emotionName: EmotionsEnums[selectedEmotion],
       })
       .then(() => {
         console.log('User added!');
@@ -50,8 +52,10 @@ export default function MainScreen({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Rate the quality of your thoughts</Text>
+      <Text style={styles.title}>Primary Emotion</Text>
       <Emotions setEmotion={setEmotion} emotion={selectedEmotion} />
+      <Text style={styles.title}>Thoughts</Text>
+
       <Thoughts
         multiline
         numberOfLines={4}
@@ -70,14 +74,19 @@ export default function MainScreen({
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: Platform.OS === 'ios' ? '10%' : 0,
     // flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
     height: '100%',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
+    // textAlign: 'center',
+    marginTop: '10%',
+    marginBottom: '5%',
+    marginLeft:'3%'
   },
   separator: {
     marginVertical: 30,

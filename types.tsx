@@ -43,32 +43,33 @@ export interface Emotion {
 }
 
 export enum EmotionsEnums {
-  Mad = 1,
-  Sad,
+  Fear = 1,
+  Sadness,
+  Anger,
   Neutral,
-  Happy,
   Joy,
+  Love,
 }
 
-export const emotionArray: Array<Emotion> = [
-  {
-    name: 'mad',
-    rating: 1,
-  },
-  {
-    name: 'sad',
-    rating: 2,
-  },
-  {
-    name: 'neutral',
-    rating: 3,
-  },
-  {
-    name: 'happy',
-    rating: 4,
-  },
-  {
-    name: 'joy',
-    rating: 5,
-  },
-];
+// export const emotionArray: Array<Emotion> = [
+//   {
+//     name: 'mad',
+//     rating: 1,
+//   },
+//   {
+//     name: 'sad',
+//     rating: 2,
+//   },
+//   {
+//     name: 'neutral',
+//     rating: 3,
+//   },
+//   {
+//     name: 'happy',
+//     rating: 4,
+//   },
+//   {
+//     name: 'joy',
+//     rating: 5,
+//   },
+// ];

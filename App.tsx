@@ -7,6 +7,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
+import {View, StyleSheet} from 'react-native';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -43,8 +44,16 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
+        {/* <View style={styles.mainContainer}> */}
+          {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
+        {/* </View> */}
       </SafeAreaProvider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    backgroundColor: '#13293D',
+  },
+});
