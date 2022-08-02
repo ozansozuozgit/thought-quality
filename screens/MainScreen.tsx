@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Button, Image, ImageStyle, Platform} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ImageStyle,
+  Platform,
+  Button,
+} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
@@ -8,6 +15,7 @@ import Thoughts from '../components/Thoughts';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {EmotionsEnums} from '../types';
+import EditScreenInfo from '../components/EditScreenInfo';
 
 export default function MainScreen({
   navigation,
@@ -24,7 +32,7 @@ export default function MainScreen({
   }
 
   function setEmotion(emotion: number) {
-    console.log('emotion',emotion);
+    console.log('emotion', emotion);
     setSelectedEmotion(emotion);
   }
 
@@ -63,11 +71,20 @@ export default function MainScreen({
         value={textValue}
         style={{padding: 10}}
       />
-      <Button title="Submit" onPress={submitThoughtQuality} />
-      <Button title="Sign Out" onPress={signOut} />
+      <Text style={styles.title}>Next Notification</Text>
+
+      <TouchableOpacity
+        onPress={submitThoughtQuality}
+        style={styles.submitButton}>
+        <Text style={styles.submitLabel}>Submit</Text>
+      </TouchableOpacity>
+      {/* <Button title="Sign Out" onPress={signOut} /> */}
 
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
+      <Button
+        title="Test"
+        onPress={() => navigation.navigate('Modal')}></Button>
     </View>
   );
 }
@@ -83,20 +100,28 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    // textAlign: 'center',
     marginTop: '10%',
     marginBottom: '5%',
-    marginLeft:'3%'
+    marginLeft: '3%',
   },
   separator: {
     marginVertical: 30,
     height: 1,
     width: '80%',
   },
-  icon: {
-    // color: 'black',
-    // backgroundColor:'black',
-    width: 32,
-    height: 42,
+  submitButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    borderColor: 'red',
+  },
+  submitLabel: {
+    backgroundColor: '#343434',
+    color: '#fff',
+    padding: 15,
+    fontSize: 25,
+    borderRadius: 25,
+    borderColor: 'red',
   },
 });

@@ -9,15 +9,11 @@ import firestore from '@react-native-firebase/firestore';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {EmotionsEnums} from '../types';
 
-// export interface PieType {
-//   x: string;
-//   y: number;
-// }
-export default function TabTwoScreen() {
+export default function StatsScreen() {
   const user = useAppSelector(state => state.user);
 
   const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
-  const [dropDownValue, setDropdownValue] = useState<number>(0);
+  const [dropDownValue, setDropdownValue] = useState<number>(1);
   const [items, setItems] = useState<Array<object>>([
     {label: 'Today', value: 1},
     {label: '3 Days', value: 3},
@@ -32,6 +28,10 @@ export default function TabTwoScreen() {
     getInfoFromDatabase();
   }, [dropDownValue]);
 
+  useEffect(() => {
+    if (dropDownValue === 1) getInfoFromDatabase();
+    console.log('entered stats');
+  }, []);
   function getInfoFromDatabase() {
     const endDate = new Date(
       new Date().setDate(new Date().getDate() - dropDownValue),
@@ -83,10 +83,8 @@ export default function TabTwoScreen() {
       />
       <VictoryPie
         data={userGraphData}
-        colorScale={['tomato', 'orange', 'gold', 'cyan', 'navy','green']}
-        
+        colorScale={['#ff5a0a', '#ecfe09', '#ffb507', '#07c14a', '#060df9', '#a20ef5']}
       />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
     </View>
   );
 }

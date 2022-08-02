@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {View} from '../components/Themed';
@@ -10,9 +10,7 @@ interface EmotionsTypes {
   setEmotion: Function;
 }
 export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
-  useEffect(() => {
-    console.log('EmotionEnum', EmotionsEnums[emotion]);
-  }, [emotion]);
+
   return (
     <View style={styles.emotionsContainer}>
       <TouchableOpacity
@@ -23,7 +21,6 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
         }
         onPress={() => setEmotion(EmotionsEnums.Love)}>
         <View style={styles.emotionSecondaryContainer}>
-          {/* <Image source={Love} style={styles.emotionImage} /> */}
           <MaterialIcons
             name="emoticon-kiss-outline"
             size={32}

@@ -22,7 +22,7 @@
 //           },
 //           TabTwo: {
 //             screens: {
-//               TabTwoScreen: 'two',
+//               StatsScreen: 'two',
 //             },
 //           },
 //         },

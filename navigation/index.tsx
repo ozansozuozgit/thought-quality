@@ -18,13 +18,16 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import MainScreen from '../screens/MainScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import StatsScreen from '../screens/StatsScreen';
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from '../types';
 // import LinkingConfiguration from './LinkingConfiguration';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SessionsScreen from '../screens/SessionsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default function Navigation({
   colorScheme,
@@ -90,8 +93,10 @@ function BottomTabNavigator() {
         component={MainScreen}
         options={({navigation}: RootTabScreenProps<'MainScreen'>) => ({
           headerShown: false,
-          title: 'MainScreen',
-          // tabBarIcon: ({color}) => <TabBarIcon name="code" color={color} />,
+          title: 'Home',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcon name="home" color={color} size={32} />
+          ),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
@@ -102,11 +107,37 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Stats"
+        component={StatsScreen}
         options={{
-          title: 'Tab Two',
-          // tabBarIcon: ({color}) => <TabBarIcon name="code" color={color} />,
+          title: 'Stats',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcon name="chart-pie" color={color} size={32} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="SessionsScreen"
+        component={SessionsScreen}
+        options={{
+          title: 'Sessions',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcon
+              name="animation-outline"
+              color={color}
+              size={32}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcon name="account" color={color} size={32} />
+          ),
         }}
       />
     </BottomTab.Navigator>
