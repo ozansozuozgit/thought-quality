@@ -1,6 +1,6 @@
 const tintColorLight = '#343434';
 const tintColorDark = '#fff';
-const backgroundColorLight = '#fff';
+const backgroundColorLight = '#BADEFC';
 const backgroundColorDark = '#fff';
 const textColorLight = '#F5F0F6';
 const focusedColorDark = '#343434';

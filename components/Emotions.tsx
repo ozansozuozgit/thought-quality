@@ -24,7 +24,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-kiss-outline"
             size={32}
-            color={emotion === EmotionsEnums.Love ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Love ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -47,7 +47,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-excited-outline"
             size={32}
-            color={emotion === EmotionsEnums.Joy ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Joy ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -70,7 +70,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-neutral-outline"
             size={32}
-            color={emotion === EmotionsEnums.Neutral ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Neutral ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -93,7 +93,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-angry-outline"
             size={32}
-            color={emotion === EmotionsEnums.Anger ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Anger ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -116,7 +116,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-sad-outline"
             size={32}
-            color={emotion === EmotionsEnums.Sadness ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Sadness ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -139,7 +139,7 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
           <MaterialIcons
             name="emoticon-frown-outline"
             size={32}
-            color={emotion === EmotionsEnums.Fear ? '#fff' : '#000'}
+            color={emotion === EmotionsEnums.Fear ? '#343434' : '#000'}
           />
           <Text
             style={
@@ -170,8 +170,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderStyle: 'solid',
+    backgroundColor: '#fdfdfd4f',
     // backgroundColor: '#f9f9f9',
-    opacity: 0.6,
+    // opacity: 0.5,
     marginTop: 15,
     borderRadius: 12,
     borderWidth: 2,
@@ -182,16 +183,16 @@ const styles = StyleSheet.create({
   },
   emotionContainerFocused: {
     opacity: 1,
-    backgroundColor: '#343434',
+    backgroundColor: '#fdfdfd',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderStyle: 'solid',
     marginTop: 15,
     borderRadius: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     flexBasis: '30%',
-    // borderColor: '#6728ff',
+    borderColor: '#343434',
     padding: 10,
   },
   emotionLabel: {
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
   },
   emotionLabelFocused: {
     marginTop: 5,
-    color: '#fff',
+    color: '#343434',
     fontSize: 15,
     fontWeight: 'bold',
   },

@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 15,
     borderRadius: 10,
-    // backgroundColor: '#343434',
+    backgroundColor: '#fdfdfd4f',
   },
   infoContainer: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    // backgroundColor: '#343434',
+    backgroundColor: 'transparent',
   },
   date: {
     // textAlign: 'right',

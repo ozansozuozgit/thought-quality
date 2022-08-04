@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   thoughts: {
     width: '90%',
     // height: '100%',
-    // backgroundColor: 'rgba(0, 0, 0, 0.07)',
+    backgroundColor: '#fdfdfd4f',
     color: '#000',
     fontSize: 16,
     borderColor: '#r343434',
