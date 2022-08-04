@@ -8,6 +8,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import firestore from '@react-native-firebase/firestore';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {EmotionsEnums} from '../types';
+import {firestoreGetDataCreatedBefore} from '../utils/utils';
 
 export default function StatsScreen() {
   const user = useAppSelector(state => state.user);
@@ -19,6 +20,7 @@ export default function StatsScreen() {
     {label: '3 Days', value: 3},
     {label: '5 Days', value: 5},
     {label: '7 Days', value: 7},
+    {label: '15 Days', value: 15},
     {label: '30 Days', value: 30},
     {label: '60 Days', value: 60},
   ]);
@@ -32,43 +34,37 @@ export default function StatsScreen() {
     if (dropDownValue === 1) getInfoFromDatabase();
     console.log('entered stats');
   }, []);
-  function getInfoFromDatabase() {
+  async function getInfoFromDatabase() {
     const endDate = new Date(
       new Date().setDate(new Date().getDate() - dropDownValue),
     );
 
-    firestore()
-      .collection('Users')
-      .where('uid', '==', user.uid)
-      .where('createdAt', '>=', endDate)
-      .get()
-      .then(querySnapshot => {
-        const queryResult: Array<object> = [];
-        querySnapshot.forEach(doc => {
-          console.log(`${EmotionsEnums[doc.data().emotionQuality]}`);
-          const emotionQuality = doc.data().emotionQuality;
-          queryResult.push({
-            x: `${EmotionsEnums[emotionQuality]}`,
-          });
-          console.log(doc.id, ' => ', doc.data());
-        });
+    const querySnapshot: any = await firestoreGetDataCreatedBefore(
+      user.uid,
+      endDate,
+    );
 
-        //Get duplicates and add the number of duplicates to the "y" field of the data
-        const result = [
-          ...queryResult
-            .reduce((mp: any, o: any) => {
-              if (!mp.has(o.x)) mp.set(o.x, {...o, y: 0});
-              mp.get(o.x).y++;
-              return mp;
-            }, new Map())
-            .values(),
-        ];
-        console.log('result', result);
-        setUserGraphData(result);
-      })
-      .catch(error => {
-        console.log('Error getting documents: ', error);
+    const queryResult: Array<object> = [];
+    querySnapshot?.forEach((doc: any) => {
+      console.log(`${EmotionsEnums[doc.data().emotionQuality]}`);
+      const emotionQuality = doc.data().emotionQuality;
+      queryResult.push({
+        x: `${EmotionsEnums[emotionQuality]}`,
       });
+      console.log(doc.id, ' => ', doc.data());
+      //Get duplicates and add the number of duplicates to the "y" field of the data
+      const result = [
+        ...queryResult
+          .reduce((mp: any, o: any) => {
+            if (!mp.has(o.x)) mp.set(o.x, {...o, y: 0});
+            mp.get(o.x).y++;
+            return mp;
+          }, new Map())
+          .values(),
+      ];
+      console.log('result', result);
+      setUserGraphData(result);
+    });
   }
 
   return (
@@ -83,7 +79,14 @@ export default function StatsScreen() {
       />
       <VictoryPie
         data={userGraphData}
-        colorScale={['#ff5a0a', '#ecfe09', '#ffb507', '#07c14a', '#060df9', '#a20ef5']}
+        colorScale={[
+          '#ff5a0a',
+          '#ecfe09',
+          '#ffb507',
+          '#07c14a',
+          '#060df9',
+          '#a20ef5',
+        ]}
       />
     </View>
   );

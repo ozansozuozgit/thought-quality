@@ -37,7 +37,7 @@ export default function MainScreen({
   }
 
   function submitThoughtQuality() {
-    // const lastWeek = new Date(new Date().setDate(new Date().getDate() - 26));
+    // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
     firestore()
       .collection('Users')
       .add({
@@ -48,10 +48,12 @@ export default function MainScreen({
         photoURL: user.photoURL,
         emotionQuality: selectedEmotion,
         createdAt: firestore.FieldValue.serverTimestamp(),
+        // createdAt: firestore.Timestamp.fromDate(customDate),
         emotionName: EmotionsEnums[selectedEmotion],
       })
       .then(() => {
         console.log('User added!');
+        onChangeText('');
       })
       .catch(e => {
         console.log(e);

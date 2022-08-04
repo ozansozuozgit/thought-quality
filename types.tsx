@@ -29,7 +29,7 @@ export type RootTabParamList = {
   MainScreen: undefined;
   Stats: undefined;
   LoginScreen: undefined;
-  SessionsScreen:undefined;
+  SessionsScreen: undefined;
   ProfileScreen: undefined;
 };
 
@@ -53,25 +53,8 @@ export enum EmotionsEnums {
   Love,
 }
 
-// export const emotionArray: Array<Emotion> = [
-//   {
-//     name: 'mad',
-//     rating: 1,
-//   },
-//   {
-//     name: 'sad',
-//     rating: 2,
-//   },
-//   {
-//     name: 'neutral',
-//     rating: 3,
-//   },
-//   {
-//     name: 'happy',
-//     rating: 4,
-//   },
-//   {
-//     name: 'joy',
-//     rating: 5,
-//   },
-// ];
+export interface SessionType {
+  emotion: string;
+  date: Date;
+  note: string;
+}

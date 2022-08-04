@@ -1,26 +1,89 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ImageStyle,
-  Platform,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, ScrollView, Platform} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector} from '../app/hooks';
-import auth from '@react-native-firebase/auth';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import {EmotionsEnums, SessionType} from '../types';
 import firestore from '@react-native-firebase/firestore';
+import Session from '../components/Session';
 
 export default function SessionsScreen({
   navigation,
 }: RootTabScreenProps<'SessionsScreen'>) {
   // const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
+  const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
+  const [dropDownValue, setDropdownValue] = useState<number>(1);
+  const [sessionData, setSessionData] = useState<Array<SessionType> | null>(
+    null,
+  );
+  const [items, setItems] = useState<Array<object>>([
+    {label: 'Today', value: 1},
+    {label: '3 Days', value: 3},
+    {label: '5 Days', value: 5},
+    {label: '7 Days', value: 7},
+    {label: '15 Days', value: 15},
+    {label: '30 Days', value: 30},
+    {label: '60 Days', value: 60},
+  ]);
 
+  useEffect(() => {
+    getInfoFromDatabase();
+  }, [dropDownValue]);
+  // emotionName: "Neutral"
+  // emotionQuality: 4
+  // note: ""
+  // Date
+  async function getInfoFromDatabase() {
+    const endDate = new Date(
+      new Date().setDate(new Date().getDate() - dropDownValue),
+    );
+
+    const querySnapshot: any = await firestoreGetDataCreatedBefore(
+      user.uid,
+      endDate,
+    );
+
+    const sessionArray: Array<SessionType> = [];
+    querySnapshot?.forEach((doc: any) => {
+      const emotionQuality = doc.data().emotionQuality;
+      const createdAt = doc
+        .data()
+        .createdAt.toDate()
+        .toLocaleDateString('en-US');
+
+      sessionArray.push({
+        date: createdAt,
+        note: doc.data().note,
+        emotion: doc.data().emotionName,
+      });
+      console.log(doc.id, ' => ', doc.data());
+      //Get duplicates and add the number of duplicates to the "y" field of the data
+    });
+    console.log('sessionArray', sessionArray);
+
+    setSessionData(sessionArray);
+  }
   return (
     <View style={styles.container}>
-      <Text>Sessions Screen</Text>
+      <Text style={styles.title}>Select a date range</Text>
+      <View style={styles.secondaryContainer}>
+        <DropDownPicker
+          open={openDropDown}
+          value={dropDownValue}
+          items={items}
+          setOpen={setOpenDropDownMenu}
+          setValue={setDropdownValue}
+          setItems={setItems}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {sessionData?.map((session, index) => (
+            <Session session={session} key={index} />
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -28,7 +91,18 @@ export default function SessionsScreen({
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? '10%' : 0,
-
-    height: '100%',
+    minHeight: '100%',
+    alignItems: 'center',
+    paddingBottom: 100,
+  },
+  secondaryContainer: {
+    width: '90%',
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: '10%',
+    marginBottom: '5%',
+    marginLeft: '3%',
   },
 });
