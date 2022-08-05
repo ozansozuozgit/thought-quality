@@ -32,7 +32,6 @@ export default function MainScreen({
   }
 
   function setEmotion(emotion: number) {
-    console.log('emotion', emotion);
     setSelectedEmotion(emotion);
   }
 
@@ -53,7 +52,6 @@ export default function MainScreen({
       })
       .then(querySnapshot => {
         console.log('Session added!');
-        console.log('querySnapshot', querySnapshot);
         querySnapshot.update({
           sessionID: querySnapshot.id,
         });
@@ -98,9 +96,6 @@ export default function MainScreen({
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? '10%' : 0,
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     height: '100%',
   },
   title: {

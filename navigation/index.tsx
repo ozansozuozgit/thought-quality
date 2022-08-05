@@ -28,6 +28,7 @@ import {
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SessionsScreen from '../screens/SessionsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SessionViewScreen from '../screens/SessionViewScreen';
 
 export default function Navigation({
   colorScheme,
@@ -67,6 +68,11 @@ function RootNavigator() {
           name="Modal"
           component={ModalScreen}
           options={{title: 'f'}}
+        />
+        <Stack.Screen
+          name="SessionView"
+          component={SessionViewScreen}
+          options={{title: 'Session'}}
         />
       </Stack.Group>
     </Stack.Navigator>

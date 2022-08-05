@@ -6,11 +6,12 @@ import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {limitCharacter} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Session({session}: any) {
-  console.log('session is', session);
-  // if (!session.length) return;
-  const {emotion='', note='', date=''} = session;
+  const navigation = useNavigation();
+  console.log('navigation is', navigation);
+  const {emotion = '', note = '', date = ''} = session;
   let iconName = 'circle-outline';
   let iconColor = '#000';
   if (emotion === 'Love') {
@@ -35,18 +36,31 @@ export default function Session({session}: any) {
 
   return (
     <AppleStyleSwipeableRow>
-      {/* <TouchableOpacity style={styles.sessionContainer}> */}
-      <Text style={styles.date}>{date}</Text>
-      <View style={styles.infoContainer}>
-        <MaterialIcons
-          name={iconName}
-          size={32}
-          color={iconColor}
-          style={styles.icon}
-        />
-        <Text style={styles.note}>{limitCharacter(note, 40)}</Text>
-      </View>
-      {/* </TouchableOpacity> */}
+      <TouchableOpacity
+        style={styles.sessionContainer}
+        onPress={() => {
+          navigation.navigate(
+            'SessionView' as never,
+            {
+              emotion: emotion ?? '',
+              date: date ?? '',
+              note: note ?? '',
+              iconName: iconName ?? '',
+              iconColor: iconColor ?? '',
+            } as never,
+          );
+        }}>
+        <Text style={styles.date}>{date}</Text>
+        <View style={styles.infoContainer}>
+          <MaterialIcons
+            name={iconName}
+            size={32}
+            color={iconColor}
+            style={styles.icon}
+          />
+          <Text style={styles.note}>{limitCharacter(note, 40)}</Text>
+        </View>
+      </TouchableOpacity>
     </AppleStyleSwipeableRow>
   );
 }
@@ -65,10 +79,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fdfdfd4f',
   },
   infoContainer: {
-    // display: 'flex',
-    // alignItems: 'center',
-    // flexDirection: 'row',
-    // backgroundColor: 'transparent',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
   },
   date: {
     // textAlign: 'right',

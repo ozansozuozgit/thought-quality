@@ -47,7 +47,8 @@ export default function AppleStyleSwipeableRow(props: any) {
       {
         text: 'Delete',
         onPress: () => {
-          const sessionID = props.children[0]._owner.key;
+          console.log('props', props);
+          const sessionID = props.children._owner.key;
           deleteSessionFromFirebase('Users', sessionID);
           dispatch(removeSession(sessionID));
         },

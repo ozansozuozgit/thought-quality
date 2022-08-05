@@ -81,9 +81,13 @@ export default function SessionsScreen({
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: 160}}>
-          {user.sessions?.map((session, index) => (
-            <Session session={session} key={session.sessionID ?? index} />
-          ))}
+          {user?.sessions?.length ? (
+            user.sessions?.map((session, index) => (
+              <Session session={session} key={session.sessionID ?? index} />
+            ))
+          ) : (
+            <Text style={styles.noSessions}>No Sessions </Text>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -107,6 +111,12 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     marginBottom: '5%',
     marginLeft: '3%',
+  },
+  noSessions: {
+    textAlign: 'center',
+    marginTop: 50,
+    fontSize: 22,
+    fontWeight: 'bold',
   },
   dropdown: {
     backgroundColor: '#fdfdfd4f',
