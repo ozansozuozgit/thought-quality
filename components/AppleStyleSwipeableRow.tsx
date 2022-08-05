@@ -65,8 +65,6 @@ export default function AppleStyleSwipeableRow(props: any) {
       outputRange: [x, 0],
     });
     const pressHandler = () => {
-      console.log('props', props);
-      console.log('props._owner.key', props.children[0]._owner.key);
       confirmationAlert();
     };
     return (
@@ -119,5 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
+    marginTop: 15,
+    borderRadius: 10,
   },
 });
