@@ -45,7 +45,7 @@ export default function App() {
     return (
       <SafeAreaProvider>
         {/* <View style={styles.mainContainer}> */}
-          {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
+        {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
         {/* </View> */}
       </SafeAreaProvider>
     );

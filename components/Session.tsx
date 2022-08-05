@@ -5,9 +5,12 @@ import {View} from '../components/Themed';
 import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {limitCharacter} from '../utils/utils';
+import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 
 export default function Session({session}: any) {
-  const {emotion, note, date} = session;
+  console.log('session is', session);
+  // if (!session.length) return;
+  const {emotion='', note='', date=''} = session;
   let iconName = 'circle-outline';
   let iconColor = '#000';
   if (emotion === 'Love') {
@@ -21,16 +24,18 @@ export default function Session({session}: any) {
     iconColor = '#15ad01';
   } else if (emotion === 'Anger') {
     iconName = 'emoticon-angry-outline';
-    iconColor = '#fff000';
+    iconColor = '#fc3a00';
   } else if (emotion === 'Sadness') {
     iconName = 'emoticon-sad-outline';
     iconColor = '#ff8c00';
   } else if (emotion === 'Fear') {
     iconName = 'emoticon-frown-outline';
-    iconColor = '#fc3a00';
+    iconColor = '#c53723';
   }
+
   return (
-    <TouchableOpacity style={styles.sessionContainer}>
+    <AppleStyleSwipeableRow>
+      {/* <TouchableOpacity style={styles.sessionContainer}> */}
       <Text style={styles.date}>{date}</Text>
       <View style={styles.infoContainer}>
         <MaterialIcons
@@ -41,7 +46,8 @@ export default function Session({session}: any) {
         />
         <Text style={styles.note}>{limitCharacter(note, 40)}</Text>
       </View>
-    </TouchableOpacity>
+      {/* </TouchableOpacity> */}
+    </AppleStyleSwipeableRow>
   );
 }
 
@@ -59,10 +65,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fdfdfd4f',
   },
   infoContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    // display: 'flex',
+    // alignItems: 'center',
+    // flexDirection: 'row',
+    // backgroundColor: 'transparent',
   },
   date: {
     // textAlign: 'right',

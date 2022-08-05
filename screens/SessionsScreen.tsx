@@ -2,17 +2,18 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, ScrollView, Platform} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
-import {useAppSelector} from '../app/hooks';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {firestoreGetDataCreatedBefore} from '../utils/utils';
 import {EmotionsEnums, SessionType} from '../types';
 import firestore from '@react-native-firebase/firestore';
 import Session from '../components/Session';
+import {setSessions, selectUserName} from '../features/user/userSlice';
 
 export default function SessionsScreen({
   navigation,
 }: RootTabScreenProps<'SessionsScreen'>) {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
   const [dropDownValue, setDropdownValue] = useState<number>(1);
@@ -32,17 +33,14 @@ export default function SessionsScreen({
   useEffect(() => {
     getInfoFromDatabase();
   }, [dropDownValue]);
-  // emotionName: "Neutral"
-  // emotionQuality: 4
-  // note: ""
-  // Date
+
   async function getInfoFromDatabase() {
     const endDate = new Date(
       new Date().setDate(new Date().getDate() - dropDownValue),
     );
 
     const querySnapshot: any = await firestoreGetDataCreatedBefore(
-      user.uid,
+      user.uid ?? '',
       endDate,
     );
 
@@ -58,12 +56,13 @@ export default function SessionsScreen({
         date: createdAt,
         note: doc.data().note,
         emotion: doc.data().emotionName,
+        sessionID: doc.data().sessionID,
       });
       console.log(doc.id, ' => ', doc.data());
       //Get duplicates and add the number of duplicates to the "y" field of the data
     });
     console.log('sessionArray', sessionArray);
-
+    dispatch(setSessions(sessionArray));
     setSessionData(sessionArray);
   }
   return (
@@ -77,10 +76,13 @@ export default function SessionsScreen({
           setOpen={setOpenDropDownMenu}
           setValue={setDropdownValue}
           setItems={setItems}
+          style={styles.dropdown}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {sessionData?.map((session, index) => (
-            <Session session={session} key={index} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 160}}>
+          {user.sessions?.map((session, index) => (
+            <Session session={session} key={session.sessionID ?? index} />
           ))}
         </ScrollView>
       </View>
@@ -91,9 +93,10 @@ export default function SessionsScreen({
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? '10%' : 0,
-    minHeight: '100%',
+    // minHeight: '100%',
     alignItems: 'center',
-    paddingBottom: 100,
+    height: '100%',
+    // paddingBottom: 100,
   },
   secondaryContainer: {
     width: '90%',
@@ -104,5 +107,8 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     marginBottom: '5%',
     marginLeft: '3%',
+  },
+  dropdown: {
+    backgroundColor: '#fdfdfd4f',
   },
 });

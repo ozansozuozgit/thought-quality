@@ -51,8 +51,12 @@ export default function MainScreen({
         // createdAt: firestore.Timestamp.fromDate(customDate),
         emotionName: EmotionsEnums[selectedEmotion],
       })
-      .then(() => {
-        console.log('User added!');
+      .then(querySnapshot => {
+        console.log('Session added!');
+        console.log('querySnapshot', querySnapshot);
+        querySnapshot.update({
+          sessionID: querySnapshot.id,
+        });
         onChangeText('');
       })
       .catch(e => {

@@ -1,13 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {act} from 'react-test-renderer';
 import {RootState} from '../../app/store';
-
-export interface UserState {
-  name: string;
-  uid: string;
-  notes: Array<string>;
-  email: string;
-  photoURL: string;
-}
+import {SessionType, UserState} from '../../types';
 
 const initialState: UserState = {
   name: '',
@@ -15,6 +9,7 @@ const initialState: UserState = {
   notes: [''],
   email: '',
   photoURL: '',
+  sessions: [{}],
 };
 
 export const userSlice = createSlice({
@@ -27,10 +22,22 @@ export const userSlice = createSlice({
       state.email = action.payload.name;
       state.photoURL = action.payload.photoURL;
     },
+    setSessions: (state, action: PayloadAction<Array<SessionType>>) => {
+      // state.sessionToBeRemoved = action.payload.sessionToBeRemoved;
+      state.sessions = action.payload;
+    },
+    removeSession: (state, action: PayloadAction<any>) => {
+      // state.sessionToBeRemoved = action.payload.sessionToBeRemoved;
+      console.log('payload', action.payload);
+      state.sessions = state.sessions?.filter(
+        session => session.sessionID !== action.payload,
+      );
+    },
   },
 });
 
-export const {setUserDetailsFromGoogle} = userSlice.actions;
+export const {setUserDetailsFromGoogle, removeSession, setSessions} =
+  userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;
 
