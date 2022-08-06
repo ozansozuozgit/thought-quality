@@ -59,6 +59,7 @@ export interface SessionType {
   createdAt?: Date;
   note?: string;
   sessionID?: string;
+  emotionQuality?: number;
 }
 
 export interface UserState {

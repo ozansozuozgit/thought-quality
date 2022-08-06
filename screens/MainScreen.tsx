@@ -50,28 +50,19 @@ export default function MainScreen({
     setSelectedEmotion(emotion);
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      async function fetchLatestSession() {
-        const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
-        const querySnapshot: any = await firestoreGetDataCreatedBefore(
-          user.uid ?? '',
-          endDate,
-          1,
-        );
-        const session = querySnapshot?._docs[0]._data;
-        session.createdAt = session.createdAt
-          .toDate()
-          .toLocaleDateString('en-US');
-        setLatestSession(session);
-        // querySnapshot?.forEach((doc: any) => {
-        //   console.log(doc.id, ' => ', doc.data());
-        // });
-      }
+  useEffect(() => {
+    async function fetchLatestSession() {
+      const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
+      const querySnapshot: any = await firestoreGetDataCreatedBefore(
+        user.uid ?? '',
+        endDate,
+        1,
+      );
+      setLatestSession(querySnapshot[0]);
+    }
 
-      fetchLatestSession();
-    }, []),
-  );
+    fetchLatestSession();
+  }, []);
 
   useEffect(() => {
     async function fetchLatestSession() {
@@ -81,11 +72,8 @@ export default function MainScreen({
         endDate,
         1,
       );
-      const session = querySnapshot?._docs[0]._data;
-      session.createdAt = session.createdAt
-        .toDate()
-        .toLocaleDateString('en-US');
-      setLatestSession(session);
+
+      setLatestSession(querySnapshot[0]);
     }
 
     fetchLatestSession();
@@ -125,7 +113,10 @@ export default function MainScreen({
     <View style={styles.container}>
       <Text style={styles.title}>Primary Emotion</Text>
       <Emotions setEmotion={setEmotion} emotion={selectedEmotion} />
-      <Text style={styles.title}>Thoughts</Text>
+      <Text style={styles.title}>
+        Thoughts
+        <Text style={{fontSize: 12, fontWeight: '400'}}> (Optional)</Text>
+      </Text>
 
       <Thoughts
         multiline
@@ -160,14 +151,14 @@ export default function MainScreen({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     height: '100%',
   },
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginTop: '10%',
-    marginBottom: '3%',
+    marginTop: '8%',
+    marginBottom: '5%',
     marginLeft: '3%',
   },
   submitButtonContainer: {
@@ -181,7 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#fdfdfd4f',
     borderColor: '#343434',
-    borderWidth: 2,
+    borderWidth: 1,
   },
   submitLabel: {
     color: '#343434',
@@ -193,5 +184,6 @@ const styles = StyleSheet.create({
   sessionContainer: {
     width: '90%',
     marginLeft: '5%',
+    marginTop: -15,
   },
 });

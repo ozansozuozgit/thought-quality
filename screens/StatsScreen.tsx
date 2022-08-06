@@ -47,12 +47,13 @@ export default function StatsScreen() {
 
     const queryResult: Array<object> = [];
     querySnapshot?.forEach((doc: any) => {
-      console.log(`${EmotionsEnums[doc.data().emotionQuality]}`);
-      const emotionQuality = doc.data().emotionQuality;
+      console.log('doc is', doc);
+      console.log(`${EmotionsEnums[doc.emotionQuality]}`);
+      const emotionQuality = doc.emotionQuality;
       queryResult.push({
         x: `${EmotionsEnums[emotionQuality]}`,
       });
-      console.log(doc.id, ' => ', doc.data());
+      console.log(doc.id, ' => ', doc);
       //Get duplicates and add the number of duplicates to the "y" field of the data
       const result = [
         ...queryResult
