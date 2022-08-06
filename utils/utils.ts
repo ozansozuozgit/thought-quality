@@ -1,10 +1,16 @@
 import firestore from '@react-native-firebase/firestore';
 
-export function firestoreGetDataCreatedBefore(uid: string, endDate: Date) {
+export function firestoreGetDataCreatedBefore(
+  uid: string,
+  endDate: Date,
+  limit: number,
+) {
   let result = firestore()
     .collection('Users')
     .where('uid', '==', uid)
     .where('createdAt', '>=', endDate)
+    .orderBy('createdAt', 'desc')
+    .limit(limit)
     .get()
     .then(querySnapshot => {
       console.log('querySnapshot', querySnapshot);

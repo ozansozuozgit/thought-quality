@@ -157,13 +157,14 @@ export default function Emotions({setEmotion, emotion}: EmotionsTypes) {
 
 const styles = StyleSheet.create({
   emotionsContainer: {
-    // width:'80%',
+    
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
     // height: '50%',
+    // padding:'2%'
   },
   emotionContainer: {
     display: 'flex',

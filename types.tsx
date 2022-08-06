@@ -55,8 +55,8 @@ export enum EmotionsEnums {
 }
 
 export interface SessionType {
-  emotion?: string;
-  date?: Date;
+  emotionName?: string;
+  createdAt?: Date;
   note?: string;
   sessionID?: string;
 }

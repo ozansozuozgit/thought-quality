@@ -5,11 +5,10 @@ import {Text, View} from '../components/Themed';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function SessionViewScreen({route, navigation}: any) {
-  const {note, emotion, date, iconColor, iconName} = route.params;
-  console.log('emotion is', emotion);
+  const {note, emotionName, createdAt, iconColor, iconName} = route.params;
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{date}</Text>
+      <Text style={styles.date}>{createdAt}</Text>
       <View style={styles.infoContainer}>
         <MaterialIcons
           name={iconName}

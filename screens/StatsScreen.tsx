@@ -40,8 +40,9 @@ export default function StatsScreen() {
     );
 
     const querySnapshot: any = await firestoreGetDataCreatedBefore(
-      user.uid,
+      user.uid ?? '',
       endDate,
+      100,
     );
 
     const queryResult: Array<object> = [];

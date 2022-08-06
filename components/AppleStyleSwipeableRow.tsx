@@ -69,6 +69,7 @@ export default function AppleStyleSwipeableRow(props: any) {
       confirmationAlert();
     };
     return (
+      // {props.allowSwipe ? () }
       <Animated.View style={{flex: 1, transform: [{translateX: trans}]}}>
         <RectButton
           style={[styles.rightAction, {backgroundColor: color}]}
@@ -79,16 +80,18 @@ export default function AppleStyleSwipeableRow(props: any) {
     );
   };
 
-  const renderRightActions = (progress: any) => (
-    <View
-      style={{
-        width: 100,
-        flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-      }}>
-      {renderRightAction('Delete', '#dd2c00', 100, progress)}
-    </View>
-  );
-
+  const renderRightActions = (progress: any) => {
+    if (!props.allowSwipe) return;
+    return (
+      <View
+        style={{
+          width: 100,
+          flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+        }}>
+        {renderRightAction('Delete', '#dd2c00', 100, progress)}
+      </View>
+    );
+  };
   const {children} = props;
   return (
     <Swipeable

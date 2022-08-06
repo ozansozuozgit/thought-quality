@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,8 +6,9 @@ import {
   ImageStyle,
   Platform,
   Button,
+  Text,
 } from 'react-native';
-import {Text, View} from '../components/Themed';
+import {View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import Emotions from '../components/Emotions';
@@ -15,7 +16,12 @@ import Thoughts from '../components/Thoughts';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {EmotionsEnums} from '../types';
-import EditScreenInfo from '../components/EditScreenInfo';
+import Quote from '../components/Quote';
+import Toast from 'react-native-toast-message';
+import {SessionType} from '../types';
+import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import Session from '../components/Session';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function MainScreen({
   navigation,
@@ -26,17 +32,68 @@ export default function MainScreen({
   const [selectedEmotion, setSelectedEmotion] = useState<number>(
     EmotionsEnums.Neutral,
   );
+  const [latestSession, setLatestSession] = useState<SessionType | null>(null);
+  const [newSessionEntered, setNewSessionEntered] = useState<boolean>(false);
 
   async function signOut() {
     return auth().signOut();
   }
 
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Session was recorded 👍',
+    });
+  };
+
   function setEmotion(emotion: number) {
     setSelectedEmotion(emotion);
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchLatestSession() {
+        const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
+        const querySnapshot: any = await firestoreGetDataCreatedBefore(
+          user.uid ?? '',
+          endDate,
+          1,
+        );
+        const session = querySnapshot?._docs[0]._data;
+        session.createdAt = session.createdAt
+          .toDate()
+          .toLocaleDateString('en-US');
+        setLatestSession(session);
+        // querySnapshot?.forEach((doc: any) => {
+        //   console.log(doc.id, ' => ', doc.data());
+        // });
+      }
+
+      fetchLatestSession();
+    }, []),
+  );
+
+  useEffect(() => {
+    async function fetchLatestSession() {
+      const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
+      const querySnapshot: any = await firestoreGetDataCreatedBefore(
+        user.uid ?? '',
+        endDate,
+        1,
+      );
+      const session = querySnapshot?._docs[0]._data;
+      session.createdAt = session.createdAt
+        .toDate()
+        .toLocaleDateString('en-US');
+      setLatestSession(session);
+    }
+
+    fetchLatestSession();
+  }, [newSessionEntered]);
+
   function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
+    showToast();
     firestore()
       .collection('Users')
       .add({
@@ -55,6 +112,8 @@ export default function MainScreen({
         querySnapshot.update({
           sessionID: querySnapshot.id,
         });
+        showToast();
+        setNewSessionEntered(!newSessionEntered);
         onChangeText('');
       })
       .catch(e => {
@@ -75,20 +134,26 @@ export default function MainScreen({
         value={textValue}
         style={{padding: 10}}
       />
-      <Text style={styles.title}>Next Notification</Text>
 
-      <TouchableOpacity
-        onPress={submitThoughtQuality}
-        style={styles.submitButton}>
-        <Text style={styles.submitLabel}>Submit</Text>
-      </TouchableOpacity>
       {/* <Button title="Sign Out" onPress={signOut} /> */}
 
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
-      <Button
-        title="Test"
-        onPress={() => navigation.navigate('Modal')}></Button>
+      {/* <Text style={styles.title}>Remember</Text>
+      <Quote /> */}
+      <Text style={styles.title}>Latest Session</Text>
+      <View style={styles.sessionContainer}>
+        {latestSession && (
+          <Session session={latestSession} allowSwipe={false} />
+        )}
+      </View>
+      <View style={styles.submitButtonContainer}>
+        <TouchableOpacity
+          onPress={submitThoughtQuality}
+          style={styles.submitButton}>
+          <Text style={styles.submitLabel}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+      <Toast />
     </View>
   );
 }
@@ -102,27 +167,31 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginTop: '10%',
-    marginBottom: '5%',
+    marginBottom: '3%',
     marginLeft: '3%',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  submitButtonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
   },
   submitButton: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 25,
-    borderColor: 'red',
+    width: '30%',
+    borderRadius: 12,
+    backgroundColor: '#fdfdfd4f',
+    borderColor: '#343434',
+    borderWidth: 2,
   },
   submitLabel: {
-    backgroundColor: '#343434',
-    color: '#fff',
+    color: '#343434',
     padding: 15,
-    fontSize: 25,
-    borderRadius: 25,
-    borderColor: 'red',
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  sessionContainer: {
+    width: '90%',
+    marginLeft: '5%',
   },
 });

@@ -8,49 +8,49 @@ import {limitCharacter} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {useNavigation} from '@react-navigation/native';
 
-export default function Session({session}: any) {
+export default function Session({session, allowSwipe = true}: any) {
   const navigation = useNavigation();
-  console.log('navigation is', navigation);
-  const {emotion = '', note = '', date = ''} = session;
+  const {emotionName = '', note = '', createdAt = ''} = session;
+
   let iconName = 'circle-outline';
   let iconColor = '#000';
-  if (emotion === 'Love') {
+  if (emotionName === 'Love') {
     iconName = 'emoticon-kiss-outline';
     iconColor = '#9f4fbd';
-  } else if (emotion === 'Joy') {
+  } else if (emotionName === 'Joy') {
     iconName = 'emoticon-excited-outline';
     iconColor = '#4f8af6';
-  } else if (emotion === 'Neutral') {
+  } else if (emotionName === 'Neutral') {
     iconName = 'emoticon-neutral-outline';
     iconColor = '#15ad01';
-  } else if (emotion === 'Anger') {
+  } else if (emotionName === 'Anger') {
     iconName = 'emoticon-angry-outline';
     iconColor = '#fc3a00';
-  } else if (emotion === 'Sadness') {
+  } else if (emotionName === 'Sadness') {
     iconName = 'emoticon-sad-outline';
     iconColor = '#ff8c00';
-  } else if (emotion === 'Fear') {
+  } else if (emotionName === 'Fear') {
     iconName = 'emoticon-frown-outline';
     iconColor = '#c53723';
   }
 
   return (
-    <AppleStyleSwipeableRow>
+    <AppleStyleSwipeableRow allowSwipe={allowSwipe}>
       <TouchableOpacity
         style={styles.sessionContainer}
         onPress={() => {
           navigation.navigate(
             'SessionView' as never,
             {
-              emotion: emotion ?? '',
-              date: date ?? '',
+              emotionName: emotionName ?? '',
+              createdAt: createdAt ?? '',
               note: note ?? '',
               iconName: iconName ?? '',
               iconColor: iconColor ?? '',
             } as never,
           );
         }}>
-        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.date}>{createdAt}</Text>
         <View style={styles.infoContainer}>
           <MaterialIcons
             name={iconName}
@@ -67,14 +67,12 @@ export default function Session({session}: any) {
 
 const styles = StyleSheet.create({
   sessionContainer: {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // width: '95%',
     borderColor: '#343434',
     borderWidth: 1,
     padding: 20,
-    marginTop: 15,
+    // marginTop: 15,
     borderRadius: 10,
     backgroundColor: '#fdfdfd4f',
   },
@@ -85,8 +83,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   date: {
-    // textAlign: 'right',
-    // alignSelf: 'flex-end',
     fontSize: 12,
     position: 'absolute',
     right: '5%',
@@ -94,11 +90,9 @@ const styles = StyleSheet.create({
     top: 5,
   },
   icon: {
-    // flex: 0.1,
     width: '15%',
   },
   note: {
-    // flex: 0.6,
     width: '90%',
     fontSize: 15,
   },

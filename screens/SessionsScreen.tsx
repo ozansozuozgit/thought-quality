@@ -17,9 +17,6 @@ export default function SessionsScreen({
   const user = useAppSelector(state => state.user);
   const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
   const [dropDownValue, setDropdownValue] = useState<number>(1);
-  const [sessionData, setSessionData] = useState<Array<SessionType> | null>(
-    null,
-  );
   const [items, setItems] = useState<Array<object>>([
     {label: 'Today', value: 1},
     {label: '3 Days', value: 3},
@@ -42,9 +39,10 @@ export default function SessionsScreen({
     const querySnapshot: any = await firestoreGetDataCreatedBefore(
       user.uid ?? '',
       endDate,
+      100,
     );
 
-    const sessionArray: Array<SessionType> = [];
+    const sessionArray: SessionType[] = [];
     querySnapshot?.forEach((doc: any) => {
       const emotionQuality = doc.data().emotionQuality;
       const createdAt = doc
@@ -53,17 +51,14 @@ export default function SessionsScreen({
         .toLocaleDateString('en-US');
 
       sessionArray.push({
-        date: createdAt,
+        createdAt: createdAt,
         note: doc.data().note,
-        emotion: doc.data().emotionName,
+        emotionName: doc.data().emotionName,
         sessionID: doc.data().sessionID,
       });
       console.log(doc.id, ' => ', doc.data());
-      //Get duplicates and add the number of duplicates to the "y" field of the data
     });
-    console.log('sessionArray', sessionArray);
     dispatch(setSessions(sessionArray));
-    setSessionData(sessionArray);
   }
   return (
     <View style={styles.container}>
