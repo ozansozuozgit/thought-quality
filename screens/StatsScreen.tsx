@@ -1,56 +1,80 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import {Text, View} from '../components/Themed';
+import {View} from '../components/Themed';
 import {VictoryPie} from 'victory-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import firestore from '@react-native-firebase/firestore';
-import {useAppSelector, useAppDispatch} from '../app/hooks';
-import {EmotionsEnums} from '../types';
-import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import {useAppSelector} from '../app/hooks';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DatePicker from '../components/DatePicker';
+import {returnIcon} from '../utils/utils';
 
 export default function StatsScreen() {
   const user = useAppSelector(state => state.user);
 
   const [userGraphData, setUserGraphData] = useState<Array<object>>([]);
+  const [colorArray, setColorArray] = useState<string[]>([]);
+  const [topEmotion, setTopEmotion] = useState<{
+    iconName: string;
+    iconColor: string;
+  }>({iconName: 'circle-outline', iconColor: '#000'});
 
   useEffect(() => {
-    console.log('user sessions', user.sessions);
-    const queryResult: Array<object> = [];
+    PopulateArray();
+  }, []);
+  useEffect(() => {
+    PopulateArray();
+  }, [user.sessions]);
+
+  const PopulateArray = () => {
+    const emotionOccurences: Array<object> = [];
     if (!user.sessions?.length) setUserGraphData([]);
     user.sessions?.forEach((doc: any) => {
-      queryResult.push({
+      emotionOccurences.push({
         x: `${doc.emotionName}`,
       });
-      //Get duplicates and add the number of duplicates to the "y" field of the data
-      const result = [
-        ...queryResult
-          .reduce((mp: any, o: any) => {
-            if (!mp.has(o.x)) mp.set(o.x, {...o, y: 0});
-            mp.get(o.x).y++;
-            return mp;
-          }, new Map())
-          .values(),
-      ];
-      setUserGraphData(result);
     });
-  }, [user.sessions]);
+    //Get duplicates and add the number of duplicates to the "y" field of the data
+    const emotionsOrganized = [
+      ...emotionOccurences
+        .reduce((mp: any, o: any) => {
+          if (!mp.has(o.x)) mp.set(o.x, {...o, y: 0});
+          mp.get(o.x).y++;
+          return mp;
+        }, new Map())
+        .values(),
+    ];
+    const tempColorArray: string[] = [];
+    emotionsOrganized.forEach(emotion => {
+      const {iconColor} = returnIcon(emotion.x);
+      tempColorArray.push(iconColor);
+    });
+
+    setColorArray(tempColorArray);
+    setUserGraphData(emotionsOrganized);
+
+    if (emotionsOrganized.length) {
+      let topEmotion = emotionsOrganized.reduce((emotion, current) =>
+        emotion.y > current.y ? emotion : current,
+      );
+      const {iconName, iconColor} = returnIcon(topEmotion.x);
+      setTopEmotion({iconName, iconColor});
+    }
+  };
 
   return (
     <View style={styles.container}>
       <DatePicker />
+      <MaterialIcons
+        name={topEmotion.iconName}
+        size={120}
+        color={topEmotion.iconColor}
+        style={styles.icon}
+      />
       <VictoryPie
         data={userGraphData}
-        colorScale={[
-          '#ff5a0a',
-          '#ecfe09',
-          '#ffb507',
-          '#07c14a',
-          '#060df9',
-          '#a20ef5',
-        ]}
+        colorScale={colorArray}
+        height={300}
+        innerRadius={60}
+        animate={{easing: 'exp'}}
       />
     </View>
   );
@@ -60,5 +84,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  icon: {
+    position: 'absolute',
+    top: '61%',
   },
 });

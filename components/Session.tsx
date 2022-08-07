@@ -4,7 +4,7 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {limitCharacter} from '../utils/utils';
+import {limitCharacter, returnIcon} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {useNavigation} from '@react-navigation/native';
 
@@ -12,27 +12,7 @@ export default function Session({session, allowSwipe = true}: any) {
   const navigation = useNavigation();
   const {emotionName = '', note = '', createdAt = ''} = session;
 
-  let iconName = 'circle-outline';
-  let iconColor = '#000';
-  if (emotionName === 'Love') {
-    iconName = 'emoticon-kiss-outline';
-    iconColor = '#9f4fbd';
-  } else if (emotionName === 'Joy') {
-    iconName = 'emoticon-excited-outline';
-    iconColor = '#4f8af6';
-  } else if (emotionName === 'Neutral') {
-    iconName = 'emoticon-neutral-outline';
-    iconColor = '#15ad01';
-  } else if (emotionName === 'Anger') {
-    iconName = 'emoticon-angry-outline';
-    iconColor = '#fc3a00';
-  } else if (emotionName === 'Sadness') {
-    iconName = 'emoticon-sad-outline';
-    iconColor = '#ff8c00';
-  } else if (emotionName === 'Fear') {
-    iconName = 'emoticon-frown-outline';
-    iconColor = '#c53723';
-  }
+  const {iconName, iconColor} = returnIcon(emotionName);
 
   return (
     <AppleStyleSwipeableRow allowSwipe={allowSwipe}>

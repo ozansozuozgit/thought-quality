@@ -79,3 +79,28 @@ function formatDatabaseReturnData(querySnapshot: any) {
   });
   return sessionArray;
 }
+
+export function returnIcon(emotionName: string) {
+  let iconName = 'circle-outline';
+  let iconColor = '#000';
+  if (emotionName === 'Love') {
+    iconName = 'emoticon-kiss-outline';
+    iconColor = '#9f4fbd';
+  } else if (emotionName === 'Joy') {
+    iconName = 'emoticon-excited-outline';
+    iconColor = '#4f8af6';
+  } else if (emotionName === 'Neutral') {
+    iconName = 'emoticon-neutral-outline';
+    iconColor = '#15ad01';
+  } else if (emotionName === 'Anger') {
+    iconName = 'emoticon-angry-outline';
+    iconColor = '#fc3a00';
+  } else if (emotionName === 'Sadness') {
+    iconName = 'emoticon-sad-outline';
+    iconColor = '#ff8c00';
+  } else if (emotionName === 'Fear') {
+    iconName = 'emoticon-frown-outline';
+    iconColor = '#c53723';
+  }
+  return {iconName, iconColor};
+}
