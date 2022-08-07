@@ -111,7 +111,7 @@ export default function DatePicker() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     // minHeight: '100%',
     alignItems: 'center',
     // height: '100%',

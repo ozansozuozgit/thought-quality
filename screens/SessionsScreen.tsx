@@ -95,7 +95,7 @@ export default function SessionsScreen({
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     // minHeight: '100%',
     alignItems: 'center',
     height: '100%',
@@ -104,15 +104,7 @@ const styles = StyleSheet.create({
   secondaryContainer: {
     width: '90%',
   },
-  calendarContainer: {
-    position: 'absolute',
-    backgroundColor: '#fdfdfd',
-    zIndex: 12,
-    top: '35%',
-    borderRadius: 15,
-    padding: 15,
-    // margin: 15,
-  },
+
   title: {
     fontSize: 25,
     fontWeight: 'bold',
