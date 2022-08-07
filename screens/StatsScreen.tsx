@@ -9,51 +9,21 @@ import firestore from '@react-native-firebase/firestore';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {EmotionsEnums} from '../types';
 import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import DatePicker from '../components/DatePicker';
 
 export default function StatsScreen() {
   const user = useAppSelector(state => state.user);
 
-  const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
-  const [dropDownValue, setDropdownValue] = useState<number>(1);
-  const [items, setItems] = useState<Array<object>>([
-    {label: 'Today', value: 1},
-    {label: '3 Days', value: 3},
-    {label: '5 Days', value: 5},
-    {label: '7 Days', value: 7},
-    {label: '15 Days', value: 15},
-    {label: '30 Days', value: 30},
-    {label: '60 Days', value: 60},
-  ]);
-  const [userGraphData, setUserGraphData] = useState<Array<object>>([{}]);
+  const [userGraphData, setUserGraphData] = useState<Array<object>>([]);
 
   useEffect(() => {
-    getInfoFromDatabase();
-  }, [dropDownValue]);
-
-  useEffect(() => {
-    if (dropDownValue === 1) getInfoFromDatabase();
-    console.log('entered stats');
-  }, []);
-  async function getInfoFromDatabase() {
-    const endDate = new Date(
-      new Date().setDate(new Date().getDate() - dropDownValue),
-    );
-
-    const querySnapshot: any = await firestoreGetDataCreatedBefore(
-      user.uid ?? '',
-      endDate,
-      100,
-    );
-
+    console.log('user sessions', user.sessions);
     const queryResult: Array<object> = [];
-    querySnapshot?.forEach((doc: any) => {
-      console.log('doc is', doc);
-      console.log(`${EmotionsEnums[doc.emotionQuality]}`);
-      const emotionQuality = doc.emotionQuality;
+    if (!user.sessions?.length) setUserGraphData([]);
+    user.sessions?.forEach((doc: any) => {
       queryResult.push({
-        x: `${EmotionsEnums[emotionQuality]}`,
+        x: `${doc.emotionName}`,
       });
-      console.log(doc.id, ' => ', doc);
       //Get duplicates and add the number of duplicates to the "y" field of the data
       const result = [
         ...queryResult
@@ -64,21 +34,13 @@ export default function StatsScreen() {
           }, new Map())
           .values(),
       ];
-      console.log('result', result);
       setUserGraphData(result);
     });
-  }
+  }, [user.sessions]);
 
   return (
     <View style={styles.container}>
-      <DropDownPicker
-        open={openDropDown}
-        value={dropDownValue}
-        items={items}
-        setOpen={setOpenDropDownMenu}
-        setValue={setDropdownValue}
-        setItems={setItems}
-      />
+      <DatePicker />
       <VictoryPie
         data={userGraphData}
         colorScale={[

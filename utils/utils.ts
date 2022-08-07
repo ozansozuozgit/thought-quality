@@ -26,7 +26,6 @@ export function firestoreGetDataSpecificDate(
   limit: number,
 ) {
   var tomorrow = new Date(date.getTime() + 24 * 60 * 60 * 1000);
-  console.log('tomorrow is', tomorrow);
   let result = firestore()
     .collection('Users')
     .where('uid', '==', uid)
@@ -67,7 +66,6 @@ export function deleteSessionFromFirebase(
 function formatDatabaseReturnData(querySnapshot: any) {
   const sessionArray: SessionType[] = [];
   querySnapshot?.forEach((doc: any) => {
-    const emotionQuality = doc.data().emotionQuality;
     const createdAt = doc.data().createdAt.toDate().toLocaleDateString('en-US');
 
     sessionArray.push({

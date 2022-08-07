@@ -116,6 +116,7 @@ function BottomTabNavigator() {
         name="Stats"
         component={StatsScreen}
         options={{
+          headerShown: false,
           title: 'Stats',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcon name="chart-pie" color={color} size={32} />

@@ -23,12 +23,9 @@ export const userSlice = createSlice({
       state.photoURL = action.payload.photoURL;
     },
     setSessions: (state, action: PayloadAction<Array<SessionType>>) => {
-      // state.sessionToBeRemoved = action.payload.sessionToBeRemoved;
       state.sessions = action.payload;
     },
     removeSession: (state, action: PayloadAction<any>) => {
-      // state.sessionToBeRemoved = action.payload.sessionToBeRemoved;
-      console.log('payload', action.payload);
       state.sessions = state.sessions?.filter(
         session => session.sessionID !== action.payload,
       );

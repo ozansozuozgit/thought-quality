@@ -14,10 +14,8 @@ import Session from '../components/Session';
 import {setSessions, selectUserName} from '../features/user/userSlice';
 import CalendarPicker from 'react-native-calendar-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DatePicker from '../components/DatePicker';
-export default function SessionsScreen({
-  navigation,
-}: RootTabScreenProps<'SessionsScreen'>) {
+
+export default function DatePicker() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
@@ -45,7 +43,6 @@ export default function SessionsScreen({
       nextDay,
       100,
     );
-    console.log('date string', date._d.toDateString());
     setSelectedDateTitle(date._d.toDateString());
     setSelectedStartDate(date._d);
     setOpenCalendar(false);
@@ -60,7 +57,6 @@ export default function SessionsScreen({
     const endDate = new Date(
       new Date().setDate(new Date().getDate() - dropDownValue),
     );
-    console.log('endDate is', endDate);
     const data: any = await firestoreGetDataCreatedBefore(
       user.uid ?? '',
       endDate,
@@ -69,25 +65,45 @@ export default function SessionsScreen({
     const selectedLabel = items.find(
       (item: {value: number; label: string}) => item.value === dropDownValue,
     )?.label;
-    console.log('label is', selectedLabel);
     setSelectedDateTitle(`Last ${selectedLabel}`);
     dispatch(setSessions(data));
   }
   return (
     <View style={styles.container}>
-      <DatePicker />
+      {openCalender && (
+        <View style={styles.calendarContainer}>
+          <CalendarPicker
+            onDateChange={onDateChange}
+            todayBackgroundColor="#e6ffe6"
+            maxDate={new Date()}
+          />
+        </View>
+      )}
+
+      <Text style={styles.title}>Select a date range</Text>
       <View style={styles.secondaryContainer}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: '65%'}}>
-          {user?.sessions?.length ? (
-            user.sessions?.map((session, index) => (
-              <Session session={session} key={session.sessionID ?? index} />
-            ))
-          ) : (
-            <Text style={styles.noSessions}>No Sessions </Text>
-          )}
-        </ScrollView>
+        <View style={styles.filterContainer}>
+          <DropDownPicker
+            open={openDropDown}
+            value={dropDownValue}
+            items={items}
+            setOpen={setOpenDropDownMenu}
+            setValue={setDropdownValue}
+            setItems={setItems}
+            style={styles.dropdown}
+          />
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => setOpenCalendar(!openCalender)}>
+            <MaterialIcons
+              name={'calendar-month'}
+              size={32}
+              color={'#343434'}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.secondaryTitle}>{selectedDateTitle}</Text>
       </View>
     </View>
   );
@@ -95,11 +111,12 @@ export default function SessionsScreen({
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    paddingTop: Platform.OS === 'ios' ? '10%' : 0,
     // minHeight: '100%',
     alignItems: 'center',
-    height: '100%',
+    // height: '100%',
     // paddingBottom: 100,
+    zIndex: 1,
   },
   secondaryContainer: {
     width: '90%',
@@ -108,10 +125,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fdfdfd',
     zIndex: 12,
-    top: '35%',
-    borderRadius: 15,
-    padding: 15,
-    // margin: 15,
+    borderRadius: 10,
+    marginTop: '50%',
+    borderColor: '#343434',
+    borderWidth: 1,
   },
   title: {
     fontSize: 25,
