@@ -10,18 +10,16 @@ import {
 } from 'react-native';
 import {View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
-import {useAppSelector, useAppDispatch} from '../app/hooks';
+import {useAppSelector} from '../app/hooks';
 import Emotions from '../components/Emotions';
 import Thoughts from '../components/Thoughts';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {EmotionsEnums} from '../types';
 import Quote from '../components/Quote';
 import Toast from 'react-native-toast-message';
 import {SessionType} from '../types';
 import {firestoreGetDataCreatedBefore} from '../utils/utils';
 import Session from '../components/Session';
-import {useFocusEffect} from '@react-navigation/native';
 
 export default function MainScreen({
   navigation,
@@ -29,9 +27,7 @@ export default function MainScreen({
   // const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
   const [textValue, onChangeText] = React.useState('');
-  const [selectedEmotion, setSelectedEmotion] = useState<number>(
-    EmotionsEnums.Neutral,
-  );
+
   const [latestSession, setLatestSession] = useState<SessionType | null>(null);
   const [newSessionEntered, setNewSessionEntered] = useState<boolean>(false);
 
@@ -45,43 +41,26 @@ export default function MainScreen({
       text1: 'Session was recorded 👍',
     });
   };
+  async function fetchLatestSession() {
+    const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
+    const querySnapshot: any = await firestoreGetDataCreatedBefore(
+      user.uid ?? '',
+      endDate,
+      1,
+    );
 
-  function setEmotion(emotion: number) {
-    setSelectedEmotion(emotion);
+    setLatestSession(querySnapshot[0]);
   }
-
   useEffect(() => {
-    async function fetchLatestSession() {
-      const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
-      const querySnapshot: any = await firestoreGetDataCreatedBefore(
-        user.uid ?? '',
-        endDate,
-        1,
-      );
-      setLatestSession(querySnapshot[0]);
-    }
-
     fetchLatestSession();
   }, []);
 
   useEffect(() => {
-    async function fetchLatestSession() {
-      const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
-      const querySnapshot: any = await firestoreGetDataCreatedBefore(
-        user.uid ?? '',
-        endDate,
-        1,
-      );
-
-      setLatestSession(querySnapshot[0]);
-    }
-
     fetchLatestSession();
   }, [newSessionEntered]);
 
   function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-    showToast();
     firestore()
       .collection('Users')
       .add({
@@ -112,7 +91,7 @@ export default function MainScreen({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Primary Emotion</Text>
-      <Emotions setEmotion={setEmotion} emotion={selectedEmotion} />
+      <Emotions />
       <Text style={styles.title}>
         Thoughts
         <Text style={{fontSize: 12, fontWeight: '400'}}> (Optional)</Text>
