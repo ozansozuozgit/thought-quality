@@ -20,7 +20,7 @@ export default function ProfileScreen({
 
   return (
     <View style={styles.container}>
-      <Text>ProfileScreen Screen</Text>
+      <Image style={styles.profileImage} source={{uri: user.photoURL}} />
     </View>
   );
 }
@@ -30,5 +30,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? '10%' : 0,
 
     height: '100%',
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
   },
 });

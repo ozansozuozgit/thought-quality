@@ -66,13 +66,13 @@ export default function StatsScreen() {
   return (
     <View style={styles.container}>
       <DatePicker />
-      <View style={{position: 'relative'}}>
+      <View style={{width: '90%', alignItems: 'center'}}>
         {!!user?.sessions?.length ? (
-          <View>
+          <View style={styles.pieContainer}>
             <VictoryPie
               data={userGraphData}
               colorScale={colorArray}
-              height={300}
+              height={280}
               innerRadius={60}
               animate={{easing: 'exp'}}
             />
@@ -104,7 +104,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    top: '30%',
-    left: '35%',
+    top: '29%',
+    left: '32%',
+  },
+  pieContainer: {
+    backgroundColor: '#fdfdfd4f',
+    width: '95%',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    borderColor: '#343434',
+    borderWidth: 1,
   },
 });

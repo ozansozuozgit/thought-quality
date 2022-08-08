@@ -29,7 +29,6 @@ export default function App() {
             uid: userState?.uid ?? '',
             email: userState?.email ?? '',
             photoURL: userState?.photoURL ?? '',
-            notes: [''],
           }),
         );
       }

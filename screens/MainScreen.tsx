@@ -90,10 +90,10 @@ export default function MainScreen({
         email: user.email,
         note: textValue,
         photoURL: user.photoURL,
-        emotionQuality: selectedEmotion,
+        emotionQuality: user.emotion?.quality,
         createdAt: firestore.FieldValue.serverTimestamp(),
         // createdAt: firestore.Timestamp.fromDate(customDate),
-        emotionName: EmotionsEnums[selectedEmotion],
+        emotionName: user.emotion?.name,
       })
       .then(querySnapshot => {
         console.log('Session added!');

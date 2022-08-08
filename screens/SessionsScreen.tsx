@@ -1,78 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, ScrollView, Platform, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StyleSheet, ScrollView, Platform} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
-import {useAppDispatch, useAppSelector} from '../app/hooks';
-import DropDownPicker from 'react-native-dropdown-picker';
-import {
-  firestoreGetDataCreatedBefore,
-  firestoreGetDataSpecificDate,
-} from '../utils/utils';
-import {EmotionsEnums, SessionType} from '../types';
-import firestore from '@react-native-firebase/firestore';
+import {useAppSelector} from '../app/hooks';
+
 import Session from '../components/Session';
-import {setSessions, selectUserName} from '../features/user/userSlice';
-import CalendarPicker from 'react-native-calendar-picker';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DatePicker from '../components/DatePicker';
 export default function SessionsScreen({
   navigation,
 }: RootTabScreenProps<'SessionsScreen'>) {
-  const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
-  const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
-  const [openCalender, setOpenCalendar] = useState<boolean>(false);
-  const [selectedDateTitle, setSelectedDateTitle] =
-    useState<string>('Last 24 Hours');
 
-  const [dropDownValue, setDropdownValue] = useState<number>(1);
-  const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
-  const [items, setItems] = useState<Array<{label: string; value: number}>>([
-    {label: '24 hours', value: 1},
-    {label: '3 Days', value: 3},
-    {label: '5 Days', value: 5},
-    {label: '7 Days', value: 7},
-    {label: '15 Days', value: 15},
-    {label: '30 Days', value: 30},
-    {label: '60 Days', value: 60},
-  ]);
-
-  async function onDateChange(date: any) {
-    var nextDay = new Date(date._d.getTime() - 12 * 60 * 60 * 1000);
-
-    const data: any = await firestoreGetDataSpecificDate(
-      user.uid ?? '',
-      nextDay,
-      100,
-    );
-    console.log('date string', date._d.toDateString());
-    setSelectedDateTitle(date._d.toDateString());
-    setSelectedStartDate(date._d);
-    setOpenCalendar(false);
-    dispatch(setSessions(data));
-  }
-
-  useEffect(() => {
-    getInfoFromDatabase();
-  }, [dropDownValue]);
-
-  async function getInfoFromDatabase() {
-    const endDate = new Date(
-      new Date().setDate(new Date().getDate() - dropDownValue),
-    );
-    console.log('endDate is', endDate);
-    const data: any = await firestoreGetDataCreatedBefore(
-      user.uid ?? '',
-      endDate,
-      100,
-    );
-    const selectedLabel = items.find(
-      (item: {value: number; label: string}) => item.value === dropDownValue,
-    )?.label;
-    console.log('label is', selectedLabel);
-    setSelectedDateTitle(`Last ${selectedLabel}`);
-    dispatch(setSessions(data));
-  }
   return (
     <View style={styles.container}>
       <DatePicker />
@@ -96,15 +34,12 @@ export default function SessionsScreen({
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === 'ios' ? '15%' : 0,
-    // minHeight: '100%',
     alignItems: 'center',
     height: '100%',
-    // paddingBottom: 100,
   },
   secondaryContainer: {
     width: '90%',
   },
-
   title: {
     fontSize: 25,
     fontWeight: 'bold',
@@ -132,7 +67,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     backgroundColor: '#fdfdfd4f',
-    // padding: 15,
     borderRadius: 15,
     width: '20%',
     justifyContent: 'center',
@@ -145,7 +79,6 @@ const styles = StyleSheet.create({
   filterContainer: {
     display: 'flex',
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     width: '80%',
     zIndex: 122,
   },

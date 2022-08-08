@@ -1,17 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, ScrollView, Platform, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Text, View} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {
   firestoreGetDataCreatedBefore,
   firestoreGetDataSpecificDate,
 } from '../utils/utils';
-import {EmotionsEnums, SessionType} from '../types';
-import firestore from '@react-native-firebase/firestore';
-import Session from '../components/Session';
-import {setSessions, selectUserName} from '../features/user/userSlice';
+import {setSessions} from '../features/user/userSlice';
 import CalendarPicker from 'react-native-calendar-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -138,11 +134,11 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
   },
   secondaryTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginTop: '5%',
     textAlign: 'center',
-    paddingBottom: 10,
+    paddingBottom: 20,
     paddingTop: 10,
   },
   noSessions: {

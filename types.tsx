@@ -41,7 +41,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   >;
 
 export interface Emotion {
-  rating: number;
+  quality: number;
   name: string;
 }
 
@@ -65,8 +65,8 @@ export interface SessionType {
 export interface UserState {
   name?: string;
   uid?: string;
-  notes?: Array<string>;
   email?: string;
   photoURL?: string;
   sessions?: Array<SessionType>;
+  emotion?: Emotion
 }

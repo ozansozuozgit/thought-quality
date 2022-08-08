@@ -6,10 +6,10 @@ import {SessionType, UserState} from '../../types';
 const initialState: UserState = {
   name: '',
   uid: '',
-  notes: [''],
   email: '',
   photoURL: '',
   sessions: [{}],
+  emotion: {name: 'neutral', quality: 4},
 };
 
 export const userSlice = createSlice({
@@ -30,11 +30,21 @@ export const userSlice = createSlice({
         session => session.sessionID !== action.payload,
       );
     },
+    setEmotion: (
+      state,
+      action: PayloadAction<{name: string; quality: number}>,
+    ) => {
+      state.emotion = action.payload;
+    },
   },
 });
 
-export const {setUserDetailsFromGoogle, removeSession, setSessions} =
-  userSlice.actions;
+export const {
+  setUserDetailsFromGoogle,
+  removeSession,
+  setSessions,
+  setEmotion,
+} = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;
 
