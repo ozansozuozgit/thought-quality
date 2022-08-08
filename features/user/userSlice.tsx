@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {act} from 'react-test-renderer';
 import {RootState} from '../../app/store';
 import {SessionType, UserState} from '../../types';
 

@@ -19,7 +19,7 @@ export default function Emotions({emotion}: any) {
     <TouchableOpacity
       style={
         user.emotion?.name === name
-          ? styles.emotionContainerFocused
+          ? [styles.emotionContainer, {backgroundColor: '#fdfdfd'}]
           : styles.emotionContainer
       }
       onPress={() => emotionHandler(name, quality)}>
@@ -32,7 +32,7 @@ export default function Emotions({emotion}: any) {
         <Text
           style={
             user.emotion?.name === name
-              ? styles.emotionLabelFocused
+              ? [styles.emotionLabel, {color: '#000'}]
               : styles.emotionLabel
           }>
           {name}
@@ -48,36 +48,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderStyle: 'solid',
-    backgroundColor: '#fdfdfd4f',
     marginTop: 15,
     borderRadius: 12,
     borderWidth: 1,
     width: '30%',
-    padding: 10,
-  },
-  emotionContainerFocused: {
-    opacity: 1,
-    backgroundColor: '#fdfdfd',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderStyle: 'solid',
-    marginTop: 15,
-    borderRadius: 12,
-    borderWidth: 1,
-    width: '30%',
-    borderColor: '#343434',
     padding: 10,
   },
   emotionLabel: {
     marginTop: 5,
     color: '#000',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  emotionLabelFocused: {
-    marginTop: 5,
-    color: '#343434',
     fontSize: 15,
     fontWeight: 'bold',
   },

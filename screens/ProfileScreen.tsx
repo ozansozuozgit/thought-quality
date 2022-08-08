@@ -13,12 +13,8 @@ import {View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector} from '../app/hooks';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  diffInDaysFromToday,
-  firestoreGetTotalUserSessionsLength,
-} from '../utils/utils';
+import {firestoreGetTotalUserSessionsLength} from '../utils/utils';
 
 export default function ProfileScreen({
   navigation,
@@ -32,7 +28,6 @@ export default function ProfileScreen({
         user?.uid ?? '',
       );
       setTotalSession(result);
-      console.log('result', result);
     }
 
     getLength();
@@ -101,7 +96,6 @@ export default function ProfileScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fdfdfd4f',
     paddingTop: '20%',
     height: '100%',
   },

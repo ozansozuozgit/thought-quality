@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -104,8 +104,6 @@ export default function MainScreen({
         value={textValue}
         style={{padding: 10}}
       />
-
-      {/* <Button title="Sign Out" onPress={signOut} /> */}
 
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <Text style={styles.title}>Remember</Text>
