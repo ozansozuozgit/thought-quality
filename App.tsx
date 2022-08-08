@@ -8,27 +8,29 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
 import {View, StyleSheet} from 'react-native';
+import {diffInDaysFromToday} from './utils/utils';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();
-  // const [userData, setUserData] = useState<any>('');
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   useEffect(() => {
     auth().onAuthStateChanged(userState => {
       setUser(userState);
       console.log('useState changed', userState);
-      if (userState !== undefined) {
-        console.log('before dispatch');
+      if (userState !== undefined && userState !== null) {
         dispatch(
           setUserDetailsFromGoogle({
             name: userState?.displayName ?? '',
             uid: userState?.uid ?? '',
             email: userState?.email ?? '',
             photoURL: userState?.photoURL ?? '',
+            creationTime: diffInDaysFromToday(
+              userState?.metadata?.creationTime,
+            ),
           }),
         );
       }
@@ -43,16 +45,10 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {/* <View style={styles.mainContainer}> */}
         {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
-        {/* </View> */}
       </SafeAreaProvider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: '#13293D',
-  },
-});
+const styles = StyleSheet.create({});

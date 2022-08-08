@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import moment from 'moment';
 import {SessionType} from '../types';
 
 export function firestoreGetDataCreatedBefore(
@@ -37,6 +38,20 @@ export function firestoreGetDataSpecificDate(
     .then(querySnapshot => {
       console.log('querySnapshot', querySnapshot);
       return formatDatabaseReturnData(querySnapshot);
+    })
+    .catch(e => console.log(e));
+
+  return result;
+}
+
+export async function firestoreGetTotalUserSessionsLength(uid: string) {
+  let result = firestore()
+    .collection('Users')
+    .where('uid', '==', uid)
+    .get()
+    .then(querySnapshot => {
+      console.log('querySnapshot', querySnapshot);
+      return querySnapshot.size;
     })
     .catch(e => console.log(e));
 
@@ -104,3 +119,10 @@ export function returnIcon(emotionName: string) {
   }
   return {iconName, iconColor};
 }
+
+export const diffInDaysFromToday = (endDate: string | undefined = '') => {
+  if (endDate === undefined) return '';
+  let today = new Date().toISOString().slice(0, 10) ?? '';
+  const diffInDays = moment(today).diff(moment(endDate), 'days');
+  return diffInDays;
+};

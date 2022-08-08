@@ -10,6 +10,7 @@ const initialState: UserState = {
   photoURL: '',
   sessions: [{}],
   emotion: {name: 'neutral', quality: 4},
+  creationTime: '',
 };
 
 export const userSlice = createSlice({
@@ -19,8 +20,9 @@ export const userSlice = createSlice({
     setUserDetailsFromGoogle: (state, action: PayloadAction<UserState>) => {
       state.name = action.payload.name;
       state.uid = action.payload.uid;
-      state.email = action.payload.name;
+      state.email = action.payload.email;
       state.photoURL = action.payload.photoURL;
+      state.creationTime = action.payload.creationTime;
     },
     setSessions: (state, action: PayloadAction<Array<SessionType>>) => {
       state.sessions = action.payload;

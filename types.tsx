@@ -68,5 +68,6 @@ export interface UserState {
   email?: string;
   photoURL?: string;
   sessions?: Array<SessionType>;
-  emotion?: Emotion
+  emotion?: Emotion;
+  creationTime?: string | number;
 }
