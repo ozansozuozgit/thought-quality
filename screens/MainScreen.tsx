@@ -18,7 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import Quote from '../components/Quote';
 import Toast from 'react-native-toast-message';
 import {SessionType} from '../types';
-import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import {addUserToFirebase, firestoreGetDataCreatedBefore} from '../utils/utils';
 import Session from '../components/Session';
 
 export default function MainScreen({
@@ -30,10 +30,6 @@ export default function MainScreen({
 
   const [latestSession, setLatestSession] = useState<SessionType | null>(null);
   const [newSessionEntered, setNewSessionEntered] = useState<boolean>(false);
-
-  async function signOut() {
-    return auth().signOut();
-  }
 
   const showToast = () => {
     Toast.show({
@@ -59,33 +55,16 @@ export default function MainScreen({
     fetchLatestSession();
   }, [newSessionEntered]);
 
-  function submitThoughtQuality() {
+  async function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-    firestore()
-      .collection('Users')
-      .add({
-        name: user.name,
-        uid: user.uid,
-        email: user.email,
-        note: textValue,
-        photoURL: user.photoURL,
-        emotionQuality: user.emotion?.quality,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        // createdAt: firestore.Timestamp.fromDate(customDate),
-        emotionName: user.emotion?.name,
-      })
-      .then(querySnapshot => {
-        console.log('Session added!');
-        querySnapshot.update({
-          sessionID: querySnapshot.id,
-        });
-        showToast();
-        setNewSessionEntered(!newSessionEntered);
-        onChangeText('');
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    const result = await addUserToFirebase(user, textValue);
+    if (result) {
+      showToast();
+      setNewSessionEntered(!newSessionEntered);
+      onChangeText('');
+    } else {
+      console.log('error');
+    }
   }
 
   return (
@@ -106,8 +85,6 @@ export default function MainScreen({
       />
 
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <Text style={styles.title}>Remember</Text>
-      <Quote /> */}
       <Text style={styles.title}>Latest Session</Text>
       <View style={styles.sessionContainer}>
         {latestSession && (

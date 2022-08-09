@@ -6,6 +6,7 @@ import {EmotionsEnums} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {setEmotion} from '../features/user/userSlice';
+import {Keyboard} from 'react-native';
 
 export default function Emotions({emotion}: any) {
   const user = useAppSelector(state => state.user);
@@ -13,6 +14,7 @@ export default function Emotions({emotion}: any) {
   const {name, icon, quality} = emotion;
 
   const emotionHandler = (name: string, quality: number) => {
+    Keyboard.dismiss(); // To make thoughts extarea unfocus
     dispatch(setEmotion({name, quality}));
   };
   return (
@@ -50,7 +52,10 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginTop: 15,
     borderRadius: 12,
-    borderWidth: 1,
+    // borderWidth: 1,
+    borderColor: 'grey',
+    backgroundColor: '#e8f0fe',
+
     width: '30%',
     padding: 10,
   },

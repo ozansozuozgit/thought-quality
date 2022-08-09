@@ -11,7 +11,11 @@ export default function Thoughts(props: any) {
         editable
         maxLength={500}
         placeholder="Strongest thoughts/feelings?"
-        style={styles.thoughts}
+        style={
+          active
+            ? [styles.thoughts, {backgroundColor: '#fdfdfd'}]
+            : styles.thoughts
+        }
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
       />
@@ -27,11 +31,12 @@ const styles = StyleSheet.create({
   },
   thoughts: {
     width: '92%',
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e8f0fe',
     color: '#000',
     fontSize: 16,
-    borderColor: '#r343434',
-    borderWidth: 1,
+    borderColor: 'grey',
+
+    // borderWidth: 1,
     borderRadius: 5,
     padding: 15,
     height: '100%',

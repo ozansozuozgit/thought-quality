@@ -1,6 +1,37 @@
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
-import {SessionType} from '../types';
+import {TouchableHighlightBase} from 'react-native';
+import {SessionType, UserState} from '../types';
+
+export async function addUserToFirebase(user: UserState, note: string) {
+  // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
+
+  return await firestore()
+    .collection('Users')
+    .add({
+      name: user.name,
+      uid: user.uid,
+      email: user.email,
+      note: note,
+      photoURL: user.photoURL,
+      emotionQuality: user.emotion?.quality,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      // createdAt: firestore.Timestamp.fromDate(customDate),
+      emotionName: user.emotion?.name,
+    })
+    .then(querySnapshot => {
+      console.log('Session added!');
+      querySnapshot.update({
+        sessionID: querySnapshot.id,
+      });
+
+      return true;
+    })
+    .catch(e => {
+      console.log(e);
+      return false;
+    });
+}
 
 export function firestoreGetDataCreatedBefore(
   uid: string,
@@ -50,7 +81,6 @@ export async function firestoreGetTotalUserSessionsLength(uid: string) {
     .where('uid', '==', uid)
     .get()
     .then(querySnapshot => {
-      console.log('querySnapshot', querySnapshot);
       return querySnapshot.size;
     })
     .catch(e => console.log(e));
