@@ -70,4 +70,6 @@ export interface UserState {
   sessions?: Array<SessionType>;
   emotion?: Emotion;
   creationTime?: string | number;
+  note?: string;
+  latestSessionToggle?: boolean;
 }

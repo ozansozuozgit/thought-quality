@@ -10,6 +10,8 @@ const initialState: UserState = {
   sessions: [{}],
   emotion: {name: 'neutral', quality: 4},
   creationTime: '',
+  note: '',
+  latestSessionToggle: false,
 };
 
 export const userSlice = createSlice({
@@ -37,6 +39,12 @@ export const userSlice = createSlice({
     ) => {
       state.emotion = action.payload;
     },
+    setNote: (state, action: PayloadAction<string>) => {
+      state.note = action.payload;
+    },
+    setLatestSessionToggle: (state, action: PayloadAction<boolean>) => {
+      state.latestSessionToggle = action.payload;
+    },
   },
 });
 
@@ -45,6 +53,8 @@ export const {
   removeSession,
   setSessions,
   setEmotion,
+  setNote,
+  setLatestSessionToggle,
 } = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
-import {View} from '../components/Themed';
+import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+// import {View} from '../components/Themed';
 import {EmotionsEnums} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useAppSelector, useAppDispatch} from '../app/hooks';

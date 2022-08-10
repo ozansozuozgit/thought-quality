@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {setNote} from '../features/user/userSlice';
 
-export default function Thoughts(props: any) {
+const Thoughts = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
+  const userNote = useAppSelector(state => state.user.note);
+  // Might want to use debounce
   return (
     <View style={styles.thoughtsContainer}>
       <TextInput
@@ -18,10 +22,12 @@ export default function Thoughts(props: any) {
         }
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
+        onChangeText={(text: string) => dispatch(setNote(text))}
+        value={userNote}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   thoughtsContainer: {
@@ -42,3 +48,5 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+
+export default React.memo(Thoughts);

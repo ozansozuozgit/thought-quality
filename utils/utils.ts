@@ -1,9 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
-import {TouchableHighlightBase} from 'react-native';
 import {SessionType, UserState} from '../types';
 
-export async function addUserToFirebase(user: UserState, note: string) {
+export async function addUserToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
 
   return await firestore()
@@ -12,7 +11,7 @@ export async function addUserToFirebase(user: UserState, note: string) {
       name: user.name,
       uid: user.uid,
       email: user.email,
-      note: note,
+      note: user.note,
       photoURL: user.photoURL,
       emotionQuality: user.emotion?.quality,
       createdAt: firestore.FieldValue.serverTimestamp(),
