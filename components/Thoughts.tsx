@@ -17,7 +17,7 @@ const Thoughts = (props: any) => {
         placeholder="Strongest thoughts/feelings?"
         style={
           active
-            ? [styles.thoughts, {backgroundColor: '#fdfdfd'}]
+            ? [styles.thoughts, {backgroundColor: '#fff',color:'#000'}]
             : styles.thoughts
         }
         onFocus={() => setActive(true)}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   thoughts: {
     width: '92%',
-    backgroundColor: '#9FA0A2',
+    backgroundColor: '#e6f5fb',
     color: '#000',
     fontSize: 16,
     borderColor: 'grey',

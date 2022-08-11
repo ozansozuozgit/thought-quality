@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
   sessionContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#343434',
-    borderWidth: 1,
+    borderColor: '#c7edfc',
+    // borderWidth: 1,
     padding: 20,
     marginTop: 15,
     borderRadius: 10,
-    backgroundColor: '#8AA4F4',
+    backgroundColor: '#e6f5fb',
   },
   infoContainer: {
     display: 'flex',
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     right: '5%',
     zIndex: 1,
     top: 5,
+    color:'#000'
   },
   icon: {
     width: '15%',
@@ -115,5 +116,6 @@ const styles = StyleSheet.create({
   note: {
     width: '90%',
     fontSize: 15,
+    color:'#000'
   },
 });

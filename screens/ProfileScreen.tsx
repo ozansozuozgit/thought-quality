@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'HelveticaNeue',
-    color: '#52575D',
+    color: '#e6f5fb',
   },
   image: {
     flex: 1,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontSize: 12,
-    color: 'grey',
+    color: '#e6f5fb',
     textTransform: 'uppercase',
     fontWeight: '500',
   },
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e6f5fb',
     borderRadius: 15,
     width: '90%',
     marginTop: 20,

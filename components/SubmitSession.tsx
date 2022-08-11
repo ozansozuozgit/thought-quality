@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setLatestSessionToggle} from '../features/user/userSlice';
+import {setLatestSessionToggle, setNote} from '../features/user/userSlice';
 import {addUserToFirebase} from '../utils/utils';
 
 const SubmitSession = ({showToast}: any) => {
@@ -14,6 +14,7 @@ const SubmitSession = ({showToast}: any) => {
     if (result) {
       showToast();
       dispatch(setLatestSessionToggle(!user.latestSessionToggle));
+      dispatch(setNote(''));
     } else {
       console.log('error');
     }
@@ -23,7 +24,7 @@ const SubmitSession = ({showToast}: any) => {
       <TouchableOpacity
         onPress={submitThoughtQuality}
         style={styles.submitButton}>
-        <Text style={styles.submitLabel}>Submit</Text>
+        <Text style={styles.submitLabel}>Release </Text>
       </TouchableOpacity>
     </View>
   );
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     width: '30%',
     borderRadius: 12,
-    backgroundColor: '#8DA3F3',
+    backgroundColor: '#fff',
     borderColor: '#343434',
     borderWidth: 1,
   },

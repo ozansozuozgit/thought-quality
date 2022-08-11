@@ -87,6 +87,8 @@ export default function DatePicker() {
             setValue={setDropdownValue}
             setItems={setItems}
             style={styles.dropdown}
+            dropDownContainerStyle={{backgroundColor:'#e6f5fb'}}
+
           />
           <TouchableOpacity
             style={styles.iconContainer}
@@ -107,11 +109,7 @@ export default function DatePicker() {
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
-    // minHeight: '100%',
     alignItems: 'center',
-    // height: '100%',
-    // paddingBottom: 100,
     zIndex: 1,
   },
   secondaryContainer: {
@@ -119,7 +117,7 @@ const styles = StyleSheet.create({
   },
   calendarContainer: {
     position: 'absolute',
-    backgroundColor: '#fdfdfd',
+    backgroundColor: '#e6f5fb',
     zIndex: 12,
     borderRadius: 10,
     marginTop: '50%',
@@ -148,11 +146,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dropdown: {
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e6f5fb',
     width: '100%',
   },
   iconContainer: {
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e6f5fb',
     // padding: 15,
     borderRadius: 15,
     width: '20%',

@@ -32,12 +32,14 @@ export default function Session({session, allowSwipe = true}: any) {
         }}>
         <Text style={styles.date}>{createdAt}</Text>
         <View style={styles.infoContainer}>
-          <MaterialIcons
-            name={iconName}
-            size={32}
-            color={iconColor}
-            style={styles.icon}
-          />
+          <View style={styles.icon}>
+            <MaterialIcons
+              name={iconName}
+              size={32}
+              color={iconColor}
+              // style={styles.icon}
+            />
+          </View>
           <Text style={styles.note}>{limitCharacter(note, 40)}</Text>
         </View>
       </TouchableOpacity>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 15,
     borderRadius: 10,
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e6f5fb',
   },
   infoContainer: {
     display: 'flex',
@@ -68,12 +70,17 @@ const styles = StyleSheet.create({
     right: '5%',
     zIndex: 1,
     top: 5,
+    color: '#000',
   },
   icon: {
-    width: '15%',
+    // width: '15%',
+    backgroundColor: 'transparent',
+    marginRight: '2%',
+    borderRadius:20
   },
   note: {
     width: '90%',
     fontSize: 15,
+    color:'#000'
   },
 });
