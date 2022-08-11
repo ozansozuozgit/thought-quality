@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 15,
     borderRadius: 10,
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#8AA4F4',
   },
   infoContainer: {
     display: 'flex',

@@ -20,7 +20,7 @@ export function useThemeColor(
   if (colorFromProps) {
     return colorFromProps;
   } else {
-    return Colors['light'][colorName];
+    return Colors['dark'][colorName];
     // return Colors[theme][colorName];
   }
 }

@@ -21,7 +21,7 @@ export default function Emotions({emotion}: any) {
     <TouchableOpacity
       style={
         user.emotion?.name === name
-          ? [styles.emotionContainer, {backgroundColor: '#fdfdfd'}]
+          ? [styles.emotionContainer, {backgroundColor: '#C386C7'}]
           : styles.emotionContainer
       }
       onPress={() => emotionHandler(name, quality)}>
@@ -29,12 +29,12 @@ export default function Emotions({emotion}: any) {
         <MaterialIcons
           name={icon}
           size={32}
-          color={user.emotion?.name === name ? '#343434' : '#000'}
+          color={user.emotion?.name === name ? '#FFFFFF' : '#32353C'}
         />
         <Text
           style={
             user.emotion?.name === name
-              ? [styles.emotionLabel, {color: '#000'}]
+              ? [styles.emotionLabel, {color: '#FFFFFF'}]
               : styles.emotionLabel
           }>
           {name}
@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     // borderWidth: 1,
     borderColor: 'grey',
-    backgroundColor: '#e8f0fe',
-
+    // backgroundColor: '#e8f0fe',
+    backgroundColor: '#8AA4F4',
     width: '30%',
     padding: 10,
   },
   emotionLabel: {
     marginTop: 5,
-    color: '#000',
+    color: '#32353C',
     fontSize: 15,
     fontWeight: 'bold',
   },

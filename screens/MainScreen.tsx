@@ -22,7 +22,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
       <Emotions />
       <SecondaryTitle>
         Thoughts
-        <Text style={{fontSize: 12, fontWeight: '400'}}> (Optional)</Text>
+        <Text style={{fontSize: 12, fontWeight: '400',color:'#E290BA'}}> (Optional)</Text>
       </SecondaryTitle>
 
       <Thoughts multiline numberOfLines={4} style={{padding: 10}} />

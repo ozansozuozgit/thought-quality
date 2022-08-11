@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   thoughts: {
     width: '92%',
-    backgroundColor: '#e8f0fe',
+    backgroundColor: '#9FA0A2',
     color: '#000',
     fontSize: 16,
     borderColor: 'grey',
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Thoughts);
+export default Thoughts;
