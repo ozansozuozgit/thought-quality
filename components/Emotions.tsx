@@ -1,9 +1,6 @@
 import React from 'react';
-
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 // import {View} from '../components/Themed';
-import {EmotionsEnums} from '../types';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Emotion from '../components/Emotion';
 
 export default function Emotions() {

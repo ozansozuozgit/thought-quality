@@ -14,7 +14,7 @@ export default function Emotions({emotion}: any) {
   const {name, icon, quality} = emotion;
 
   const emotionHandler = (name: string, quality: number) => {
-    Keyboard.dismiss(); // To make thoughts extarea unfocus
+    Keyboard.dismiss(); // To make thoughts textarea unfocus
     dispatch(setEmotion({name, quality}));
   };
   return (
