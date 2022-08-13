@@ -2,11 +2,12 @@ Todo
 
 - Notifications
 - Streaks
-- Buy Me Coffee
 - Light Dark Mode
 - Asyncstorage for light and dark
 - More Stats
 - Email/Password Auth Sign In
+- Splash Screen with Marcus Aeuralious Quote
+- Icon for app
 
   For Streaks:
   Structure your database so that there's a collection holding all user's information, with each document id in the collection being a user's unique auto-generated Firebase uid.

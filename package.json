@@ -11,9 +11,10 @@
     "postinstall": "npx typesync"
   },
   "dependencies": {
-    "@react-native-firebase/app": "^15.2.0",
+    "@react-native-firebase/app": "^15.3.0",
     "@react-native-firebase/auth": "^15.2.0",
     "@react-native-firebase/firestore": "^15.2.0",
+    "@react-native-firebase/messaging": "^15.3.0",
     "@react-native-google-signin/google-signin": "^8.0.0",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.11",

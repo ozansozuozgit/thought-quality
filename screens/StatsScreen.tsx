@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, Platform, ScrollView, Text} from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  ScrollView,
+  Text,
+  SafeAreaView,
+} from 'react-native';
 import {SecondaryTitle, View} from '../components/Themed';
 
 import DatePicker from '../components/DatePicker';
@@ -8,17 +14,19 @@ import LineChart from '../components/LineChart';
 
 export default function StatsScreen() {
   return (
-    <View style={styles.container}>
-      <DatePicker />
-      <ScrollView
-        contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <PieChart />
-        <LineChart />
-      </ScrollView>
-    </View>
+    <SafeAreaView style={{backgroundColor: '#000'}}>
+      <View style={styles.container}>
+        <DatePicker />
+        <ScrollView
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <PieChart />
+          <LineChart />
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -28,11 +36,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     // marginBottom: '75%',
-    paddingTop: Platform.OS === 'ios' ? '15%' : 0,
+    // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
   },
   title: {
     fontSize: 25,
     fontWeight: 'bold',
   },
-
 });

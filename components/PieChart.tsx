@@ -77,6 +77,7 @@ const PieChart = ({showToast}: any) => {
                 duration: 1200,
                 onLoad: {duration: 1000},
               }}
+              width={390}
               style={{
                 labels: {fill: '#000', fontSize: 16},
               }}

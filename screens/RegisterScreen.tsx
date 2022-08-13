@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Button, Image, ImageStyle, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Button,
+  Image,
+  ImageStyle,
+  TextInput,
+  SafeAreaView,
+} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {
@@ -15,33 +22,34 @@ export default function RegisterScreen() {
 
   GoogleSignin.configure({webClientId: ''});
   async function onGoogleButtonPress() {
-    const { idToken } = await GoogleSignin.signIn();
+    const {idToken} = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  
+
     return auth().signInWithCredential(googleCredential);
   }
-  
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        onChangeText={(text: string) => setEmail(text)}
-        value={email}
-      />
+    <SafeAreaView style={{backgroundColor: '#000'}}>
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={(text: string) => setEmail(text)}
+          value={email}
+        />
 
-      <TextInput
-        onChangeText={(text: string) => setPassword(text)}
-        value={password}
-      />
-      <GoogleSigninButton
-        style={{width: 192, height: 48}}
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={onGoogleButtonPress}
-        // disabled={this.state.isSigninInProgress}
-      />
-      <Button title="Submit" />
-    </View>
+        <TextInput
+          onChangeText={(text: string) => setPassword(text)}
+          value={password}
+        />
+        <GoogleSigninButton
+          style={{width: 192, height: 48}}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={onGoogleButtonPress}
+          // disabled={this.state.isSigninInProgress}
+        />
+        <Button title="Submit" />
+      </View>
+    </SafeAreaView>
   );
 }
 

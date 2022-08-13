@@ -12,17 +12,18 @@ import {View} from '../components/Themed';
 
 // import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
-import {useAppSelector} from '../app/hooks';
+import {useAppSelector, useAppDispatch} from '../app/hooks';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {firestoreGetTotalUserSessionsLength} from '../utils/utils';
+import {setSessions} from '../features/user/userSlice';
 
 export default function ProfileScreen({
   navigation,
 }: RootTabScreenProps<'ProfileScreen'>) {
   const user = useAppSelector(state => state.user);
   const [totalSession, setTotalSession] = useState<number>(0);
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     async function getLength() {
       const result: any = await firestoreGetTotalUserSessionsLength(
@@ -35,6 +36,7 @@ export default function ProfileScreen({
   }, []);
 
   async function signOut() {
+    dispatch(setSessions([{}]));
     return auth().signOut();
   }
   return (
@@ -88,7 +90,7 @@ export default function ProfileScreen({
               onPress={() =>
                 Linking.openURL('https://www.buymeacoffee.com/ozansozuoz')
               }>
-              <MaterialIcons name={'cup'} size={32} color={'brown'} />
+              <MaterialIcons name={'cup'} size={32} color={'#ffcf00'} />
               <Text style={{marginLeft: 10}}>Buy me coffee :)</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.optionContainer} onPress={signOut}>

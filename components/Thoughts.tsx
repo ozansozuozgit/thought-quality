@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setNote} from '../features/user/userSlice';
@@ -9,6 +9,7 @@ const Thoughts = (props: any) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>('');
   const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+  const user = useAppSelector(state => state.user);
 
   function handleDebounceFn(inputValue: string) {
     dispatch(setNote(inputValue));
@@ -18,6 +19,12 @@ const Thoughts = (props: any) => {
     setValue(text);
     debounceFn(text);
   }
+
+  useEffect(() => {
+    if (user.note === '') {
+      setValue('');
+    }
+  }, [user.note]);
   return (
     <View style={styles.thoughtsContainer}>
       <TextInput

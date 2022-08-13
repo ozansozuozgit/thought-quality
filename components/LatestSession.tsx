@@ -6,7 +6,7 @@ import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {limitCharacter, returnIcon} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAppSelector} from '../app/hooks';
 import {firestoreGetDataCreatedBefore} from '../utils/utils';
 
@@ -15,7 +15,7 @@ export default function LatestSession() {
 
   const user = useAppSelector(state => state.user);
   const [latestSession, setLatestSession] = useState<SessionType | null>({
-    emotionName: '',
+    emotionName: 'Love',
     createdAt: new Date(),
     note: '',
   });
@@ -26,11 +26,13 @@ export default function LatestSession() {
 
   async function fetchLatestSession() {
     const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
+    if (!user.uid?.length) return;
     const querySnapshot: any = await firestoreGetDataCreatedBefore(
       user.uid ?? '',
       endDate,
       1,
     );
+    if (!querySnapshot.length) return;
     setLatestSession(querySnapshot[0]);
     const {iconName, iconColor} = returnIcon(querySnapshot[0].emotionName);
 
@@ -43,7 +45,7 @@ export default function LatestSession() {
 
   useEffect(() => {
     fetchLatestSession();
-  }, [user?.latestSessionToggle]);
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     right: '5%',
     zIndex: 1,
     top: 5,
-    color:'#000'
+    color: '#000',
   },
   icon: {
     width: '15%',
@@ -116,6 +118,6 @@ const styles = StyleSheet.create({
   note: {
     width: '90%',
     fontSize: 15,
-    color:'#000'
+    color: '#000',
   },
 });

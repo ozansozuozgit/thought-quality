@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
   emotionsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     flexWrap: 'wrap',
+    width: '100%',
   },
 });
