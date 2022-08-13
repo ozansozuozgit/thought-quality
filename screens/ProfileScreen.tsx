@@ -7,8 +7,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  AppState,
+  Switch,
 } from 'react-native';
 import {View} from '../components/Themed';
+import {requestNotifications, openSettings} from 'react-native-permissions';
 
 // import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
@@ -23,6 +26,8 @@ export default function ProfileScreen({
 }: RootTabScreenProps<'ProfileScreen'>) {
   const user = useAppSelector(state => state.user);
   const [totalSession, setTotalSession] = useState<number>(0);
+  const [notificationEnabled, setNotificationsEnabled] =
+    useState<boolean>(false);
   const dispatch = useAppDispatch();
   useEffect(() => {
     async function getLength() {
@@ -39,6 +44,38 @@ export default function ProfileScreen({
     dispatch(setSessions([{}]));
     return auth().signOut();
   }
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      requestNotifications(['alert', 'sound'])
+        .then(({status}) => {
+          if (status === 'granted') {
+            setNotificationsEnabled(true);
+          } else {
+            setNotificationsEnabled(false);
+          }
+        })
+        .catch(e => console.log('ok'));
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+  useEffect(() => {
+    requestNotifications(['alert', 'sound'])
+      .then(({status}) => {
+        // …
+        console.log(status);
+        console.log('run request');
+        if (status === 'granted') {
+          setNotificationsEnabled(true);
+        } else {
+          setNotificationsEnabled(false);
+        }
+      })
+      .catch(e => console.log(e));
+  }, []);
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -82,9 +119,23 @@ export default function ProfileScreen({
 
           <View style={styles.optionsContainer}>
             <View style={styles.optionContainer}>
+              <View style={styles.notificationContainer}>
+                <Text>Allow Notifications</Text>
+                <Switch
+                  value={notificationEnabled}
+                  onValueChange={() =>
+                    openSettings().catch(() =>
+                      console.warn('cannot open settings'),
+                    )
+                  }
+                />
+              </View>
+            </View>
+            <View style={styles.optionContainer}>
               <MaterialIcons name={'email-outline'} size={32} />
               <Text style={{marginLeft: 10}}>{user.email}</Text>
             </View>
+
             <TouchableOpacity
               style={styles.optionContainer}
               onPress={() =>
@@ -164,5 +215,13 @@ const styles = StyleSheet.create({
     width: '90%',
     marginTop: 20,
     padding: 10,
+  },
+  notificationContainer: {
+    backgroundColor: 'transparent',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
   },
 });

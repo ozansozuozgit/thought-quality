@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Platform,
@@ -17,6 +17,10 @@ import Toast from 'react-native-toast-message';
 import LatestSession from '../components/LatestSession';
 import SubmitSession from '../components/SubmitSession';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  requestNotifications,
+  checkNotifications,
+} from 'react-native-permissions';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
   const showToast = () => {
@@ -25,7 +29,13 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
       text1: 'Session was recorded 👍',
     });
   };
-
+  useEffect(() => {
+    requestNotifications(['alert', 'sound'])
+      .then(data => {
+        console.log('data');
+      })
+      .catch(e => console.log(e));
+  }, []);
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

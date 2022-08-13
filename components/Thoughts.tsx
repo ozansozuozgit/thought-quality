@@ -8,7 +8,7 @@ const Thoughts = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>('');
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 500), []);
   const user = useAppSelector(state => state.user);
 
   function handleDebounceFn(inputValue: string) {

@@ -4,7 +4,7 @@ import {SessionType, UserState} from '../types';
 
 export async function addUserToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-
+  console.log('user note is', user.note);
   return await firestore()
     .collection('Users')
     .add({

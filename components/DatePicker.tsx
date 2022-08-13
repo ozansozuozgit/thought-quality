@@ -10,6 +10,7 @@ import {
 import {setSessions} from '../features/user/userSlice';
 import CalendarPicker from 'react-native-calendar-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function DatePicker() {
   const dispatch = useAppDispatch();
@@ -45,9 +46,17 @@ export default function DatePicker() {
     dispatch(setSessions(data));
   }
 
-  useEffect(() => {
-    getInfoFromDatabase();
-  }, [dropDownValue]);
+  // useEffect(() => {
+  //   console.log('dropdownValue is', dropDownValue);
+  //   getInfoFromDatabase();
+  // }, [dropDownValue]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('dropdownValue is', dropDownValue);
+      getInfoFromDatabase();
+    }, [dropDownValue]),
+  );
 
   async function getInfoFromDatabase() {
     const endDate = new Date(
@@ -87,8 +96,7 @@ export default function DatePicker() {
             setValue={setDropdownValue}
             setItems={setItems}
             style={styles.dropdown}
-            dropDownContainerStyle={{backgroundColor:'#e6f5fb'}}
-
+            dropDownContainerStyle={{backgroundColor: '#e6f5fb'}}
           />
           <TouchableOpacity
             style={styles.iconContainer}
