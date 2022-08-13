@@ -73,7 +73,7 @@ const LineChart = ({showToast}: any) => {
                 data={userGraphData}
                 interpolation="bundle"
                 animate={{
-                  duration: 2000,
+                  duration: 1200,
                   onLoad: {duration: 1000},
                 }}
               />

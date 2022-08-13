@@ -74,7 +74,7 @@ const PieChart = ({showToast}: any) => {
               innerRadius={60}
               animate={{
                 easing: 'exp',
-                duration: 2000,
+                duration: 1200,
                 onLoad: {duration: 1000},
               }}
               style={{
