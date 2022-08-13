@@ -24,7 +24,7 @@ const SubmitSession = ({showToast}: any) => {
       <TouchableOpacity
         onPress={submitThoughtQuality}
         style={styles.submitButton}>
-        <Text style={styles.submitLabel}>Release </Text>
+        <Text style={styles.submitLabel}>Submit</Text>
       </TouchableOpacity>
     </View>
   );

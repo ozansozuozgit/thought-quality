@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     height: '100%',
   },
+  // separator:{
+  //   height:1
+  // }
 });
 
 export default MainScreen;

@@ -8,7 +8,7 @@ const initialState: UserState = {
   email: '',
   photoURL: '',
   sessions: [{}],
-  emotion: {name: 'neutral', quality: 4},
+  emotion: {name: 'Love', quality: 6},
   creationTime: '',
   note: '',
   latestSessionToggle: false,

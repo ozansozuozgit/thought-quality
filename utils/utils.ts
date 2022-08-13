@@ -151,7 +151,8 @@ export function returnIcon(emotionName: string) {
 
 export const diffInDaysFromToday = (endDate: string | undefined = '') => {
   if (endDate === undefined) return '';
-  let today = new Date().toISOString().slice(0, 10) ?? '';
-  const diffInDays = moment(today).diff(moment(endDate), 'days');
+  let today = moment(new Date().toISOString().slice(0, 10)) ?? '';
+  const diffInDays = moment(today).diff(endDate, 'days');
+
   return diffInDays;
 };

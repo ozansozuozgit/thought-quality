@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import {View} from '../components/Themed';
 
@@ -82,6 +83,14 @@ export default function ProfileScreen({
               <MaterialIcons name={'email-outline'} size={32} />
               <Text style={{marginLeft: 10}}>{user.email}</Text>
             </View>
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={() =>
+                Linking.openURL('https://www.buymeacoffee.com/ozansozuoz')
+              }>
+              <MaterialIcons name={'cup'} size={32} color={'brown'} />
+              <Text style={{marginLeft: 10}}>Buy me coffee :)</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.optionContainer} onPress={signOut}>
               <MaterialIcons name={'logout'} size={32} />
               <Text style={{marginLeft: 10}}>Logout</Text>

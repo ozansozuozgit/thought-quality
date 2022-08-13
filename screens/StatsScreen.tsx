@@ -1,15 +1,23 @@
 import React from 'react';
-import {StyleSheet, Platform} from 'react-native';
-import {View} from '../components/Themed';
+import {StyleSheet, Platform, ScrollView, Text} from 'react-native';
+import {SecondaryTitle, View} from '../components/Themed';
 
 import DatePicker from '../components/DatePicker';
 import PieChart from '../components/PieChart';
+import LineChart from '../components/LineChart';
 
 export default function StatsScreen() {
   return (
     <View style={styles.container}>
       <DatePicker />
-      <PieChart />
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <PieChart />
+        <LineChart />
+      </ScrollView>
     </View>
   );
 }
@@ -18,11 +26,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: '65%',
-    paddingTop: Platform.OS === 'ios' ? '19%' : 0,
+    height: '100%',
+    // marginBottom: '75%',
+    paddingTop: Platform.OS === 'ios' ? '15%' : 0,
   },
   title: {
     fontSize: 25,
     fontWeight: 'bold',
   },
+
 });

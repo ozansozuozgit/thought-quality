@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {VictoryPie} from 'victory-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {returnIcon} from '../utils/utils';
+import {SecondaryTitle} from './Themed';
 
 const PieChart = ({showToast}: any) => {
   const user = useAppSelector(state => state.user);
@@ -61,28 +62,37 @@ const PieChart = ({showToast}: any) => {
     }
   };
   return (
-    <View style={{width: '90%', alignItems: 'center'}}>
+    <View style={{width: '90%'}}>
       {!!user?.sessions?.length ? (
-        <View style={styles.pieContainer}>
-          <VictoryPie
-            data={userGraphData}
-            colorScale={colorArray}
-            height={280}
-            innerRadius={60}
-            animate={{easing: 'exp'}}
-            style={{
-              labels: {fill: '#000',fontSize:16},
-            }}
-          />
-          <MaterialIcons
-            name={topEmotion.iconName}
-            size={120}
-            color={topEmotion.iconColor}
-            style={styles.icon}
-          />
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <Text style={styles.chartTitle}>Emotion Distribution</Text>
+          <View style={styles.pieContainer}>
+            <VictoryPie
+              data={userGraphData}
+              colorScale={colorArray}
+              height={280}
+              innerRadius={60}
+              animate={{
+                easing: 'exp',
+                duration: 2000,
+                onLoad: {duration: 1000},
+              }}
+              style={{
+                labels: {fill: '#000', fontSize: 16},
+              }}
+            />
+            <MaterialIcons
+              name={topEmotion.iconName}
+              size={120}
+              color={topEmotion.iconColor}
+              style={styles.icon}
+            />
+          </View>
         </View>
       ) : (
-        <Text style={{paddingBottom: '65%'}}>No Sessions</Text>
+        <Text style={{paddingBottom: '5%', fontSize: 22, color: '#fff'}}>
+          No Sessionss
+        </Text>
       )}
     </View>
   );
@@ -103,6 +113,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '29%',
     left: '32%',
+  },
+  chartTitle: {
+    color: '#fff',
+    fontSize: 22,
+    marginTop: 20,
+    marginBottom: 10,
   },
 });
 
