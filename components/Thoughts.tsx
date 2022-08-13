@@ -1,13 +1,23 @@
-import React, {useState, memo} from 'react';
+import React, {useState, useCallback} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setNote} from '../features/user/userSlice';
+import _debounce from 'lodash/debounce';
 
 const Thoughts = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const userNote = useAppSelector(state => state.user.note);
-  // Might want to use debounce
+  const [value, setValue] = useState<string>('');
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+
+  function handleDebounceFn(inputValue: string) {
+    dispatch(setNote(inputValue));
+  }
+
+  function handleChange(text: string) {
+    setValue(text);
+    debounceFn(text);
+  }
   return (
     <View style={styles.thoughtsContainer}>
       <TextInput
@@ -17,13 +27,13 @@ const Thoughts = (props: any) => {
         placeholder="Strongest thoughts/feelings?"
         style={
           active
-            ? [styles.thoughts, {backgroundColor: '#fff',color:'#000'}]
+            ? [styles.thoughts, {backgroundColor: '#fff', color: '#000'}]
             : styles.thoughts
         }
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
-        onChangeText={(text: string) => dispatch(setNote(text))}
-        value={userNote}
+        onChangeText={handleChange}
+        value={value}
       />
     </View>
   );
