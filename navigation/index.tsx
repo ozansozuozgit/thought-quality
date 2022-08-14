@@ -29,12 +29,12 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import SessionsScreen from '../screens/SessionsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SessionViewScreen from '../screens/SessionViewScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export function Navigation({colorScheme}: {colorScheme: ColorSchemeName}) {
   return (
     <NavigationContainer
       // linking={LinkingConfiguration}
@@ -48,7 +48,6 @@ export default function Navigation({
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
@@ -150,5 +149,35 @@ function BottomTabNavigator() {
         }}
       />
     </BottomTab.Navigator>
+  );
+}
+
+export function LoginRegisterNavigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
+  return (
+    <NavigationContainer
+      // linking={LinkingConfiguration}
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <LoginRegisterRootNavigator />
+    </NavigationContainer>
+  );
+}
+function LoginRegisterRootNavigator() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{title: 'Login', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{title: 'Register', headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }

@@ -39,6 +39,16 @@ export default function ProfileScreen({
 
     getLength();
   }, []);
+  useEffect(() => {
+    async function getLength() {
+      const result: any = await firestoreGetTotalUserSessionsLength(
+        user?.uid ?? '',
+      );
+      setTotalSession(result);
+    }
+
+    getLength();
+  }, [user]);
 
   async function signOut() {
     dispatch(setSessions([{}]));
@@ -82,7 +92,13 @@ export default function ProfileScreen({
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignSelf: 'center'}}>
             <View style={styles.profileImage}>
-              <Image source={{uri: user.photoURL}} style={styles.image}></Image>
+              <Image
+                source={{
+                  uri: user?.photoURL?.length
+                    ? user.photoURL
+                    : 'https://picsum.photos/200',
+                }}
+                style={styles.image}></Image>
             </View>
           </View>
 
@@ -135,7 +151,7 @@ export default function ProfileScreen({
               <MaterialIcons name={'email-outline'} size={32} />
               <Text style={{marginLeft: 10}}>{user.email}</Text>
             </View>
-
+            {/* 
             <TouchableOpacity
               style={styles.optionContainer}
               onPress={() =>
@@ -143,7 +159,7 @@ export default function ProfileScreen({
               }>
               <MaterialIcons name={'cup'} size={32} color={'#ffcf00'} />
               <Text style={{marginLeft: 10}}>Buy me coffee :)</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.optionContainer} onPress={signOut}>
               <MaterialIcons name={'logout'} size={32} />
               <Text style={{marginLeft: 10}}>Logout</Text>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Button,
@@ -6,19 +6,23 @@ import {
   ImageStyle,
   TextInput,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import {Text, View} from '../components/Themed';
-import {useAppSelector, useAppDispatch} from '../app/hooks';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 export default function RegisterScreen() {
-  const [email, setEmail] = useState<string>('Email');
-  const [password, setPassword] = useState<string>('Password');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const navigation = useNavigation();
+  // console.log('navigation', navigation);
 
   GoogleSignin.configure({webClientId: ''});
   async function onGoogleButtonPress() {
@@ -27,53 +31,121 @@ export default function RegisterScreen() {
 
     return auth().signInWithCredential(googleCredential);
   }
-
+  const signUpHandler = () => {
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('User account created & signed in!');
+      })
+      .catch(error => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: error.nativeErrorMessage,
+          visibilityTime: 5000,
+        });
+      });
+  };
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <View style={styles.container}>
-        <TextInput
-          onChangeText={(text: string) => setEmail(text)}
-          value={email}
-        />
+        <Text style={styles.logo}>Thought Quality</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Email"
+            placeholderTextColor="#000"
+            onChangeText={(text: string) => setEmail(text)}
+            value={email}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            secureTextEntry
+            style={styles.inputText}
+            placeholder="Password"
+            placeholderTextColor="#000"
+            onChangeText={(text: string) => setPassword(text)}
+            value={password}
+          />
+        </View>
+        <TouchableOpacity style={styles.loginBtn} onPress={signUpHandler}>
+          <Text style={styles.loginText}>Sign Up</Text>
+        </TouchableOpacity>
 
-        <TextInput
-          onChangeText={(text: string) => setPassword(text)}
-          value={password}
-        />
+        <View style={styles.accountContainer}>
+          <Text>Have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={{fontWeight: 'bold', color: '#BCA5D9'}}>Login</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator} />
+
         <GoogleSigninButton
-          style={{width: 192, height: 48}}
+          style={{width: 192, height: 48, borderRadius: 15}}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
           onPress={onGoogleButtonPress}
           // disabled={this.state.isSigninInProgress}
         />
-        <Button title="Submit" />
       </View>
+      <Toast />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    marginTop: 40,
     height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
+
+  logo: {
     fontWeight: 'bold',
+    fontSize: 50,
+    color: '#e6f5fb',
+    marginBottom: 40,
+  },
+  inputView: {
+    width: '80%',
+    backgroundColor: '#e6f5fb',
+    borderRadius: 25,
+    height: 50,
+    marginBottom: 20,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  inputText: {
+    height: 50,
+    color: '#000',
+  },
+  loginBtn: {
+    width: '50%',
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  loginText: {
+    color: '#000',
+  },
+
+  accountContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 20,
   },
   separator: {
-    marginVertical: 30,
     height: 1,
+    backgroundColor: 'white',
     width: '80%',
-  },
-  icon: {
-    // color: 'black',
-    // backgroundColor:'black',
-    width: 32,
-    height: 42,
+    marginBottom: 20,
   },
 });

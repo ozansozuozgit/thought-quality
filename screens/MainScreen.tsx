@@ -28,7 +28,7 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
-import { onCreateTriggerNotification } from '../utils/utils';
+import {onCreateTriggerNotification} from '../utils/utils';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
   const showToast = () => {
@@ -88,7 +88,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
             onPress={() =>
               Linking.openURL('https://www.buymeacoffee.com/ozansozuoz')
             }>
-            <MaterialIcons name={'cup'} size={15} color={'#ffdd00'} />
+            <MaterialIcons name={'cup'} size={15} color={'#c79d7b'} />
             <Text style={{marginLeft: 5, color: '#fff', fontSize: 12}}>
               Buy Me Coffee :)
             </Text>
@@ -102,12 +102,8 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     height: '100%',
   },
-  // separator:{
-  //   height:1
-  // }
   buyMeCoffee: {
     color: '#fff',
     position: 'absolute',

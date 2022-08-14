@@ -32,7 +32,10 @@ export default function LatestSession() {
       endDate,
       1,
     );
-    if (!querySnapshot.length) return;
+    if (!querySnapshot.length) {
+      setLatestSession({});
+      return;
+    }
     setLatestSession(querySnapshot[0]);
     const {iconName, iconColor} = returnIcon(querySnapshot[0].emotionName);
 
@@ -76,7 +79,10 @@ export default function LatestSession() {
                 style={styles.icon}
               />
               <Text style={styles.note}>
-                {limitCharacter(latestSession?.note ?? '', 40)}
+                {limitCharacter(
+                  latestSession?.note ?? 'Create your first session! :)',
+                  40,
+                )}
               </Text>
             </View>
           </TouchableOpacity>

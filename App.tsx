@@ -2,8 +2,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import React, {useState, useEffect} from 'react';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-import RegisterScreen from './screens/RegisterScreen';
+import {Navigation, LoginRegisterNavigation} from './navigation';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
@@ -45,7 +44,11 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        {user ? <Navigation colorScheme={colorScheme} /> : <RegisterScreen />}
+        {user ? (
+          <Navigation colorScheme={colorScheme} />
+        ) : (
+          <LoginRegisterNavigation colorScheme={colorScheme} />
+        )}
       </SafeAreaProvider>
     );
   }
