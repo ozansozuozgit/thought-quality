@@ -22,12 +22,7 @@ import {
   requestNotifications,
   checkNotifications,
 } from 'react-native-permissions';
-import notifee, {
-  TimestampTrigger,
-  TriggerType,
-  TimeUnit,
-  RepeatFrequency,
-} from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 import {onCreateTriggerNotification} from '../utils/utils';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
@@ -103,6 +98,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    // justifyContent: 'center',
   },
   buyMeCoffee: {
     color: '#fff',

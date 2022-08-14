@@ -9,6 +9,7 @@ import {
   Linking,
   AppState,
   Switch,
+  Alert,
 } from 'react-native';
 import {View} from '../components/Themed';
 import {requestNotifications, openSettings} from 'react-native-permissions';
@@ -18,8 +19,12 @@ import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {firestoreGetTotalUserSessionsLength} from '../utils/utils';
-import {setSessions} from '../features/user/userSlice';
+import {
+  deleteSessionFromFirebase,
+  firestoreGetTotalUserSessionsLength,
+} from '../utils/utils';
+import {setSessions, resetSessions} from '../features/user/userSlice';
+import Toast from 'react-native-toast-message';
 
 export default function ProfileScreen({
   navigation,
@@ -86,6 +91,36 @@ export default function ProfileScreen({
       })
       .catch(e => console.log(e));
   }, []);
+
+  const showConfirmDialog = () => {
+    return Alert.alert('Delete All Sessions?', 'This action is irreversible.', [
+      // The "Yes" button
+      {
+        text: 'Yes',
+        onPress: async () => {
+          let result = await deleteSessionFromFirebase(
+            'Users',
+            user?.uid ?? '',
+          );
+          if (result === true) {
+            dispatch(resetSessions());
+            Toast.show({
+              type: 'success',
+              text1: 'All sessions were deleted',
+            });
+          } else {
+            Toast.show({
+              type: 'error',
+              text1: 'There was a problem deleting sessions',
+            });
+          }
+        },
+      },
+      {
+        text: 'No',
+      },
+    ]);
+  };
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -160,12 +195,19 @@ export default function ProfileScreen({
               <MaterialIcons name={'cup'} size={32} color={'#ffcf00'} />
               <Text style={{marginLeft: 10}}>Buy me coffee :)</Text>
             </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={showConfirmDialog}>
+              <MaterialIcons name={'delete-forever-outline'} size={32} />
+              <Text style={{marginLeft: 10}}>Delete All Sessions</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.optionContainer} onPress={signOut}>
               <MaterialIcons name={'logout'} size={32} />
               <Text style={{marginLeft: 10}}>Logout</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <Toast />
       </SafeAreaView>
     </View>
   );

@@ -7,6 +7,7 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
+import {forEach} from 'lodash';
 export async function addUserToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
@@ -96,7 +97,25 @@ export function limitCharacter(text: string, length: number, end = '...') {
   return text.length < length ? text : text.substring(0, length) + end;
 }
 
-export function deleteSessionFromFirebase(
+export async function deleteSessionFromFirebase(
+  collectionName: string,
+  uid: string,
+) {
+  return await firestore()
+    .collection(collectionName)
+    .where('uid', '==', uid)
+    .get()
+    .then(querySnapshot => {
+      if (querySnapshot.size === 0) return false;
+      querySnapshot.forEach(snapshot => snapshot.ref.delete());
+      return true;
+    })
+    .catch(e => {
+      console.log(e);
+      return false;
+    });
+}
+export function deleteAllSessionsFromFirebase(
   collectionName: string,
   docID: string,
 ) {
@@ -111,7 +130,6 @@ export function deleteSessionFromFirebase(
       console.error('Error removing document: ', error);
     });
 }
-
 function formatDatabaseReturnData(querySnapshot: any) {
   const sessionArray: SessionType[] = [];
   querySnapshot?.forEach((doc: any) => {

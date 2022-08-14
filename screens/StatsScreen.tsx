@@ -11,6 +11,7 @@ import {SecondaryTitle, View} from '../components/Themed';
 import DatePicker from '../components/DatePicker';
 import PieChart from '../components/PieChart';
 import LineChart from '../components/LineChart';
+import BarChart from '../components/BarChart';
 
 export default function StatsScreen() {
   return (
@@ -23,6 +24,7 @@ export default function StatsScreen() {
             alignItems: 'center',
           }}>
           <PieChart />
+          <BarChart />
           <LineChart />
         </ScrollView>
       </View>
