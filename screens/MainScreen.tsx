@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   SafeAreaView,
+  Button,
 } from 'react-native';
 import {View, SecondaryTitle} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
@@ -21,6 +22,12 @@ import {
   requestNotifications,
   checkNotifications,
 } from 'react-native-permissions';
+import notifee, {
+  TimestampTrigger,
+  TriggerType,
+  TimeUnit,
+  RepeatFrequency,
+} from '@notifee/react-native';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
   const showToast = () => {
@@ -36,13 +43,52 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
       })
       .catch(e => console.log(e));
   }, []);
+
+  async function bootstrap() {
+    const initialNotification = await notifee.getInitialNotification();
+
+    if (initialNotification) {
+      Toast.show({
+        type: 'success',
+        text1: 'Welcome back! 👍',
+      });
+    }
+  }
+
+  useEffect(() => {
+    bootstrap()
+      .then(() => {})
+      .catch(console.error);
+    onCreateTriggerNotification();
+  }, []);
+  async function onCreateTriggerNotification() {
+    const date = new Date(Date.now());
+    date.setHours(12);
+    date.setMinutes(0);
+    date.setDate(date.getDate() + 1);
+
+    const trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: date.getTime(),
+      repeatFrequency: RepeatFrequency.DAILY, // repeat once a day
+    };
+
+    // Create a trigger notification
+    await notifee.createTriggerNotification(
+      {
+        id: '123',
+        title: 'Notice your Thoughts yet?',
+        body: 'Record them now. You got this.',
+      },
+      trigger,
+    );
+  }
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container} darkColor="#f4f4f4">
           <SecondaryTitle>Primary Emotion</SecondaryTitle>
           <Emotions />
-
           <SecondaryTitle>
             Thoughts
             <Text style={{fontSize: 12, fontWeight: '400', color: '#c7edfc'}}>

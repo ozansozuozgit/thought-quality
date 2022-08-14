@@ -1211,6 +1211,11 @@ PODS:
   - RNGoogleSignin (8.0.0):
     - GoogleSignIn (~> 6.2.2)
     - React-Core
+  - RNNotifee (5.6.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 5.6.0)
+  - RNNotifee/NotifeeCore (5.6.0):
+    - React-Core
   - RNPermissions (3.6.0):
     - React-Core
   - RNScreens (3.15.0):
@@ -1301,6 +1306,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1437,6 +1443,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNScreens:
@@ -1532,6 +1540,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 7decac9e31a7eb9f53d9c34ebacea795687f433b
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNGoogleSignin: b2179ba653c759b936404a7746fc5302f9de6a5a
+  RNNotifee: 8ee6ddabfc44b16600b978983162e0d4db20ce19
   RNPermissions: de7b7c3fe1680d974ac7a85e3e97aa539c0e68ea
   RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
   RNSVG: f3b60aeeaa81960e2e0536c3a9eef50b667ef3a9
