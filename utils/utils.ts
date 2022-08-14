@@ -1,7 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 import {SessionType, UserState} from '../types';
-
+import notifee, {
+  TimestampTrigger,
+  TriggerType,
+  TimeUnit,
+  RepeatFrequency,
+} from '@notifee/react-native';
 export async function addUserToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
@@ -156,3 +161,26 @@ export const diffInDaysFromToday = (endDate: string | undefined = '') => {
 
   return diffInDays;
 };
+
+export async function onCreateTriggerNotification() {
+  const date = new Date(Date.now());
+  date.setHours(12);
+  date.setMinutes(0);
+  date.setDate(date.getDate() + 1);
+
+  const trigger: TimestampTrigger = {
+    type: TriggerType.TIMESTAMP,
+    timestamp: date.getTime(),
+    repeatFrequency: RepeatFrequency.DAILY, // repeat once a day
+  };
+
+  // Create a trigger notification
+  await notifee.createTriggerNotification(
+    {
+      id: '123',
+      title: 'Notice your Thoughts yet?',
+      body: 'Record them now. You got this.',
+    },
+    trigger,
+  );
+}

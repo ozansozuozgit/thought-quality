@@ -28,6 +28,7 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
+import { onCreateTriggerNotification } from '../utils/utils';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
   const showToast = () => {
@@ -61,28 +62,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
       .catch(console.error);
     onCreateTriggerNotification();
   }, []);
-  async function onCreateTriggerNotification() {
-    const date = new Date(Date.now());
-    date.setHours(12);
-    date.setMinutes(0);
-    date.setDate(date.getDate() + 1);
 
-    const trigger: TimestampTrigger = {
-      type: TriggerType.TIMESTAMP,
-      timestamp: date.getTime(),
-      repeatFrequency: RepeatFrequency.DAILY, // repeat once a day
-    };
-
-    // Create a trigger notification
-    await notifee.createTriggerNotification(
-      {
-        id: '123',
-        title: 'Notice your Thoughts yet?',
-        body: 'Record them now. You got this.',
-      },
-      trigger,
-    );
-  }
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
