@@ -63,38 +63,31 @@ const PieChart = ({showToast}: any) => {
   };
   return (
     <View style={{width: '90%'}}>
-      {!!user?.sessions?.length ? (
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <Text style={styles.chartTitle}>Emotion Distribution</Text>
-          <View style={styles.pieContainer}>
-            <VictoryPie
-              data={userGraphData}
-              colorScale={colorArray}
-              height={280}
-              innerRadius={60}
-              animate={{
-                easing: 'exp',
-                duration: 1200,
-                onLoad: {duration: 1000},
-              }}
-              width={390}
-              style={{
-                labels: {fill: '#000', fontSize: 16},
-              }}
-            />
-            <MaterialIcons
-              name={topEmotion.iconName}
-              size={120}
-              color={topEmotion.iconColor}
-              style={styles.icon}
-            />
-          </View>
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <Text style={styles.chartTitle}>Emotion Distribution</Text>
+        <View style={styles.pieContainer}>
+          <VictoryPie
+            data={userGraphData}
+            colorScale={colorArray}
+            height={280}
+            innerRadius={60}
+            animate={{
+              duration: 500,
+              onLoad: {duration: 500},
+            }}
+            width={390}
+            style={{
+              labels: {fill: '#000', fontSize: 16},
+            }}
+          />
+          <MaterialIcons
+            name={user.sessions?.length ? topEmotion.iconName : 'chart-donut'}
+            size={120}
+            color={user.sessions?.length ? topEmotion.iconColor : '#343434'}
+            style={styles.icon}
+          />
         </View>
-      ) : (
-        <Text style={{paddingBottom: '5%', fontSize: 22, color: '#fff'}}>
-          No Sessionss
-        </Text>
-      )}
+      </View>
     </View>
   );
 };

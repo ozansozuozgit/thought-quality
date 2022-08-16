@@ -63,36 +63,34 @@ const BarChart = ({showToast}: any) => {
   };
   return (
     <View style={{width: '90%'}}>
-      {!!user?.sessions?.length && (
-        <View style={{width: '100%', alignItems: 'center'}}>
-          {/* <Text style={styles.chartTitle}>Session Distribution</Text> */}
-          <View style={styles.barContainer}>
-            <VictoryChart
-              width={300}
-              domainPadding={{x: 15}}
-              padding={{top: 50, bottom: 50, left: 60, right: 50}}>
-              <VictoryBar
-                horizontal
-                style={{
-                  data: {
-                    fill: ({datum}) => {
-                      const {iconColor} = returnIcon(datum.x);
-                      return iconColor;
-                    },
-                    fillOpacity: 0.7,
-                    strokeWidth: 1,
+      <View style={{width: '100%', alignItems: 'center'}}>
+        {/* <Text style={styles.chartTitle}>Session Distribution</Text> */}
+        <View style={styles.barContainer}>
+          <VictoryChart
+            width={300}
+            domainPadding={{x: 15}}
+            padding={{top: 50, bottom: 50, left: 60, right: 50}}>
+            <VictoryBar
+              horizontal
+              style={{
+                data: {
+                  fill: ({datum}) => {
+                    const {iconColor} = returnIcon(datum.x);
+                    return iconColor;
                   },
-                }}
-                data={userGraphData}
-                animate={{
-                  duration: 1200,
-                  onLoad: {duration: 1000},
-                }}
-              />
-            </VictoryChart>
-          </View>
+                  fillOpacity: 0.7,
+                  strokeWidth: 1,
+                },
+              }}
+              data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
+              animate={{
+                duration: 500,
+                onLoad: {duration: 500},
+              }}
+            />
+          </VictoryChart>
         </View>
-      )}
+      </View>
     </View>
   );
 };

@@ -44,7 +44,6 @@ const LineChart = ({showToast}: any) => {
   };
   return (
     <View style={{width: '90%'}}>
-      {!!user?.sessions?.length && (
         <View style={{width: '100%', alignItems: 'center'}}>
           <Text style={styles.chartTitle}>Session Distribution</Text>
           <View style={styles.barContainer}>
@@ -70,17 +69,16 @@ const LineChart = ({showToast}: any) => {
                   data: {stroke: '#D58C'},
                   border: {fill: '#red'},
                 }}
-                data={userGraphData}
+                data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
                 // interpolation="bundle"
                 animate={{
-                  duration: 1200,
-                  onLoad: {duration: 1000},
+                  duration: 500,
+                  onLoad: {duration: 500},
                 }}
               />
             </VictoryChart>
           </View>
         </View>
-      )}
     </View>
   );
 };
