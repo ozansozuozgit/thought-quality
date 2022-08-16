@@ -8,6 +8,7 @@ import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
 import {View, StyleSheet} from 'react-native';
 import {diffInDaysFromToday} from './utils/utils';
+import SplashScreen from 'react-native-splash-screen';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,6 +18,8 @@ export default function App() {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   useEffect(() => {
+    SplashScreen.hide();
+
     auth().onAuthStateChanged(userState => {
       setUser(userState);
       console.log('useState changed', userState);
@@ -37,6 +40,10 @@ export default function App() {
         setLoading(false);
       }
     });
+  }, []);
+
+  useEffect(() => {
+    // SplashScreen.hide();
   }, []);
 
   if (!isLoadingComplete) {
