@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 import {SessionType, UserState} from '../types';
@@ -7,7 +8,6 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
-import {forEach} from 'lodash';
 export async function addUserToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
@@ -34,6 +34,7 @@ export async function addUserToFirebase(user: UserState) {
     })
     .catch(e => {
       console.log(e);
+      Sentry.captureException(e);
       return false;
     });
 }
@@ -53,7 +54,12 @@ export function firestoreGetDataCreatedBefore(
     .then(querySnapshot => {
       return formatDatabaseReturnData(querySnapshot);
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      {
+        console.log(e);
+        Sentry.captureException(e);
+      }
+    });
 
   return result;
 }
@@ -75,7 +81,10 @@ export function firestoreGetDataSpecificDate(
       console.log('querySnapshot', querySnapshot);
       return formatDatabaseReturnData(querySnapshot);
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      console.log(e);
+      Sentry.captureException(e);
+    });
 
   return result;
 }
@@ -88,7 +97,10 @@ export async function firestoreGetTotalUserSessionsLength(uid: string) {
     .then(querySnapshot => {
       return querySnapshot.size;
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      console.log(e);
+      Sentry.captureException(e);
+    });
 
   return result;
 }
@@ -112,6 +124,7 @@ export async function deleteSessionFromFirebase(
     })
     .catch(e => {
       console.log(e);
+      Sentry.captureException(e);
       return false;
     });
 }
