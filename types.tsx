@@ -74,4 +74,5 @@ export interface UserState {
   creationTime?: string | number;
   note?: string;
   latestSessionToggle?: boolean;
+  filteredSessions?: SessionType[];
 }

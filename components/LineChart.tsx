@@ -44,41 +44,41 @@ const LineChart = ({showToast}: any) => {
   };
   return (
     <View style={{width: '90%'}}>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <Text style={styles.chartTitle}>Session Distribution</Text>
-          <View style={styles.barContainer}>
-            <VictoryChart width={320}>
-              <VictoryAxis
-                style={{
-                  tickLabels: {fill: '#242424'},
-                  axisLabel: {fontSize: 16, padding: 25},
-                }}
-                label="Days Ago"
-              />
-              <VictoryAxis
-                dependentAxis
-                tickFormat={tick => `${Math.round(tick)}`}
-                style={{
-                  tickLabels: {fill: '#242424'},
-                  axisLabel: {fontSize: 18, padding: 35},
-                }}
-                label="Sessions"
-              />
-              <VictoryLine
-                style={{
-                  data: {stroke: '#D58C'},
-                  border: {fill: '#red'},
-                }}
-                data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
-                // interpolation="bundle"
-                animate={{
-                  duration: 500,
-                  onLoad: {duration: 500},
-                }}
-              />
-            </VictoryChart>
-          </View>
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <Text style={styles.chartTitle}>Session Distribution</Text>
+        <View style={styles.barContainer}>
+          <VictoryChart width={320}>
+            <VictoryAxis
+              style={{
+                tickLabels: {fill: '#242424'},
+                axisLabel: {fontSize: 16, padding: 25},
+              }}
+              label="Days Ago"
+            />
+            <VictoryAxis
+              dependentAxis
+              tickFormat={tick => `${Math.round(tick)}`}
+              style={{
+                tickLabels: {fill: '#242424'},
+                axisLabel: {fontSize: 18, padding: 35},
+              }}
+              label="Sessions"
+            />
+            <VictoryLine
+              style={{
+                data: {stroke: '#D58C'},
+                border: {fill: '#red'},
+              }}
+              data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
+              interpolation="bundle"
+              animate={{
+                duration: 500,
+                onLoad: {duration: 500},
+              }}
+            />
+          </VictoryChart>
         </View>
+      </View>
     </View>
   );
 };

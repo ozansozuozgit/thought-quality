@@ -12,6 +12,7 @@ const initialState: UserState = {
   creationTime: '',
   note: '',
   latestSessionToggle: false,
+  filteredSessions: [{}],
 };
 
 export const userSlice = createSlice({
@@ -48,6 +49,14 @@ export const userSlice = createSlice({
     resetSessions: state => {
       state.sessions = [{}];
     },
+    setFilteredSessions: (state, action: PayloadAction<string>) => {
+      state.filteredSessions = state.sessions?.filter(
+        session => session.emotionName === action.payload,
+      );
+    },
+    resetFilteredSessions: state => {
+      state.filteredSessions = [{}];
+    },
   },
 });
 
@@ -59,6 +68,8 @@ export const {
   setNote,
   setLatestSessionToggle,
   resetSessions,
+  setFilteredSessions,
+  resetFilteredSessions,
 } = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;

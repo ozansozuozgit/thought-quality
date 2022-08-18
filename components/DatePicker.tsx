@@ -118,7 +118,7 @@ export default function DatePicker() {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    zIndex: 1,
+    zIndex: 5,
   },
   secondaryContainer: {
     width: '90%',

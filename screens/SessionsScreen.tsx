@@ -1,11 +1,17 @@
 import React from 'react';
-import {StyleSheet, ScrollView, Platform, SafeAreaView} from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector} from '../app/hooks';
-
 import Session from '../components/Session';
 import DatePicker from '../components/DatePicker';
+
+import FilterPicker from '../components/FilterPicker';
+
 export default function SessionsScreen({
   navigation,
 }: RootTabScreenProps<'SessionsScreen'>) {
@@ -15,16 +21,23 @@ export default function SessionsScreen({
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <View style={styles.container}>
         <DatePicker />
+        <FilterPicker />
+
         <View style={styles.secondaryContainer}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: '65%'}}>
-            {user?.sessions?.length ? (
+            contentContainerStyle={{paddingBottom: '80%'}}>
+            {!!user?.sessions?.length &&
+              !user?.filteredSessions?.length &&
               user.sessions?.map((session, index) => (
                 <Session session={session} key={session.sessionID ?? index} />
-              ))
-            ) : (
-              <Text style={styles.noSessions}>No Sessions </Text>
+              ))}
+            {!!user?.filteredSessions?.length &&
+              user.filteredSessions?.map((session, index) => (
+                <Session session={session} key={session.sessionID ?? index} />
+              ))}
+            {!user?.sessions?.length && !user?.filteredSessions?.length && (
+              <Text style={styles.noSessions}>No Sessions</Text>
             )}
           </ScrollView>
         </View>
@@ -38,6 +51,7 @@ const styles = StyleSheet.create({
     // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     alignItems: 'center',
     height: '100%',
+    position: 'relative',
   },
   secondaryContainer: {
     width: '90%',
@@ -64,8 +78,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dropdown: {
-    backgroundColor: '#fdfdfd4f',
+    backgroundColor: '#e6f5fb',
     width: '100%',
+    display: 'none',
   },
   iconContainer: {
     backgroundColor: '#fdfdfd4f',
