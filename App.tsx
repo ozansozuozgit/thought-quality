@@ -19,50 +19,45 @@ const App = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   useEffect(() => {
+    SplashScreen.hide();
     try {
-      auth().onAuthStateChanged(userState => {
-        setUser(userState);
-        console.log('useState changed', userState);
-        if (userState !== undefined && userState !== null) {
-          dispatch(
-            setUserDetailsFromGoogle({
-              name: userState?.displayName ?? '',
-              uid: userState?.uid ?? '',
-              email: userState?.email ?? '',
-              photoURL: userState?.photoURL ?? '',
-              creationTime: diffInDaysFromToday(
-                userState?.metadata?.creationTime,
-              ),
-            }),
-          );
-        }
-        if (loading) {
-          setLoading(false);
-        }
-      });
+      setTimeout(() => {
+        auth().onAuthStateChanged(userState => {
+          setUser(userState);
+          console.log('useState changed', userState);
+          if (userState !== undefined && userState !== null) {
+            dispatch(
+              setUserDetailsFromGoogle({
+                name: userState?.displayName ?? '',
+                uid: userState?.uid ?? '',
+                email: userState?.email ?? '',
+                photoURL: userState?.photoURL ?? '',
+                creationTime: diffInDaysFromToday(
+                  userState?.metadata?.creationTime,
+                ),
+              }),
+            );
+          }
+          if (loading) {
+            setLoading(false);
+          }
+        });
+      }, 100);
     } catch (e) {
       Sentry.captureException(e);
     }
   }, []);
 
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        {user ? (
-          <Navigation colorScheme={colorScheme} />
-        ) : (
-          <LoginRegisterNavigation colorScheme={colorScheme} />
-        )}
-        <Toast />
-      </SafeAreaProvider>
-    );
-  }
+  return (
+    <SafeAreaProvider>
+      {user ? (
+        <Navigation colorScheme={colorScheme} />
+      ) : (
+        <LoginRegisterNavigation colorScheme={colorScheme} />
+      )}
+      <Toast />
+    </SafeAreaProvider>
+  );
 };
 
 export default Sentry.wrap(App);

@@ -7,6 +7,7 @@ Todo
 - Marcus Aeuralious Quote
 - Make Session Screen more attractive
 - Add reverse sorting to session list for most recent to oldest
+- Use localstorage to sign in faster without the login page showing
 
   For Streaks:
   Structure your database so that there's a collection holding all user's information, with each document id in the collection being a user's unique auto-generated Firebase uid.
