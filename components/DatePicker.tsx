@@ -23,6 +23,7 @@ export default function DatePicker() {
   const [dropDownValue, setDropdownValue] = useState<number>(1);
   const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
   const [items, setItems] = useState<Array<{label: string; value: number}>>([
+    {label: '12 hours', value: 0.5},
     {label: '24 hours', value: 1},
     {label: '3 Days', value: 3},
     {label: '5 Days', value: 5},
@@ -59,9 +60,9 @@ export default function DatePicker() {
   );
 
   async function getInfoFromDatabase() {
-    const endDate = new Date(
-      new Date().setDate(new Date().getDate() - dropDownValue),
-    );
+    var ts = Math.round(new Date().getTime());
+    var endDate = new Date(ts - 24 * dropDownValue * 3600 * 1000);
+
     const data: any = await firestoreGetDataCreatedBefore(
       user.uid ?? '',
       endDate,

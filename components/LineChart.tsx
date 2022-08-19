@@ -21,7 +21,7 @@ const LineChart = ({showToast}: any) => {
     let now = +new Date();
     const oneDay = 60 * 60 * 24 * 1000;
     let sessionCreatedToday = now - createdAtMilliSeconds < oneDay;
-    console.log('sessionCreatedToday', sessionCreatedToday);
+    // console.log('sessionCreatedToday', sessionCreatedToday);
 
     if (sessionCreatedToday) {
       return convertMsToHM(now - createdAtMilliSeconds);
@@ -35,12 +35,10 @@ const LineChart = ({showToast}: any) => {
     if (!user.sessions?.length) setUserGraphData([]);
     user.sessions?.forEach((session: any) => {
       if (session.createdAt == undefined) return;
-      console.log(
-        dateIsToday(session.createdAt, session.createdAtMilliSeconds),
-      );
+
       const date = moment(new Date(session.createdAt)).format('YYYY-MM-DD');
       const daysDiff = diffInDaysFromToday(date);
-      console.log('daysDiff', daysDiff);
+      // console.log('daysDiff', daysDiff);
       if (daysDiff <= 1) {
         lineChartSessions.push({
           x: `${dateIsToday(session.createdAt, session.createdAtMilliSeconds)}`,
