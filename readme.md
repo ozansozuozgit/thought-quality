@@ -6,7 +6,6 @@ Todo
 - More Stats
 - Marcus Aeuralious Quote
 - Make Session Screen more attractive
-- Add reverse sorting to session list for most recent to oldest
 - Use localstorage to sign in faster without the login page showing
 
   For Streaks:

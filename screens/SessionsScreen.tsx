@@ -13,7 +13,7 @@ export default function SessionsScreen({
   const user = useAppSelector(state => state.user);
 
   return (
-    <SafeAreaView style={{backgroundColor: '#000'}}>
+    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
         <DatePicker />
         <FilterPicker />

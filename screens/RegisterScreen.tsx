@@ -48,7 +48,7 @@ export default function RegisterScreen() {
       });
   };
   return (
-    <SafeAreaView style={{backgroundColor: '#000'}}>
+    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
         {/* <Text style={styles.logo}>Thought Quality</Text> */}
         <Image source={Logo} style={styles.logo} />

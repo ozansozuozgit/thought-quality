@@ -15,7 +15,7 @@ import BarChart from '../components/BarChart';
 
 export default function StatsScreen() {
   return (
-    <SafeAreaView style={{backgroundColor: '#000'}}>
+    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
         <DatePicker />
         <ScrollView

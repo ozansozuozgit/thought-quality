@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setLatestSessionToggle, setNote} from '../features/user/userSlice';
-import {addUserToFirebase} from '../utils/utils';
+import {addSessionToFirebase} from '../utils/utils';
 import Toast from 'react-native-toast-message';
 
 const SubmitSession = () => {
@@ -17,7 +17,7 @@ const SubmitSession = () => {
   };
   async function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-    const result = await addUserToFirebase(user);
+    const result = await addSessionToFirebase(user);
     if (result) {
       showToast();
       dispatch(setLatestSessionToggle(!user.latestSessionToggle));

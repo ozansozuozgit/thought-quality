@@ -8,7 +8,7 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
-export async function addUserToFirebase(user: UserState) {
+export async function addSessionToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
   return await firestore()

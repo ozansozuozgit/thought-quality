@@ -154,7 +154,7 @@ export default function ProfileScreen({
               style={[
                 styles.statsBox,
                 {
-                  borderColor: '#343434',
+                  borderColor: '#e6f5fb',
                   borderLeftWidth: 1,
                   borderRightWidth: 1,
                 },

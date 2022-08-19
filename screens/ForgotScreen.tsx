@@ -18,6 +18,7 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ForgotScreen() {
   const [email, setEmail] = useState<string>('');
@@ -54,7 +55,16 @@ export default function ForgotScreen() {
       });
   };
   return (
-    <SafeAreaView style={{backgroundColor: '#000'}}>
+    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
+      <TouchableOpacity
+        style={styles.backArrow}
+        onPress={() => navigation.goBack()}>
+        <MaterialIcons
+          name={'arrow-left-circle-outline'}
+          size={35}
+          color={'#e6f5fb'}
+        />
+      </TouchableOpacity>
       <View style={styles.container}>
         <Image source={Logo} style={styles.logo} />
         <View style={styles.inputView}>
@@ -72,11 +82,6 @@ export default function ForgotScreen() {
           onPress={resetPasswordHandler}>
           <Text style={styles.loginText}>Reset Password</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.loginBtn}
-          onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.loginText}>Go Back</Text>
-        </TouchableOpacity>
       </View>
       <Toast />
     </SafeAreaView>
@@ -89,7 +94,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
+  backArrow: {
+    position: 'absolute',
+    top: '10%',
+    left: '5%',
+    zIndex: 2,
+  },
   logo: {
     marginBottom: 10,
   },

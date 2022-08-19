@@ -53,7 +53,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
   }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: '#000'}}>
+    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container} darkColor="#f4f4f4">
           <SecondaryTitle>Primary Emotion</SecondaryTitle>
