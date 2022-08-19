@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {useAppSelector} from '../app/hooks';
 import {VictoryChart, VictoryLine, VictoryAxis} from 'victory-native';
-import {diffInDaysFromToday} from '../utils/utils';
+import {diffInDaysFromToday, convertMsToHM} from '../utils/utils';
 import moment from 'moment';
 
 const LineChart = ({showToast}: any) => {
@@ -17,17 +17,39 @@ const LineChart = ({showToast}: any) => {
     PopulateArray();
   }, [user.sessions]);
 
+  const dateIsToday = (createdAt: string, createdAtMilliSeconds: number) => {
+    let now = +new Date();
+    const oneDay = 60 * 60 * 24 * 1000;
+    let sessionCreatedToday = now - createdAtMilliSeconds < oneDay;
+    console.log('sessionCreatedToday', sessionCreatedToday);
+
+    if (sessionCreatedToday) {
+      return convertMsToHM(now - createdAtMilliSeconds);
+    }
+    return createdAt;
+  };
+
   const PopulateArray = () => {
     const lineChartSessions: Array<object> = [];
 
     if (!user.sessions?.length) setUserGraphData([]);
     user.sessions?.forEach((session: any) => {
       if (session.createdAt == undefined) return;
+      console.log(
+        dateIsToday(session.createdAt, session.createdAtMilliSeconds),
+      );
       const date = moment(new Date(session.createdAt)).format('YYYY-MM-DD');
       const daysDiff = diffInDaysFromToday(date);
-      lineChartSessions.push({
-        x: `${daysDiff}`,
-      });
+      console.log('daysDiff', daysDiff);
+      if (daysDiff <= 1) {
+        lineChartSessions.push({
+          x: `${dateIsToday(session.createdAt, session.createdAtMilliSeconds)}`,
+        });
+      } else {
+        lineChartSessions.push({
+          x: `${daysDiff}`,
+        });
+      }
     });
 
     const emotionsOrganized = [
