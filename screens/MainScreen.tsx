@@ -26,12 +26,6 @@ import notifee from '@notifee/react-native';
 import {onCreateTriggerNotification} from '../utils/utils';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Session was recorded 👍',
-    });
-  };
   useEffect(() => {
     requestNotifications(['alert', 'sound'])
       .then(data => {
@@ -77,7 +71,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
           {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
           <SecondaryTitle>Latest Session</SecondaryTitle>
           <LatestSession />
-          <SubmitSession showToast={showToast} />
+          <SubmitSession />
           <TouchableOpacity
             style={styles.buyMeCoffee}
             onPress={() =>
@@ -88,7 +82,6 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
               Buy Me Coffee :)
             </Text>
           </TouchableOpacity>
-          <Toast />
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

@@ -1,23 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  Platform,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import Session from '../components/Session';
 import DatePicker from '../components/DatePicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  setFilteredSessions,
-  resetFilteredSessions,
-} from '../features/user/userSlice';
+import {setFilteredSessions, reverseSessions} from '../features/user/userSlice';
 
 export const FilterPicker = () => {
   const user = useAppSelector(state => state.user);
@@ -30,6 +19,8 @@ export const FilterPicker = () => {
     {label: 'Fear', value: 'Fear'},
   ]);
   const [openDropDown, setOpenDropDownMenu] = useState<boolean>(false);
+  const [sortingOption, setSortingOption] = useState<string>('desc');
+
   const [value, setValue] = useState<any>(null);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -57,23 +48,40 @@ export const FilterPicker = () => {
             padding: 5,
           }}
           onPress={() => {
-            // dispatch(resetFilteredSessions());
             setValue(null);
           }}>
           <Text style={{color: '#343434', marginRight: 5}}>{value ?? ''}</Text>
           <MaterialIcons
             name={'minus-circle-outline'}
             size={20}
-            color={'#343434'}
+            color={'#c53723'}
           />
         </TouchableOpacity>
       )}
-
-      <View
+      <TouchableOpacity
         style={{
           zIndex: 2,
           padding: 4,
-          // alignSelf: 'flex-end',
+          backgroundColor: '#e6f5fb',
+          marginRight: '5%',
+          borderRadius: 12,
+          marginBottom: 15,
+        }}>
+        <MaterialIcons
+          name={`arrow-${sortingOption === 'desc' ? 'down' : 'up'}`}
+          size={32}
+          color={'#343434'}
+          style={styles.icon}
+          onPress={() => {
+            setSortingOption(sortingOption === 'desc' ? 'asc' : 'desc');
+            dispatch(reverseSessions());
+          }}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          zIndex: 2,
+          padding: 4,
           backgroundColor: '#e6f5fb',
           marginRight: '5%',
           borderRadius: 12,
@@ -105,7 +113,7 @@ export const FilterPicker = () => {
             width: 100,
           }}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

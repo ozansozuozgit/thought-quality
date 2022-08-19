@@ -3,11 +3,18 @@ import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setLatestSessionToggle, setNote} from '../features/user/userSlice';
 import {addUserToFirebase} from '../utils/utils';
+import Toast from 'react-native-toast-message';
 
-const SubmitSession = ({showToast}: any) => {
+const SubmitSession = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Session was recorded 👍',
+    });
+  };
   async function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
     const result = await addUserToFirebase(user);

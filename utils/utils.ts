@@ -109,7 +109,7 @@ export function limitCharacter(text: string, length: number, end = '...') {
   return text.length < length ? text : text.substring(0, length) + end;
 }
 
-export async function deleteSessionFromFirebase(
+export async function deleteAllSessionsFromFirebase(
   collectionName: string,
   uid: string,
 ) {
@@ -128,19 +128,23 @@ export async function deleteSessionFromFirebase(
       return false;
     });
 }
-export function deleteAllSessionsFromFirebase(
+export async function deleteSessionFromFirebase(
   collectionName: string,
   docID: string,
 ) {
-  firestore()
+  return await firestore()
     .collection(collectionName)
     .doc(docID)
-    .delete()
-    .then(() => {
+    .get()
+    .then(result => {
+      if (!result.exists) return false;
+      result.ref.delete();
       console.log('Document successfully deleted!');
+      return true;
     })
     .catch(error => {
       console.error('Error removing document: ', error);
+      return false;
     });
 }
 function formatDatabaseReturnData(querySnapshot: any) {

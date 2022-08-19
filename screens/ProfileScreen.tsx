@@ -20,7 +20,7 @@ import {useAppSelector, useAppDispatch} from '../app/hooks';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
-  deleteSessionFromFirebase,
+  deleteAllSessionsFromFirebase,
   firestoreGetTotalUserSessionsLength,
 } from '../utils/utils';
 import {setSessions, resetSessions} from '../features/user/userSlice';
@@ -98,7 +98,7 @@ export default function ProfileScreen({
       {
         text: 'Yes',
         onPress: async () => {
-          let result = await deleteSessionFromFirebase(
+          let result = await deleteAllSessionsFromFirebase(
             'Users',
             user?.uid ?? '',
           );

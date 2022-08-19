@@ -6,10 +6,10 @@ import {Navigation, LoginRegisterNavigation} from './navigation';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
-import {View, StyleSheet} from 'react-native';
 import {diffInDaysFromToday} from './utils/utils';
 import SplashScreen from 'react-native-splash-screen';
 import * as Sentry from '@sentry/react-native';
+import Toast from 'react-native-toast-message';
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
@@ -20,8 +20,6 @@ const App = () => {
 
   useEffect(() => {
     try {
-      SplashScreen.hide();
-
       auth().onAuthStateChanged(userState => {
         setUser(userState);
         console.log('useState changed', userState);
@@ -48,7 +46,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // SplashScreen.hide();
+    SplashScreen.hide();
   }, []);
 
   if (!isLoadingComplete) {
@@ -61,10 +59,10 @@ const App = () => {
         ) : (
           <LoginRegisterNavigation colorScheme={colorScheme} />
         )}
+        <Toast />
       </SafeAreaProvider>
     );
   }
 };
 
-const styles = StyleSheet.create({});
 export default Sentry.wrap(App);

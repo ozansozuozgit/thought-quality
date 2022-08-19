@@ -6,6 +6,7 @@ Todo
 - More Stats
 - Marcus Aeuralious Quote
 - Make Session Screen more attractive
+- Add reverse sorting to session list for most recent to oldest
 
   For Streaks:
   Structure your database so that there's a collection holding all user's information, with each document id in the collection being a user's unique auto-generated Firebase uid.

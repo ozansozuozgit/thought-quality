@@ -1,15 +1,10 @@
-import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {useAppSelector} from '../app/hooks';
 import Session from '../components/Session';
 import DatePicker from '../components/DatePicker';
-
 import FilterPicker from '../components/FilterPicker';
 
 export default function SessionsScreen({
@@ -28,7 +23,7 @@ export default function SessionsScreen({
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: '80%'}}>
             {!!user?.sessions?.length &&
-              !user?.filteredSessions?.length &&
+              user?.filteredSessions === null &&
               user.sessions?.map((session, index) => (
                 <Session session={session} key={session.sessionID ?? index} />
               ))}
@@ -36,9 +31,12 @@ export default function SessionsScreen({
               user.filteredSessions?.map((session, index) => (
                 <Session session={session} key={session.sessionID ?? index} />
               ))}
-            {!user?.sessions?.length && !user?.filteredSessions?.length && (
+            {!user?.sessions?.length && !!user?.filteredSessions !== null && (
               <Text style={styles.noSessions}>No Sessions</Text>
             )}
+            {/* {user?.sessions?.length && !user?.filteredSessions !== null && (
+              <Text style={styles.noSessions}>No Sessions</Text>
+            )} */}
           </ScrollView>
         </View>
       </View>

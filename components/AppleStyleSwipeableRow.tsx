@@ -14,6 +14,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {useAppDispatch} from '../app/hooks';
 import {removeSession} from '../features/user/userSlice';
 import {deleteSessionFromFirebase} from '../utils/utils';
+import Toast from 'react-native-toast-message';
 
 export default function AppleStyleSwipeableRow(props: any) {
   // const renderLeftActions = (progress: any, dragX: any) => {
@@ -46,11 +47,22 @@ export default function AppleStyleSwipeableRow(props: any) {
       },
       {
         text: 'Delete',
-        onPress: () => {
+        onPress: async () => {
           console.log('props', props);
           const sessionID = props.children._owner.key;
-          deleteSessionFromFirebase('Users', sessionID);
-          dispatch(removeSession(sessionID));
+          const result = await deleteSessionFromFirebase('Users', sessionID);
+          if (result === true) {
+            dispatch(removeSession(sessionID));
+            Toast.show({
+              type: 'success',
+              text1: 'Session deleted successfully.',
+            });
+          } else {
+            Toast.show({
+              type: 'error',
+              text1: 'Session was not able to be deleted.',
+            });
+          }
         },
       },
     ]);

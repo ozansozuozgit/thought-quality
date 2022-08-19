@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {filter} from 'lodash';
 import {RootState} from '../../app/store';
 import {SessionType, UserState} from '../../types';
 
@@ -50,12 +51,21 @@ export const userSlice = createSlice({
       state.sessions = [{}];
     },
     setFilteredSessions: (state, action: PayloadAction<string>) => {
-      state.filteredSessions = state.sessions?.filter(
+      console.log('action payload', action.payload);
+      const filteredArray = state.sessions?.filter(
         session => session.emotionName === action.payload,
       );
+      if (!filteredArray?.length && action?.payload !== null) {
+        state.filteredSessions = filteredArray;
+      } else if (!filteredArray?.length && action.payload === null) {
+        state.filteredSessions = null;
+      } else {
+        state.filteredSessions = filteredArray;
+      }
     },
-    resetFilteredSessions: state => {
-      state.filteredSessions = [{}];
+    reverseSessions: state => {
+      state.sessions = state?.sessions?.reverse();
+      state.filteredSessions = state?.filteredSessions?.reverse();
     },
   },
 });
@@ -69,7 +79,7 @@ export const {
   setLatestSessionToggle,
   resetSessions,
   setFilteredSessions,
-  resetFilteredSessions,
+  reverseSessions,
 } = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;
