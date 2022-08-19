@@ -19,7 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
 
-export default function LoginScreen() {
+export default function ForgotScreen() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation();
@@ -32,26 +32,30 @@ export default function LoginScreen() {
 
     return auth().signInWithCredential(googleCredential);
   }
-  const signInHandler = () => {
+  const resetPasswordHandler = () => {
     auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('User account created & signed in!');
+      .sendPasswordResetEmail(email)
+      .then(result => {
+        console.log('result', result);
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: 'Password reset email sent!',
+          visibilityTime: 5000,
+        });
       })
-      .catch(error => {
+      .catch((error: any) => {
         Toast.show({
           type: 'error',
           text1: 'Error',
           text2: error.nativeErrorMessage,
           visibilityTime: 5000,
         });
-        console.error(error);
       });
   };
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <View style={styles.container}>
-        {/* <Text style={styles.title}>Login</Text> */}
         <Image source={Logo} style={styles.logo} />
         <View style={styles.inputView}>
           <TextInput
@@ -62,42 +66,17 @@ export default function LoginScreen() {
             value={email}
           />
         </View>
-        <View style={styles.inputView}>
-          <TextInput
-            secureTextEntry
-            style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#000"
-            onChangeText={(text: string) => setPassword(text)}
-            value={password}
-          />
-        </View>
+
         <TouchableOpacity
-          onPress={() => navigation.navigate('Forgot')}
-          style={styles.forgotContainer}>
-          <Text style={{fontWeight: 'bold', color: '#BCA5D9', fontSize: 12}}>
-            Forgot Password?
-          </Text>
+          style={styles.loginBtn}
+          onPress={resetPasswordHandler}>
+          <Text style={styles.loginText}>Reset Password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn} onPress={signInHandler}>
-          <Text style={styles.loginText}>Sign In</Text>
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.loginText}>Go Back</Text>
         </TouchableOpacity>
-
-        <View style={styles.accountContainer}>
-          <Text>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{fontWeight: 'bold', color: '#BCA5D9'}}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.separator} />
-
-        <GoogleSigninButton
-          style={{width: 192, height: 48, borderRadius: 15}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={onGoogleButtonPress}
-          // disabled={this.state.isSigninInProgress}
-        />
       </View>
       <Toast />
     </SafeAreaView>
@@ -139,7 +118,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: '#343434',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 

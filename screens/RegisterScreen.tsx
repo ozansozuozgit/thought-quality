@@ -17,6 +17,7 @@ import {
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import Logo from '../assets/images/Logo.png';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState<string>('');
@@ -49,7 +50,8 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView style={{backgroundColor: '#000'}}>
       <View style={styles.container}>
-        <Text style={styles.logo}>Thought Quality</Text>
+        {/* <Text style={styles.logo}>Thought Quality</Text> */}
+        <Image source={Logo} style={styles.logo} />
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -102,10 +104,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#e6f5fb',
-    marginBottom: 40,
+    marginBottom: 10,
   },
   inputView: {
     width: '80%',
@@ -131,7 +130,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   loginText: {
-    color: '#000',
+    color: '#343434',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 
   accountContainer: {

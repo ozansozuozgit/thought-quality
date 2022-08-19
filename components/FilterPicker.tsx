@@ -52,13 +52,10 @@ export const FilterPicker = () => {
           }}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.filterIconContainer}>
-        <MaterialIcons
-          name={'filter-outline'}
-          size={32}
-          color={'#343434'}
-          onPress={() => setOpenDropDownMenu(!openDropDown)}
-        />
+      <TouchableOpacity
+        style={styles.filterIconContainer}
+        onPress={() => setOpenDropDownMenu(!openDropDown)}>
+        <MaterialIcons name={'filter-outline'} size={32} color={'#343434'} />
         <DropDownPicker
           open={openDropDown}
           value={value}

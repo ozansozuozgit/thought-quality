@@ -39,9 +39,9 @@ const LineChart = ({showToast}: any) => {
       const date = moment(new Date(session.createdAt)).format('YYYY-MM-DD');
       const daysDiff = diffInDaysFromToday(date);
       // console.log('daysDiff', daysDiff);
-      if (daysDiff <= 1) {
+      if (daysDiff === 0) {
         lineChartSessions.push({
-          x: `${dateIsToday(session.createdAt, session.createdAtMilliSeconds)}`,
+          x: `   ${dateIsToday(session.createdAt, session.createdAtMilliSeconds)}`,
         });
       } else {
         lineChartSessions.push({

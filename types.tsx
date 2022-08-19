@@ -23,6 +23,7 @@ export type RootStackParamList = {
   SessionView: undefined;
   Login: undefined;
   Register: undefined;
+  Forgot: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

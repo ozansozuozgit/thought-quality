@@ -31,6 +31,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SessionViewScreen from '../screens/SessionViewScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import ForgotScreen from '../screens/ForgotScreen';
+
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -177,6 +179,11 @@ function LoginRegisterRootNavigator() {
         name="Register"
         component={RegisterScreen}
         options={{title: 'Register', headerShown: false}}
+      />
+            <Stack.Screen
+        name="Forgot"
+        component={ForgotScreen}
+        options={{title: 'Forgot', headerShown: false}}
       />
     </Stack.Navigator>
   );
