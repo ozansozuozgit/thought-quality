@@ -4,7 +4,7 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {limitCharacter, returnIcon} from '../utils/utils';
+import {limitCharacter, returnIcon,convertMsToHM} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAppSelector} from '../app/hooks';
@@ -50,6 +50,16 @@ export default function LatestSession() {
     fetchLatestSession();
   }, [user]);
 
+  const dateIsToday = () => {
+    let now = +new Date();
+    const oneDay = 60 * 60 * 24 * 1000;
+    let sessionCreatedToday = now - latestSession?.createdAtMilliSeconds < oneDay;
+    if (sessionCreatedToday) {
+      return convertMsToHM(now - latestSession?.createdAtMilliSeconds) ?? '';
+    }
+    return latestSession?.createdAt?.toString() ?? '';
+  };
+
   return (
     <View style={styles.container}>
       <AppleStyleSwipeableRow allowSwipe={false}>
@@ -69,7 +79,7 @@ export default function LatestSession() {
               );
             }}>
             <Text style={styles.date}>
-              {latestSession?.createdAt?.toString() ?? ''}
+              {dateIsToday()}
             </Text>
             <View style={styles.infoContainer}>
               <MaterialIcons

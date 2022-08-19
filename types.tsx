@@ -62,6 +62,7 @@ export interface SessionType {
   note?: string;
   sessionID?: string;
   emotionQuality?: number;
+  createdAtMilliSeconds?: any;
 }
 
 export interface UserState {

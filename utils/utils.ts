@@ -158,6 +158,7 @@ function formatDatabaseReturnData(querySnapshot: any) {
       emotionName: doc.data().emotionName,
       sessionID: doc.data().sessionID,
       emotionQuality: doc.data().emotionQuality,
+      createdAtMilliSeconds: doc.data().createdAt.toMillis(),
     });
     // console.log(doc.id, ' => ', doc.data());
   });
@@ -219,3 +220,21 @@ export async function onCreateTriggerNotification() {
     trigger,
   );
 }
+
+export const convertMsToHM = (milliseconds: number) => {
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds = seconds % 60;
+  minutes = minutes % 60;
+
+  if (hours === 0 && minutes > 0) {
+    return `${minutes} minute(s) ago.`;
+  } else if (minutes === 0) {
+    return `${seconds} second(s) ago.`;
+  } else {
+    return `${hours} hour(s) ago`;
+  }
+};
+

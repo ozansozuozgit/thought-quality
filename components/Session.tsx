@@ -4,15 +4,30 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {limitCharacter, returnIcon} from '../utils/utils';
+import {convertMsToHM, limitCharacter, returnIcon} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Session({session, allowSwipe = true}: any) {
   const navigation = useNavigation();
-  const {emotionName = '', note = '', createdAt = ''} = session;
+  const {
+    emotionName = '',
+    note = '',
+    createdAt = '',
+    createdAtMilliSeconds = '',
+  } = session;
 
   const {iconName, iconColor} = returnIcon(emotionName);
+
+  const dateIsToday = () => {
+    let now = +new Date();
+    const oneDay = 60 * 60 * 24 * 1000;
+    let sessionCreatedToday = now - createdAtMilliSeconds < oneDay;
+    if (sessionCreatedToday) {
+      return convertMsToHM(now - createdAtMilliSeconds);
+    }
+    return createdAt;
+  };
 
   return (
     <AppleStyleSwipeableRow allowSwipe={allowSwipe}>
@@ -30,7 +45,7 @@ export default function Session({session, allowSwipe = true}: any) {
             } as never,
           );
         }}>
-        <Text style={styles.date}>{createdAt}</Text>
+        <Text style={styles.date}>{dateIsToday()}</Text>
         <View style={styles.infoContainer}>
           <View style={styles.icon}>
             <MaterialIcons
@@ -76,11 +91,11 @@ const styles = StyleSheet.create({
     // width: '15%',
     backgroundColor: 'transparent',
     marginRight: '2%',
-    borderRadius:20
+    borderRadius: 20,
   },
   note: {
     width: '90%',
     fontSize: 15,
-    color:'#000'
+    color: '#000',
   },
 });
