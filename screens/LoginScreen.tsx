@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   inputView: {
     width: '80%',

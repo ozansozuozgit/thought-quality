@@ -1,11 +1,33 @@
-import {Platform, StyleSheet} from 'react-native';
-import React from 'react';
-import EditScreenInfo from '../components/EditScreenInfo';
+import React, {useEffect, useState} from 'react';
+import {Platform, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import {Text, View} from '../components/Themed';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {updateNoteInFirebase} from '../utils/utils';
+import Toast from 'react-native-toast-message';
 
 export default function SessionViewScreen({route, navigation}: any) {
-  const {note, emotionName, createdAt, iconColor, iconName} = route.params;
+  const {note, emotionName, createdAt, iconColor, iconName, sessionID} =
+    route.params;
+  const [input, setInput] = useState<string>('');
+
+  useEffect(() => {
+    setInput(note);
+  }, []);
+
+  const updateNoteHandler = async () => {
+    let result = await updateNoteInFirebase('Users', sessionID, input);
+    if (result) {
+      Toast.show({
+        type: 'success',
+        text1: 'Session updated successfully!',
+      });
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'There was an issue updating your session',
+      });
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.date}>{createdAt}</Text>
@@ -19,8 +41,26 @@ export default function SessionViewScreen({route, navigation}: any) {
           />
         </View>
         <View style={styles.noteContainer}>
-          <Text style={styles.note}>{note}</Text>
+          <TextInput
+            maxLength={1000}
+            style={styles.note}
+            multiline
+            onChangeText={value => setInput(value)}>
+            {input}
+          </TextInput>
         </View>
+        <TouchableOpacity
+          onPress={updateNoteHandler}
+          style={{
+            backgroundColor: '#e6f5fb',
+            padding: 10,
+            borderRadius: 10,
+            marginTop: 10,
+          }}>
+          <Text style={{color: '#343434', fontSize: 14, fontWeight: 'bold'}}>
+            Save
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -35,7 +75,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    backgroundColor: '#e6f5fb',
+    // backgroundColor: '#e6f5fb',
+    height: '100%',
   },
   title: {
     fontSize: 20,
@@ -48,7 +89,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
     marginTop: 20,
-    padding: 20,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#e6f5fb',
   },
   iconContainer: {
     backgroundColor: 'transparent',
@@ -62,16 +105,16 @@ const styles = StyleSheet.create({
     right: '5%',
     zIndex: 1,
     top: 16,
-    color: '#343434',
+    color: '#e6f5fb',
   },
   icon: {
     zIndex: 2,
   },
   note: {
-    marginTop: 10,
+    // marginTop: 10,
     width: '90%',
     fontSize: 16,
     lineHeight: 25,
-    color: '#343434',
+    color: '#e6f5fb',
   },
 });

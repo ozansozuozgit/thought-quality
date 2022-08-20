@@ -4,7 +4,7 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {limitCharacter, returnIcon,convertMsToHM} from '../utils/utils';
+import {limitCharacter, returnIcon, convertMsToHM} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAppSelector} from '../app/hooks';
@@ -53,7 +53,8 @@ export default function LatestSession() {
   const dateIsToday = () => {
     let now = +new Date();
     const oneDay = 60 * 60 * 24 * 1000;
-    let sessionCreatedToday = now - latestSession?.createdAtMilliSeconds < oneDay;
+    let sessionCreatedToday =
+      now - latestSession?.createdAtMilliSeconds < oneDay;
     if (sessionCreatedToday) {
       return convertMsToHM(now - latestSession?.createdAtMilliSeconds) ?? '';
     }
@@ -75,12 +76,11 @@ export default function LatestSession() {
                   note: latestSession.note ?? '',
                   iconName: iconDetails.iconName ?? '',
                   iconColor: iconDetails.iconColor ?? '',
+                  sessionID: latestSession.sessionID ?? '',
                 } as never,
               );
             }}>
-            <Text style={styles.date}>
-              {dateIsToday()}
-            </Text>
+            <Text style={styles.date}>{dateIsToday()}</Text>
             <View style={styles.infoContainer}>
               <MaterialIcons
                 name={iconDetails.iconName}

@@ -117,18 +117,17 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   loginBtn: {
-    width: '50%',
+    width: '40%',
     backgroundColor: '#fff',
     borderRadius: 25,
-    height: 50,
+    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
   },
   loginText: {
     color: '#343434',
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
   },
 

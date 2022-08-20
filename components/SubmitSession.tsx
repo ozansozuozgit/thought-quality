@@ -17,7 +17,7 @@ const SubmitSession = () => {
   };
   async function submitThoughtQuality() {
     // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-    const result = await addSessionToFirebase(user);
+    const result = await addSessionToFirebase(user); 
     if (result) {
       showToast();
       dispatch(setLatestSessionToggle(!user.latestSessionToggle));

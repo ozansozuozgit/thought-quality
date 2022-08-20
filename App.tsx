@@ -7,7 +7,7 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
 import {diffInDaysFromToday} from './utils/utils';
-import SplashScreen from 'react-native-splash-screen';
+// import SplashScreen from 'react-native-splash-screen';
 import * as Sentry from '@sentry/react-native';
 import Toast from 'react-native-toast-message';
 
@@ -19,7 +19,7 @@ const App = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   useEffect(() => {
-    SplashScreen.hide();
+    // SplashScreen.hide();
     try {
       setTimeout(() => {
         auth().onAuthStateChanged(userState => {

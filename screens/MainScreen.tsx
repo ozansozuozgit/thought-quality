@@ -61,7 +61,6 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
           <SecondaryTitle>
             Thoughts
             <Text style={{fontSize: 12, fontWeight: '400', color: '#c7edfc'}}>
-              {' '}
               (Optional)
             </Text>
           </SecondaryTitle>
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     // justifyContent: 'center',
+    backgroundColor: '#292A2F',
   },
   buyMeCoffee: {
     color: '#fff',

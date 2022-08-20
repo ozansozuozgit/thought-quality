@@ -18,9 +18,9 @@ const PieChart = ({showToast}: any) => {
     name: string;
   }>({iconName: 'circle-outline', iconColor: '#000', name: ''});
 
-  useEffect(() => {
-    PopulateArray();
-  }, []);
+  // useEffect(() => {
+  //   PopulateArray();
+  // }, []);
   useEffect(() => {
     PopulateArray();
   }, [user.sessions]);
@@ -67,7 +67,7 @@ const PieChart = ({showToast}: any) => {
         <Text style={styles.chartTitle}>Emotion Distribution</Text>
         <View style={styles.pieContainer}>
           <VictoryPie
-            data={userGraphData}
+            data={userGraphData ?? [{x: 1, y: 1}]}
             colorScale={colorArray}
             height={280}
             innerRadius={60}

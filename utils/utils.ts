@@ -147,6 +147,31 @@ export async function deleteSessionFromFirebase(
       return false;
     });
 }
+export async function updateNoteInFirebase(
+  collectionName: string,
+  docID: string,
+  note: string,
+) {
+  console.log({collectionName});
+  console.log({docID});
+  console.log({note});
+
+  return await firestore()
+    .collection(collectionName)
+    .doc(docID)
+    .update({note})
+    .then(result => {
+      console.log('result',result);
+      // if (!result.exists) return false;
+      // result.ref.delete();
+      console.log('Document successfully updated!');
+      return true;
+    })
+    .catch(error => {
+      console.error('Error removing document: ', error);
+      return false;
+    });
+}
 function formatDatabaseReturnData(querySnapshot: any) {
   const sessionArray: SessionType[] = [];
   querySnapshot?.forEach((doc: any) => {
@@ -237,4 +262,3 @@ export const convertMsToHM = (milliseconds: number) => {
     return `${hours} hour(s) ago`;
   }
 };
-

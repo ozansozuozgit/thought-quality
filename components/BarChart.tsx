@@ -18,9 +18,9 @@ const BarChart = ({showToast}: any) => {
     name: string;
   }>({iconName: 'circle-outline', iconColor: '#000', name: ''});
 
-  useEffect(() => {
-    PopulateArray();
-  }, []);
+  // useEffect(() => {
+  //   PopulateArray();
+  // }, []);
   useEffect(() => {
     PopulateArray();
   }, [user.sessions]);
@@ -82,10 +82,10 @@ const BarChart = ({showToast}: any) => {
                   strokeWidth: 1,
                 },
               }}
-              data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
+              data={userGraphData ?? [{x: 1, y: 1}]}
               animate={{
-                duration: 500,
-                onLoad: {duration: 500},
+                duration: 1500,
+                onLoad: {duration: 1500},
               }}
             />
           </VictoryChart>

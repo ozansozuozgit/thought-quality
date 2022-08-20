@@ -10,9 +10,9 @@ const LineChart = ({showToast}: any) => {
 
   const [userGraphData, setUserGraphData] = useState<Array<object>>([]);
 
-  useEffect(() => {
-    PopulateArray();
-  }, []);
+  // useEffect(() => {
+  //   PopulateArray();
+  // }, []);
   useEffect(() => {
     PopulateArray();
   }, [user.sessions]);
@@ -89,7 +89,7 @@ const LineChart = ({showToast}: any) => {
                 data: {stroke: '#D58C'},
                 border: {fill: '#red'},
               }}
-              data={userGraphData.length ? userGraphData : [{x: '0', y: '0'}]}
+              data={userGraphData ?? [{x: 1, y: 1}]}
               interpolation="bundle"
               animate={{
                 duration: 500,
