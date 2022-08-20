@@ -7,6 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {Text, View} from '../components/Themed';
 import {
@@ -18,13 +19,15 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
-import {validateEmail} from '../utils/utils';
+import {validateEmail, useTogglePasswordVisibility} from '../utils/utils';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation();
-  // console.log('navigation', navigation);
+  const {passwordVisibility, rightIcon, handlePasswordVisibility} =
+    useTogglePasswordVisibility();
 
   GoogleSignin.configure({webClientId: ''});
   async function onGoogleButtonPress() {
@@ -44,6 +47,10 @@ export default function LoginScreen() {
   const signInHandler = () => {
     if (!validateEmail(email)) {
       toastHandler('error', 'Input Error', 'Please enter a valid email.');
+      return;
+    }
+    if (!email.length || !password.length) {
+      toastHandler('error', 'Input Error', 'Please enter all fields.');
       return;
     }
     auth()
@@ -75,15 +82,30 @@ export default function LoginScreen() {
             textContentType="emailAddress"
           />
         </View>
-        <View style={styles.inputView}>
+        <View
+          style={[
+            styles.inputView,
+            {
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          ]}>
           <TextInput
-            secureTextEntry
             style={styles.inputText}
             placeholder="Password"
             placeholderTextColor="grey"
-            onChangeText={(text: string) => setPassword(text)}
+            onChangeText={(text: string) => {
+              setPassword(text);
+            }}
             value={password}
+            secureTextEntry={passwordVisibility}
+            enablesReturnKeyAutomatically
           />
+          <Pressable onPress={handlePasswordVisibility} style={{zIndex: 2}}>
+            <MaterialIcons name={rightIcon} size={22} color="#232323" />
+          </Pressable>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('Forgot')}
@@ -134,11 +156,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
-  },
+    paddingLeft: 20,
+    paddingRight: 20,  },
   inputText: {
     height: 50,
     color: '#000',
+    width: '90%',
+
   },
   loginBtn: {
     width: '50%',

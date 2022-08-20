@@ -8,6 +8,8 @@ import notifee, {
   TimeUnit,
   RepeatFrequency,
 } from '@notifee/react-native';
+import {useState} from 'react';
+
 export async function addSessionToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
@@ -306,4 +308,27 @@ export const validateEmail = (email: string) => {
   var re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
+};
+
+export const useTogglePasswordVisibility = () => {
+  // password will not be initially visible
+  // set the initial value to true because this will be the value fo secureTextEntry prop
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [rightIcon, setRightIcon] = useState('eye-off-outline');
+  // function that toggles password visibility on a TextInput component on a password field
+  const handlePasswordVisibility = () => {
+    if (rightIcon === 'eye-off-outline') {
+      setRightIcon('eye-outline');
+      setPasswordVisibility(!passwordVisibility);
+    } else if (rightIcon === 'eye-outline') {
+      setRightIcon('eye-off-outline');
+      setPasswordVisibility(!passwordVisibility);
+    }
+  };
+
+  return {
+    passwordVisibility,
+    rightIcon,
+    handlePasswordVisibility,
+  };
 };

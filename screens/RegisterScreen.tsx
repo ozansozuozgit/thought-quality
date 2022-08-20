@@ -7,6 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {Text, View} from '../components/Themed';
 import {
@@ -18,8 +19,9 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
-import {validateEmail} from '../utils/utils';
+import {validateEmail, useTogglePasswordVisibility} from '../utils/utils';
 import firestore from '@react-native-firebase/firestore';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function RegisterScreen() {
   const [name, setName] = useState<string>('');
@@ -27,7 +29,8 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation();
   // console.log('navigation', navigation);
-
+  const {passwordVisibility, rightIcon, handlePasswordVisibility} =
+    useTogglePasswordVisibility();
   GoogleSignin.configure({webClientId: ''});
   async function onGoogleButtonPress() {
     const {idToken} = await GoogleSignin.signIn();
@@ -46,6 +49,10 @@ export default function RegisterScreen() {
   const signUpHandler = async () => {
     if (!validateEmail(email)) {
       toastHandler('error', 'Input Error', 'Please enter a valid email.');
+      return;
+    }
+    if (!email.length || !name.length || !password.length) {
+      toastHandler('error', 'Input Error', 'Please enter all fields.');
       return;
     }
     await auth()
@@ -69,6 +76,7 @@ export default function RegisterScreen() {
   const handleChange = (text: string) => {
     /^[a-zA-Z\s]*$/.test(text) ? setName(text) : ' ';
   };
+
   return (
     <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
@@ -96,15 +104,30 @@ export default function RegisterScreen() {
             textContentType="emailAddress"
           />
         </View>
-        <View style={styles.inputView}>
+        <View
+          style={[
+            styles.inputView,
+            {
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          ]}>
           <TextInput
-            secureTextEntry
             style={styles.inputText}
             placeholder="Password"
             placeholderTextColor="grey"
-            onChangeText={(text: string) => setPassword(text)}
+            onChangeText={(text: string) => {
+              setPassword(text);
+            }}
             value={password}
+            secureTextEntry={passwordVisibility}
+            enablesReturnKeyAutomatically
           />
+          <Pressable onPress={handlePasswordVisibility} style={{zIndex: 2}}>
+            <MaterialIcons name={rightIcon} size={22} color="#232323" />
+          </Pressable>
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={signUpHandler}>
           <Text style={styles.loginText}>Sign Up</Text>
@@ -148,11 +171,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   inputText: {
     height: 50,
     color: '#000',
+    width: '90%',
   },
   loginBtn: {
     width: '50%',
