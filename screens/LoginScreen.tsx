@@ -32,21 +32,33 @@ export default function LoginScreen() {
 
     return auth().signInWithCredential(googleCredential);
   }
+  const toastHandler = (type: string, text1: string, text2: string) => {
+    Toast.show({
+      type,
+      text1,
+      text2,
+      visibilityTime: 5000,
+    });
+  };
   const signInHandler = () => {
+    if (!validateEmail()) {
+      toastHandler('error', 'Input Error', 'Please enter a valid email.');
+      return;
+    }
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         console.log('User account created & signed in!');
       })
       .catch(error => {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: error.nativeErrorMessage,
-          visibilityTime: 5000,
-        });
+        toastHandler('error', 'Error', error.nativeErrorMessage);
         console.error(error);
       });
+  };
+  const validateEmail = () => {
+    var re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   };
   return (
     <SafeAreaView style={{backgroundColor: '#292A2F'}}>
@@ -60,6 +72,10 @@ export default function LoginScreen() {
             placeholderTextColor="#000"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            textContentType="emailAddress"
           />
         </View>
         <View style={styles.inputView}>

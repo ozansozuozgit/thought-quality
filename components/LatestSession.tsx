@@ -6,7 +6,11 @@ import {SessionType} from '../types';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {limitCharacter, returnIcon, convertMsToHM} from '../utils/utils';
 import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {useAppSelector} from '../app/hooks';
 import {firestoreGetDataCreatedBefore} from '../utils/utils';
 
@@ -42,13 +46,21 @@ export default function LatestSession() {
     setIconDetails({iconName, iconColor});
   }
 
-  useEffect(() => {
-    fetchLatestSession();
-  }, []);
+  // useEffect(() => {
+  //   console.log('test');
+  //   fetchLatestSession();
+  // }, []);
 
   useEffect(() => {
+    console.log('test2');
     fetchLatestSession();
   }, [user]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchLatestSession();
+    }, []),
+  );
 
   const dateIsToday = () => {
     let now = +new Date();

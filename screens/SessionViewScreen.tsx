@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     width: '90%',
     fontSize: 16,
     lineHeight: 25,
+    marginBottom: 10,
     color: '#e6f5fb',
   },
 });
