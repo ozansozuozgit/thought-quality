@@ -15,7 +15,7 @@ export default function SessionViewScreen({route, navigation}: any) {
   }, []);
 
   const updateNoteHandler = async () => {
-    let result = await updateNoteInFirebase('Users', sessionID, input);
+    let result = await updateNoteInFirebase('Sessions', sessionID, input);
     if (result) {
       Toast.show({
         type: 'success',

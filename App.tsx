@@ -6,7 +6,7 @@ import {Navigation, LoginRegisterNavigation} from './navigation';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
-import {diffInDaysFromToday} from './utils/utils';
+import {diffInDaysFromToday, firestoreReturnDisplayName} from './utils/utils';
 // import SplashScreen from 'react-native-splash-screen';
 import * as Sentry from '@sentry/react-native';
 import Toast from 'react-native-toast-message';
@@ -22,13 +22,22 @@ const App = () => {
     // SplashScreen.hide();
     try {
       setTimeout(() => {
-        auth().onAuthStateChanged(userState => {
+        auth().onAuthStateChanged(async userState => {
           setUser(userState);
           console.log('useState changed', userState);
           if (userState !== undefined && userState !== null) {
+            // console.log();
+            let name = '';
+            if (userState.displayName === null) {
+              console.log('true');
+              name = await firestoreReturnDisplayName(userState.uid);
+            }
             dispatch(
               setUserDetailsFromGoogle({
-                name: userState?.displayName ?? '',
+                name:
+                  userState?.displayName !== null
+                    ? userState?.displayName
+                    : name,
                 uid: userState?.uid ?? '',
                 email: userState?.email ?? '',
                 photoURL: userState?.photoURL ?? '',
@@ -49,14 +58,16 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      {user ? (
-        <Navigation colorScheme={colorScheme} />
-      ) : (
-        <LoginRegisterNavigation colorScheme={colorScheme} />
-      )}
+    <>
+      <SafeAreaProvider>
+        {user ? (
+          <Navigation colorScheme={colorScheme} />
+        ) : (
+          <LoginRegisterNavigation colorScheme={colorScheme} />
+        )}
+      </SafeAreaProvider>
       <Toast />
-    </SafeAreaProvider>
+    </>
   );
 };
 

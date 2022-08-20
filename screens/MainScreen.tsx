@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   SafeAreaView,
-  Button,
 } from 'react-native';
 import {View, SecondaryTitle} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
@@ -61,6 +60,7 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
           <SecondaryTitle>
             Thoughts
             <Text style={{fontSize: 12, fontWeight: '400', color: '#c7edfc'}}>
+              {' '}
               (Optional)
             </Text>
           </SecondaryTitle>

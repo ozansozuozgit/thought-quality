@@ -51,7 +51,6 @@ export const userSlice = createSlice({
       state.sessions = [{}];
     },
     setFilteredSessions: (state, action: PayloadAction<string>) => {
-      console.log('action payload', action.payload);
       const filteredArray = state.sessions?.filter(
         session => session.emotionName === action.payload,
       );

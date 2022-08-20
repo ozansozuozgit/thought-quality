@@ -18,8 +18,11 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
+import {validateEmail} from '../utils/utils';
+import firestore from '@react-native-firebase/firestore';
 
 export default function RegisterScreen() {
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation();
@@ -32,10 +35,26 @@ export default function RegisterScreen() {
 
     return auth().signInWithCredential(googleCredential);
   }
-  const signUpHandler = () => {
-    auth()
+  const toastHandler = (type: string, text1: string, text2: string) => {
+    Toast.show({
+      type,
+      text1,
+      text2,
+      visibilityTime: 5000,
+    });
+  };
+  const signUpHandler = async () => {
+    if (!validateEmail(email)) {
+      toastHandler('error', 'Input Error', 'Please enter a valid email.');
+      return;
+    }
+    await auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(async res => {
+        await firestore()
+          .collection('Users')
+          .doc(res.user.uid)
+          .set({uid: res.user.uid, displayName: name});
         console.log('User account created & signed in!');
       })
       .catch(error => {
@@ -47,6 +66,9 @@ export default function RegisterScreen() {
         });
       });
   };
+  const handleChange = (text: string) => {
+    /^[a-zA-Z\s]*$/.test(text) ? setName(text) : ' ';
+  };
   return (
     <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
@@ -55,10 +77,23 @@ export default function RegisterScreen() {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
+            placeholder="Name"
+            placeholderTextColor="grey"
+            onChangeText={(text: string) => handleChange(text)}
+            value={name}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
             placeholder="Email"
-            placeholderTextColor="#000"
+            placeholderTextColor="grey"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            textContentType="emailAddress"
           />
         </View>
         <View style={styles.inputView}>
@@ -66,7 +101,7 @@ export default function RegisterScreen() {
             secureTextEntry
             style={styles.inputText}
             placeholder="Password"
-            placeholderTextColor="#000"
+            placeholderTextColor="grey"
             onChangeText={(text: string) => setPassword(text)}
             value={password}
           />

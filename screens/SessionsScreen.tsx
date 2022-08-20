@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';

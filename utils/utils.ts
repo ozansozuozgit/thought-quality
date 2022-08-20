@@ -12,7 +12,7 @@ export async function addSessionToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
   console.log('user note is', user.note);
   return await firestore()
-    .collection('Users')
+    .collection('Sessions')
     .add({
       name: user.name,
       uid: user.uid,
@@ -45,7 +45,7 @@ export function firestoreGetDataCreatedBefore(
   limit: number,
 ) {
   let result = firestore()
-    .collection('Users')
+    .collection('Sessions')
     .where('uid', '==', uid)
     .where('createdAt', '>=', endDate)
     .orderBy('createdAt', 'desc')
@@ -70,7 +70,7 @@ export function firestoreGetDataSpecificDate(
 ) {
   var tomorrow = new Date(date.getTime() + 24 * 60 * 60 * 1000);
   let result = firestore()
-    .collection('Users')
+    .collection('Sessions')
     .where('uid', '==', uid)
     .where('createdAt', '>', date)
     .where('createdAt', '<=', tomorrow)
@@ -91,7 +91,7 @@ export function firestoreGetDataSpecificDate(
 
 export async function firestoreGetTotalUserSessionsLength(uid: string) {
   let result = firestore()
-    .collection('Users')
+    .collection('Sessions')
     .where('uid', '==', uid)
     .get()
     .then(querySnapshot => {
@@ -104,6 +104,45 @@ export async function firestoreGetTotalUserSessionsLength(uid: string) {
 
   return result;
 }
+export async function firestoreReturnDisplayName(uid: string) {
+  let result = firestore()
+    .collection('Users')
+    .doc(uid)
+    .get()
+    .then(querySnapshot => {
+      if (querySnapshot?.data()?.displayName.length) {
+        return querySnapshot?.data()?.displayName;
+      } else {
+        return '';
+      }
+    })
+    .catch(e => {
+      console.log(e);
+      Sentry.captureException(e);
+      return '';
+    });
+
+  return result;
+}
+
+// export async function transferFirestoreCollection() {
+//   let result = firestore()
+//     .collection('Users')
+//     .get()
+//     .then(querySnapshot => {
+//       querySnapshot.forEach(element => {
+//         console.log('element', element);
+//         firestore().collection('Sessions').doc(element.id).set(element.data());
+//       });
+//     })
+//     .catch(e => {
+//       console.log(e);
+//       Sentry.captureException(e);
+//       return '';
+//     });
+
+//   return result;
+// }
 
 export function limitCharacter(text: string, length: number, end = '...') {
   return text.length < length ? text : text.substring(0, length) + end;
@@ -161,7 +200,7 @@ export async function updateNoteInFirebase(
     .doc(docID)
     .update({note})
     .then(result => {
-      console.log('result',result);
+      console.log('result', result);
       // if (!result.exists) return false;
       // result.ref.delete();
       console.log('Document successfully updated!');
@@ -261,4 +300,10 @@ export const convertMsToHM = (milliseconds: number) => {
   } else {
     return `${hours} hour(s) ago`;
   }
+};
+
+export const validateEmail = (email: string) => {
+  var re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 };

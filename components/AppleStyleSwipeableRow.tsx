@@ -48,9 +48,8 @@ export default function AppleStyleSwipeableRow(props: any) {
       {
         text: 'Delete',
         onPress: async () => {
-          console.log('props', props);
           const sessionID = props.children._owner.key;
-          const result = await deleteSessionFromFirebase('Users', sessionID);
+          const result = await deleteSessionFromFirebase('Sessions', sessionID);
           if (result === true) {
             dispatch(removeSession(sessionID));
             Toast.show({

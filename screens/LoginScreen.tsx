@@ -18,6 +18,7 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import Logo from '../assets/images/Logo.png';
+import {validateEmail} from '../utils/utils';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
@@ -41,7 +42,7 @@ export default function LoginScreen() {
     });
   };
   const signInHandler = () => {
-    if (!validateEmail()) {
+    if (!validateEmail(email)) {
       toastHandler('error', 'Input Error', 'Please enter a valid email.');
       return;
     }
@@ -55,11 +56,7 @@ export default function LoginScreen() {
         console.error(error);
       });
   };
-  const validateEmail = () => {
-    var re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  };
+
   return (
     <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
@@ -69,7 +66,7 @@ export default function LoginScreen() {
           <TextInput
             style={styles.inputText}
             placeholder="Email"
-            placeholderTextColor="#000"
+            placeholderTextColor="grey"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
             autoCapitalize="none"
@@ -83,7 +80,7 @@ export default function LoginScreen() {
             secureTextEntry
             style={styles.inputText}
             placeholder="Password"
-            placeholderTextColor="#000"
+            placeholderTextColor="grey"
             onChangeText={(text: string) => setPassword(text)}
             value={password}
           />

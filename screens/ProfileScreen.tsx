@@ -99,7 +99,7 @@ export default function ProfileScreen({
         text: 'Yes',
         onPress: async () => {
           let result = await deleteAllSessionsFromFirebase(
-            'Users',
+            'Sessions',
             user?.uid ?? '',
           );
           if (result === true) {
