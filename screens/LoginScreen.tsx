@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   logo: {
     marginBottom: 20,
   },
@@ -157,12 +156,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'center',
     paddingLeft: 20,
-    paddingRight: 20,  },
+    paddingRight: 20,
+  },
   inputText: {
     height: 50,
     color: '#000',
     width: '90%',
-
   },
   loginBtn: {
     width: '50%',
