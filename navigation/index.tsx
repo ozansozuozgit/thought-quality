@@ -73,7 +73,7 @@ function RootNavigator() {
         <Stack.Screen
           name="SessionView"
           component={SessionViewScreen}
-          options={{title: 'Session'}}
+          options={{title: 'Session',}}
         />
       </Stack.Group>
     </Stack.Navigator>

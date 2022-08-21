@@ -19,6 +19,8 @@ import {RootTabScreenProps} from '../types';
 import {useAppSelector, useAppDispatch} from '../app/hooks';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {
   deleteAllSessionsFromFirebase,
   firestoreGetTotalUserSessionsLength,
@@ -175,7 +177,10 @@ export default function ProfileScreen({
           <View style={styles.optionsContainer}>
             <View style={styles.optionContainer}>
               <View style={styles.notificationContainer}>
-                <Text>Allow Notifications</Text>
+                <View style={styles.notificationSecondaryContainer}>
+                  <Ionicons name={'md-notifications-outline'} size={32} />
+                  <Text style={{marginLeft: 10}}>Notifications</Text>
+                </View>
                 <Switch
                   value={notificationEnabled}
                   onValueChange={() =>
@@ -266,6 +271,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 15,
   },
   optionContainer: {
     display: 'flex',
@@ -284,5 +290,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
+  },
+  notificationSecondaryContainer: {
+    backgroundColor: 'transparent',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

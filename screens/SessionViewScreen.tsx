@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Platform, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import {Text, View} from '../components/Themed';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {updateNoteInFirebase} from '../utils/utils';
@@ -28,6 +34,13 @@ export default function SessionViewScreen({route, navigation}: any) {
       });
     }
   };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <Button onPress={updateNoteHandler} title="Save" />,
+    });
+  }, [navigation, input]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.date}>{createdAt}</Text>
@@ -49,18 +62,6 @@ export default function SessionViewScreen({route, navigation}: any) {
             {input}
           </TextInput>
         </View>
-        <TouchableOpacity
-          onPress={updateNoteHandler}
-          style={{
-            backgroundColor: '#e6f5fb',
-            padding: 10,
-            borderRadius: 10,
-            marginTop: 10,
-          }}>
-          <Text style={{color: '#343434', fontSize: 14, fontWeight: 'bold'}}>
-            Save
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -83,14 +84,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   noteContainer: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#333437',
     width: '90%',
     display: 'flex',
     alignItems: 'center',
     borderRadius: 12,
     marginTop: 20,
     padding: 15,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: '#e6f5fb',
   },
   iconContainer: {
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     width: '90%',
     fontSize: 16,
-    lineHeight: 25,
-    marginBottom: 10,
+    // lineHeight: 25,
+    // marginBottom: 10,
     color: '#e6f5fb',
   },
 });
