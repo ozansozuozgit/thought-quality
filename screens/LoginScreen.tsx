@@ -134,7 +134,6 @@ export default function LoginScreen() {
           // disabled={this.state.isSigninInProgress}
         />
       </View>
-      <Toast />
     </SafeAreaView>
   );
 }

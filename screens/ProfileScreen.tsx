@@ -211,7 +211,6 @@ export default function ProfileScreen({
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <Toast />
       </SafeAreaView>
     </View>
   );

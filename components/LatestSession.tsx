@@ -27,6 +27,7 @@ export default function LatestSession() {
   async function fetchLatestSession() {
     const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
     if (!user.uid?.length) return;
+    console.log('user.uid', user.uid);
     const querySnapshot: any = await firestoreGetDataCreatedBefore(
       user.uid ?? '',
       endDate,

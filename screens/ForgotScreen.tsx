@@ -83,7 +83,6 @@ export default function ForgotScreen() {
           <Text style={styles.loginText}>Reset Password</Text>
         </TouchableOpacity>
       </View>
-      <Toast />
     </SafeAreaView>
   );
 }

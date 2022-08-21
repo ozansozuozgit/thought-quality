@@ -149,7 +149,6 @@ export default function RegisterScreen() {
           // disabled={this.state.isSigninInProgress}
         />
       </View>
-      <Toast />
     </SafeAreaView>
   );
 }
