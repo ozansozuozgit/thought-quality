@@ -41,15 +41,16 @@ export const FilterPicker = () => {
           />
         </TouchableOpacity>
       )}
-      <TouchableOpacity style={styles.sortingArrow}>
+      <TouchableOpacity
+        style={styles.sortingArrow}
+        onPress={() => {
+          setSortingOption(sortingOption === 'desc' ? 'asc' : 'desc');
+          dispatch(reverseSessions());
+        }}>
         <MaterialIcons
           name={`arrow-${sortingOption === 'desc' ? 'down' : 'up'}`}
           size={25}
           color={'#343434'}
-          onPress={() => {
-            setSortingOption(sortingOption === 'desc' ? 'asc' : 'desc');
-            dispatch(reverseSessions());
-          }}
         />
       </TouchableOpacity>
       <TouchableOpacity

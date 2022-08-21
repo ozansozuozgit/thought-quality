@@ -185,6 +185,7 @@ export async function deleteSessionFromFirebase(
     })
     .catch(error => {
       console.error('Error removing document: ', error);
+      Sentry.captureException(error);
       return false;
     });
 }

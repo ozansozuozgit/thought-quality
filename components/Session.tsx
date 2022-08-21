@@ -31,7 +31,7 @@ export default function Session({session, allowSwipe = true}: any) {
   };
 
   return (
-    <AppleStyleSwipeableRow allowSwipe={allowSwipe}>
+    <AppleStyleSwipeableRow allowSwipe={allowSwipe} sessionID={sessionID}>
       <TouchableOpacity
         style={styles.sessionContainer}
         onPress={() => {

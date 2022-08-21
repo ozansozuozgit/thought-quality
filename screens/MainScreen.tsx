@@ -59,13 +59,13 @@ const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
           <Emotions />
           <SecondaryTitle>
             Thoughts
-            <Text style={{fontSize: 12, fontWeight: '400', color: '#c7edfc'}}>
+            <Text style={{fontSize: 12, fontWeight: '400', color: '#BCA5D9'}}>
               {' '}
               (Optional)
             </Text>
           </SecondaryTitle>
 
-          <Thoughts multiline numberOfLines={4} style={{padding: 10}} />
+          <Thoughts multiline numberOfLines={4} />
 
           {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
           <SecondaryTitle>Latest Session</SecondaryTitle>

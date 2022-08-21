@@ -48,7 +48,7 @@ export default function AppleStyleSwipeableRow(props: any) {
       {
         text: 'Delete',
         onPress: async () => {
-          const sessionID = props.children._owner.key;
+          const sessionID = props.sessionID;
           const result = await deleteSessionFromFirebase('Sessions', sessionID);
           if (result === true) {
             dispatch(removeSession(sessionID));
@@ -80,7 +80,6 @@ export default function AppleStyleSwipeableRow(props: any) {
       confirmationAlert();
     };
     return (
-      // {props.allowSwipe ? () }
       <Animated.View style={{flex: 1, transform: [{translateX: trans}]}}>
         <RectButton
           style={[styles.rightAction, {backgroundColor: color}]}
