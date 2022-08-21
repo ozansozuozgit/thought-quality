@@ -66,6 +66,16 @@ export const userSlice = createSlice({
       state.sessions = state?.sessions?.reverse();
       state.filteredSessions = state?.filteredSessions?.reverse();
     },
+    resetState: state => {
+      state.sessions = [{}];
+      state.creationTime = '';
+      state.email = '';
+      state.filteredSessions = null;
+      state.name = '';
+      state.note = '';
+      state.photoURL = '';
+      state.uid = '';
+    },
   },
 });
 
@@ -79,6 +89,7 @@ export const {
   resetSessions,
   setFilteredSessions,
   reverseSessions,
+  resetState,
 } = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;

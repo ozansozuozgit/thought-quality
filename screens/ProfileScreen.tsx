@@ -23,7 +23,11 @@ import {
   deleteAllSessionsFromFirebase,
   firestoreGetTotalUserSessionsLength,
 } from '../utils/utils';
-import {setSessions, resetSessions} from '../features/user/userSlice';
+import {
+  setSessions,
+  resetSessions,
+  resetState,
+} from '../features/user/userSlice';
 import Toast from 'react-native-toast-message';
 
 export default function ProfileScreen({
@@ -56,7 +60,7 @@ export default function ProfileScreen({
   }, [user]);
 
   async function signOut() {
-    dispatch(setSessions([{}]));
+    dispatch(resetState());
     return auth().signOut();
   }
 
