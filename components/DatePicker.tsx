@@ -48,14 +48,18 @@ export default function DatePicker() {
 
   useEffect(() => {
     async function getData() {
-      var nextDay = new Date(selectedEndDate._d.getTime() + 12 * 60 * 60 * 1000);
+      var nextDay = new Date(
+        selectedEndDate._d.getTime() + 12 * 60 * 60 * 1000,
+      );
       const data: any = await firestoreGetDataCreatedInRange(
         user.uid ?? '',
         selectedStartDate._d,
         nextDay,
         100,
       );
-      setSelectedDateTitle(`${selectedStartDate._d.toDateString()} - ${selectedEndDate._d.toDateString()}`);
+      setSelectedDateTitle(
+        `${selectedStartDate._d.toDateString()} - ${selectedEndDate._d.toDateString()}`,
+      );
       setOpenCalendar(false);
       dispatch(setSessions(data));
     }
@@ -98,6 +102,8 @@ export default function DatePicker() {
             todayBackgroundColor="#e6ffe6"
             maxDate={new Date()}
             allowRangeSelection={true}
+            selectedRangeStyle={{backgroundColor: '#BCA5D9'}}
+            selectedDayStyle={{backgroundColor: '#BCA5D9'}}
           />
         </View>
       )}
@@ -113,7 +119,6 @@ export default function DatePicker() {
             setValue={setDropdownValue}
             setItems={setItems}
             style={styles.dropdown}
-            dropDownContainerStyle={{backgroundColor: '#e6f5fb'}}
           />
           <TouchableOpacity
             style={styles.iconContainer}
