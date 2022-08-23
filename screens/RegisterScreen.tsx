@@ -1,28 +1,31 @@
-import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  Button,
-  Image,
-  ImageStyle,
-  TextInput,
-  SafeAreaView,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
-import {Text, View} from '../components/Themed';
+  appleAuth,
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {
+  Button,
+  Image,
+  ImageStyle,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
-import Logo from '../assets/images/Logo.png';
-import {validateEmail, useTogglePasswordVisibility} from '../utils/utils';
-import firestore from '@react-native-firebase/firestore';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Logo from '../assets/images/Logo.png';
+import {Text, View} from '../components/Themed';
+import {useTogglePasswordVisibility, validateEmail} from '../utils/utils';
 export default function RegisterScreen() {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -31,6 +34,34 @@ export default function RegisterScreen() {
   // console.log('navigation', navigation);
   const {passwordVisibility, rightIcon, handlePasswordVisibility} =
     useTogglePasswordVisibility();
+
+  async function onAppleButtonPress() {
+    // Start the sign-in request
+    console.log('do something');
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+    console.log('do something');
+
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      throw new Error('Apple Sign-In failed - no identify token returned');
+    }
+    console.log('do something');
+
+    // Create a Firebase credential from the response
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
+    console.log('appleCredential', appleCredential);
+
+    // Sign the user in with the credential
+    return auth().signInWithCredential(appleCredential);
+  }
+
   GoogleSignin.configure({webClientId: ''});
   async function onGoogleButtonPress() {
     const {idToken} = await GoogleSignin.signIn();
@@ -147,6 +178,20 @@ export default function RegisterScreen() {
           color={GoogleSigninButton.Color.Dark}
           onPress={onGoogleButtonPress}
           // disabled={this.state.isSigninInProgress}
+        />
+        <AppleButton
+          buttonStyle={AppleButton.Style.WHITE}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: 185,
+            height: 40,
+            marginTop: 10,
+          }}
+          onPress={() =>
+            onAppleButtonPress().then(() =>
+              console.log('Apple sign-in complete!'),
+            )
+          }
         />
       </View>
     </SafeAreaView>

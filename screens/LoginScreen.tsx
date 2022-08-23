@@ -1,3 +1,7 @@
+import {
+  appleAuth,
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   GoogleSignin,
@@ -35,6 +39,32 @@ export default function LoginScreen() {
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
     return auth().signInWithCredential(googleCredential);
+  }
+  async function onAppleButtonPress() {
+    // Start the sign-in request
+    console.log('do something');
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+    console.log('do something');
+
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      throw new Error('Apple Sign-In failed - no identify token returned');
+    }
+    console.log('do something');
+
+    // Create a Firebase credential from the response
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
+    console.log('appleCredential', appleCredential);
+
+    // Sign the user in with the credential
+    return auth().signInWithCredential(appleCredential);
   }
   const toastHandler = (type: string, text1: string, text2: string) => {
     Toast.show({
@@ -132,6 +162,20 @@ export default function LoginScreen() {
           color={GoogleSigninButton.Color.Dark}
           onPress={onGoogleButtonPress}
           // disabled={this.state.isSigninInProgress}
+        />
+        <AppleButton
+          buttonStyle={AppleButton.Style.WHITE}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: 185,
+            height: 40,
+            marginTop: 10,
+          }}
+          onPress={() =>
+            onAppleButtonPress().then(() =>
+              console.log('Apple sign-in complete!'),
+            )
+          }
         />
       </View>
     </SafeAreaView>
