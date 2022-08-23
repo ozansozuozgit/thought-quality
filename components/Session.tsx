@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {convertMsToHM, limitCharacter, returnIcon} from '../utils/utils';
-import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
-import {useNavigation} from '@react-navigation/native';
 
 export default function Session({session, allowSwipe = true}: any) {
   const navigation = useNavigation();

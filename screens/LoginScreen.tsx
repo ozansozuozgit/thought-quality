@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Button,
-  Image,
-  ImageStyle,
-  TextInput,
-  SafeAreaView,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
-import {Text, View} from '../components/Themed';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {
+  Button,
+  Image,
+  ImageStyle,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
-import Logo from '../assets/images/Logo.png';
-import {validateEmail, useTogglePasswordVisibility} from '../utils/utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../assets/images/Logo.png';
+import {Text, View} from '../components/Themed';
+import {useTogglePasswordVisibility, validateEmail} from '../utils/utils';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');

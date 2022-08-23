@@ -1,14 +1,13 @@
-import * as Sentry from '@sentry/react-native';
-import firestore from '@react-native-firebase/firestore';
-import moment from 'moment';
-import {SessionType, UserState} from '../types';
 import notifee, {
+  RepeatFrequency,
   TimestampTrigger,
   TriggerType,
-  TimeUnit,
-  RepeatFrequency,
 } from '@notifee/react-native';
+import firestore from '@react-native-firebase/firestore';
+import * as Sentry from '@sentry/react-native';
+import moment from 'moment';
 import {useState} from 'react';
+import {SessionType, UserState} from '../types';
 
 export async function addSessionToFirebase(user: UserState) {
   // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
@@ -41,6 +40,32 @@ export async function addSessionToFirebase(user: UserState) {
     });
 }
 
+export function firestoreGetDataCreatedInRange(
+  uid: string,
+  startDate: Date,
+  endDate: Date,
+  limit: number,
+) {
+  let result = firestore()
+    .collection('Sessions')
+    .where('uid', '==', uid)
+    .where('createdAt', '<=', endDate)
+    .where('createdAt', '>=', startDate)
+    .orderBy('createdAt', 'desc')
+    .limit(limit)
+    .get()
+    .then(querySnapshot => {
+      return formatDatabaseReturnData(querySnapshot);
+    })
+    .catch(e => {
+      {
+        console.log(e);
+        Sentry.captureException(e);
+      }
+    });
+
+  return result;
+}
 export function firestoreGetDataCreatedBefore(
   uid: string,
   endDate: Date,

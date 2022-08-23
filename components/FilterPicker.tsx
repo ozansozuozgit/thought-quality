@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import {useAppSelector, useAppDispatch} from '../app/hooks';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {setFilteredSessions, reverseSessions} from '../features/user/userSlice';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {reverseSessions, setFilteredSessions} from '../features/user/userSlice';
 
 export const FilterPicker = () => {
   const user = useAppSelector(state => state.user);

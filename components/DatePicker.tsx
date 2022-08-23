@@ -1,16 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Text, View} from '../components/Themed';
-import {useAppDispatch, useAppSelector} from '../app/hooks';
+import CalendarPicker from 'react-native-calendar-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {Text, View} from '../components/Themed';
+import {setSessions} from '../features/user/userSlice';
 import {
   firestoreGetDataCreatedBefore,
+  firestoreGetDataCreatedInRange,
   firestoreGetDataSpecificDate,
 } from '../utils/utils';
-import {setSessions} from '../features/user/userSlice';
-import CalendarPicker from 'react-native-calendar-picker';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useFocusEffect} from '@react-navigation/native';
 
 export default function DatePicker() {
   const dispatch = useAppDispatch();
@@ -21,7 +22,10 @@ export default function DatePicker() {
     useState<string>('Last 24 Hours');
 
   const [dropDownValue, setDropdownValue] = useState<number>(1);
+  // const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<any>(null);
+
   const [items, setItems] = useState<Array<{label: string; value: number}>>([
     {label: '12 hours', value: 0.5},
     {label: '24 hours', value: 1},
@@ -33,31 +37,42 @@ export default function DatePicker() {
     {label: '60 Days', value: 60},
   ]);
 
-  async function onDateChange(date: any) {
-    var nextDay = new Date(date._d.getTime() - 12 * 60 * 60 * 1000);
-
-    const data: any = await firestoreGetDataSpecificDate(
-      user.uid ?? '',
-      nextDay,
-      100,
-    );
-    setSelectedDateTitle(date._d.toDateString());
-    setSelectedStartDate(date._d);
-    setOpenCalendar(false);
-    dispatch(setSessions(data));
+  async function onDateChange(date: any, type: any) {
+    if (type === 'END_DATE') {
+      setSelectedEndDate(date);
+    } else {
+      setSelectedEndDate(null);
+      setSelectedStartDate(date);
+    }
   }
 
-  // useEffect(() => {
-  //   console.log('dropdownValue is', dropDownValue);
-  //   getInfoFromDatabase();
-  // }, [dropDownValue]);
+  useEffect(() => {
+    async function getData() {
+      var nextDay = new Date(selectedEndDate._d.getTime() + 12 * 60 * 60 * 1000);
+      const data: any = await firestoreGetDataCreatedInRange(
+        user.uid ?? '',
+        selectedStartDate._d,
+        nextDay,
+        100,
+      );
+      setSelectedDateTitle(`${selectedStartDate._d.toDateString()} - ${selectedEndDate._d.toDateString()}`);
+      setOpenCalendar(false);
+      dispatch(setSessions(data));
+    }
+    if (selectedStartDate !== null && selectedEndDate !== null) {
+      getData();
+    }
+  }, [selectedStartDate, selectedEndDate]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log('dropdownValue is', dropDownValue);
-      getInfoFromDatabase();
-    }, [dropDownValue]),
-  );
+  useEffect(() => {
+    getInfoFromDatabase();
+  }, [dropDownValue]);
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     getInfoFromDatabase();
+  //   }, [dropDownValue]),
+  // );
 
   async function getInfoFromDatabase() {
     var ts = Math.round(new Date().getTime());
@@ -82,6 +97,7 @@ export default function DatePicker() {
             onDateChange={onDateChange}
             todayBackgroundColor="#e6ffe6"
             maxDate={new Date()}
+            allowRangeSelection={true}
           />
         </View>
       )}

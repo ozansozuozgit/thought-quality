@@ -1,17 +1,17 @@
 import React from 'react';
 import {
-  StyleSheet,
   Platform,
-  ScrollView,
-  Text,
   SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
 } from 'react-native';
 import {SecondaryTitle, View} from '../components/Themed';
 
-import DatePicker from '../components/DatePicker';
-import PieChart from '../components/PieChart';
-import LineChart from '../components/LineChart';
 import BarChart from '../components/BarChart';
+import DatePicker from '../components/DatePicker';
+import LineChart from '../components/LineChart';
+import PieChart from '../components/PieChart';
 
 export default function StatsScreen() {
   return (

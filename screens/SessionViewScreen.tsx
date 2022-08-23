@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Button,
   Platform,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Button,
 } from 'react-native';
-import {Text, View} from '../components/Themed';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {updateNoteInFirebase} from '../utils/utils';
 import Toast from 'react-native-toast-message';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Text, View} from '../components/Themed';
+import {updateNoteInFirebase} from '../utils/utils';
 
 export default function SessionViewScreen({route, navigation}: any) {
   const {note, emotionName, createdAt, iconColor, iconName, sessionID} =

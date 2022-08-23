@@ -1,27 +1,27 @@
+import notifee from '@notifee/react-native';
 import React, {useEffect} from 'react';
 import {
-  StyleSheet,
-  Platform,
-  Text,
+  Keyboard,
   Linking,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
-  SafeAreaView,
 } from 'react-native';
-import {View, SecondaryTitle} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
-import Emotions from '../components/Emotions';
-import Thoughts from '../components/Thoughts';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
 import Toast from 'react-native-toast-message';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Emotions from '../components/Emotions';
 import LatestSession from '../components/LatestSession';
 import SubmitSession from '../components/SubmitSession';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  requestNotifications,
-  checkNotifications,
-} from 'react-native-permissions';
-import notifee from '@notifee/react-native';
+import {SecondaryTitle, View} from '../components/Themed';
+import Thoughts from '../components/Thoughts';
+import {RootTabScreenProps} from '../types';
 import {onCreateTriggerNotification} from '../utils/utils';
 
 const MainScreen = ({navigation}: RootTabScreenProps<'MainScreen'>) => {
