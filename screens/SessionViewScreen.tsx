@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   Button,
   Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -30,7 +31,12 @@ export default function SessionViewScreen({route, navigation}: any) {
   }, []);
 
   const updateNoteHandler = async () => {
-    let result = await updateNoteAndActivityInFirebase('Sessions', sessionID, input ,userActivityInput);
+    let result = await updateNoteAndActivityInFirebase(
+      'Sessions',
+      sessionID,
+      input,
+      userActivityInput,
+    );
     if (result) {
       Toast.show({
         type: 'success',
@@ -52,74 +58,76 @@ export default function SessionViewScreen({route, navigation}: any) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{createdAt}</Text>
-      <View style={styles.infoContainer}>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontSize: 25,
-            fontWeight: 'bold',
-            marginTop: '15%',
-            textAlign: 'center',
-          }}>
-          Edit Session
-        </Text>
-        <View style={styles.iconContainer}>
-          <MaterialIcons
-            name={iconName}
-            size={65}
-            color={iconColor}
-            style={styles.icon}
-          />
+      <ScrollView contentContainerStyle={{paddingBottom: '100%'}}>
+        <Text style={styles.date}>{createdAt}</Text>
+        <View style={styles.infoContainer}>
+          <Text
+            style={{
+              alignSelf: 'center',
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginTop: '15%',
+              textAlign: 'center',
+            }}>
+            Edit Session
+          </Text>
+          <View style={styles.iconContainer}>
+            <MaterialIcons
+              name={iconName}
+              size={65}
+              color={iconColor}
+              style={styles.icon}
+            />
+          </View>
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginLeft: 20,
+            }}>
+            Your Thoughts
+          </Text>
+          <View style={styles.noteContainer}>
+            <TextInput
+              maxLength={1000}
+              style={styles.note}
+              multiline
+              placeholder="No thoughts yet! Fill me up!"
+              onChangeText={value => setInput(value)}>
+              {input}
+            </TextInput>
+          </View>
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              fontSize: 25,
+              fontWeight: 'bold',
+              marginLeft: 20,
+              marginTop: 20,
+            }}>
+            What Were You Doing?
+          </Text>
+          <View style={styles.noteContainer}>
+            <TextInput
+              maxLength={1000}
+              style={styles.note}
+              multiline
+              placeholder="Nothing I guess :)"
+              onChangeText={value => setUserActivityInput(value)}>
+              {userActivityInput}
+            </TextInput>
+          </View>
         </View>
-        <Text
-          style={{
-            alignSelf: 'flex-start',
-            fontSize: 25,
-            fontWeight: 'bold',
-            marginLeft: 20,
-          }}>
-          Your Thoughts
-        </Text>
-        <View style={styles.noteContainer}>
-          <TextInput
-            maxLength={1000}
-            style={styles.note}
-            multiline
-            placeholder="No thoughts yet! Fill me up!"
-            onChangeText={value => setInput(value)}>
-            {input}
-          </TextInput>
-        </View>
-        <Text
-          style={{
-            alignSelf: 'flex-start',
-            fontSize: 25,
-            fontWeight: 'bold',
-            marginLeft: 20,
-            marginTop: 20,
-          }}>
-          What Were You Doing?
-        </Text>
-        <View style={styles.noteContainer}>
-          <TextInput
-            maxLength={1000}
-            style={styles.note}
-            multiline
-            placeholder="Nothing I guess :)"
-            onChangeText={value => setUserActivityInput(value)}>
-            {userActivityInput}
-          </TextInput>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#e6f5fb',
+    // flex: 1,
+    // backgroundColor: '#e6f5fb',
   },
   infoContainer: {
     display: 'flex',
@@ -148,7 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     // padding: 10,
     marginTop: '5%',
-    marginBottom:'5%',
+    marginBottom: '5%',
     alignSelf: 'center',
   },
   date: {
@@ -169,6 +177,7 @@ const styles = StyleSheet.create({
     // lineHeight: 25,
     // marginBottom: 10,
     color: '#343434',
-    minHeight: '15%',
+    // minHeight: '45%',
+    height:100
   },
 });
