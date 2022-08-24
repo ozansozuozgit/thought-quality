@@ -47,7 +47,7 @@ export function SecondaryTitle(props: TextProps) {
   const styleProps = {
     fontSize: 25,
     fontWeight: 'bold' as 'bold',
-    marginTop: '8%',
+    marginTop: '12%',
     marginBottom: '5%',
     marginLeft: '3%',
     color,

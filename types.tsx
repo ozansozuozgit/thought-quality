@@ -64,6 +64,7 @@ export interface SessionType {
   sessionID?: string;
   emotionQuality?: number;
   createdAtMilliSeconds?: any;
+  whatUserIsDoing?: string;
 }
 
 export interface UserState {
@@ -77,4 +78,5 @@ export interface UserState {
   note?: string;
   latestSessionToggle?: boolean;
   filteredSessions?: SessionType[] | null;
+  whatUserIsDoing?: string;
 }

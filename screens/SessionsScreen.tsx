@@ -1,11 +1,11 @@
 import React from 'react';
-import {StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-import {Text, View} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {useAppSelector} from '../app/hooks';
-import Session from '../components/Session';
 import DatePicker from '../components/DatePicker';
 import FilterPicker from '../components/FilterPicker';
+import Session from '../components/Session';
+import {SecondaryTitle, Text, View} from '../components/Themed';
+import {RootTabScreenProps} from '../types';
 
 export default function SessionsScreen({
   navigation,
@@ -19,9 +19,10 @@ export default function SessionsScreen({
         <FilterPicker />
 
         <View style={styles.secondaryContainer}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: '80%'}}>
+          <Text style={{fontSize: 22, fontWeight: 'bold', paddingBottom: 5}}>
+            Sessions
+          </Text>
+          <ScrollView contentContainerStyle={{paddingBottom: '80%'}}>
             {!!user?.sessions?.length &&
               user?.filteredSessions === null &&
               user.sessions?.map((session, index) => (

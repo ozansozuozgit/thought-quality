@@ -42,18 +42,15 @@ export default function LoginScreen() {
   }
   async function onAppleButtonPress() {
     // Start the sign-in request
-    console.log('do something');
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
-    console.log('do something');
 
     // Ensure Apple returned a user identityToken
     if (!appleAuthRequestResponse.identityToken) {
       throw new Error('Apple Sign-In failed - no identify token returned');
     }
-    console.log('do something');
 
     // Create a Firebase credential from the response
     const {identityToken, nonce} = appleAuthRequestResponse;
@@ -61,8 +58,6 @@ export default function LoginScreen() {
       identityToken,
       nonce,
     );
-    console.log('appleCredential', appleCredential);
-
     // Sign the user in with the credential
     return auth().signInWithCredential(appleCredential);
   }

@@ -16,6 +16,7 @@ export default function Session({session, allowSwipe = true}: any) {
     createdAt = '',
     createdAtMilliSeconds = '',
     sessionID = '',
+    whatUserIsDoing = ''
   } = session;
 
   const {iconName, iconColor} = returnIcon(emotionName);
@@ -44,6 +45,7 @@ export default function Session({session, allowSwipe = true}: any) {
               iconName: iconName ?? '',
               iconColor: iconColor ?? '',
               sessionID: sessionID ?? '',
+              whatUserIsDoing : whatUserIsDoing ?? ''
             } as never,
           );
         }}>

@@ -25,6 +25,8 @@ export default function DatePicker() {
   // const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
   const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
   const [selectedEndDate, setSelectedEndDate] = useState<any>(null);
+  const [refreshDateRangeData, setRefreshDateRangeDate] =
+    useState<boolean>(false);
 
   const [items, setItems] = useState<Array<{label: string; value: number}>>([
     {label: '12 hours', value: 0.5},
@@ -66,17 +68,17 @@ export default function DatePicker() {
     if (selectedStartDate !== null && selectedEndDate !== null) {
       getData();
     }
-  }, [selectedStartDate, selectedEndDate]);
+  }, [selectedStartDate, selectedEndDate, refreshDateRangeData]);
 
   useEffect(() => {
     getInfoFromDatabase();
   }, [dropDownValue]);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getInfoFromDatabase();
-  //   }, [dropDownValue]),
-  // );
+  useFocusEffect(
+    React.useCallback(() => {
+      getInfoFromDatabase();
+    }, []),
+  );
 
   async function getInfoFromDatabase() {
     var ts = Math.round(new Date().getTime());

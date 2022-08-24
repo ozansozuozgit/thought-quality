@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setLatestSessionToggle, setNote} from '../features/user/userSlice';
+import {setLatestSessionToggle, setNote,setWhatUserIsDoing} from '../features/user/userSlice';
 import {addSessionToFirebase} from '../utils/utils';
 import Toast from 'react-native-toast-message';
 
@@ -22,6 +22,7 @@ const SubmitSession = () => {
       showToast();
       dispatch(setLatestSessionToggle(!user.latestSessionToggle));
       dispatch(setNote(''));
+      dispatch(setWhatUserIsDoing(''));
     } else {
       console.log('error');
     }
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   },
   submitLabel: {
     color: '#343434',
-    padding: 15,
+    padding: 10,
     fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',

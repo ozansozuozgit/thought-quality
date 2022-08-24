@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {filter} from 'lodash';
+import {act} from 'react-test-renderer';
 import {RootState} from '../../app/store';
 import {SessionType, UserState} from '../../types';
 
@@ -14,6 +15,7 @@ const initialState: UserState = {
   note: '',
   latestSessionToggle: false,
   filteredSessions: [{}],
+  whatUserIsDoing: '',
 };
 
 export const userSlice = createSlice({
@@ -76,6 +78,9 @@ export const userSlice = createSlice({
       state.photoURL = '';
       state.uid = '';
     },
+    setWhatUserIsDoing: (state, action: PayloadAction<string>) => {
+      state.whatUserIsDoing = action.payload;
+    },
   },
 });
 
@@ -90,6 +95,7 @@ export const {
   setFilteredSessions,
   reverseSessions,
   resetState,
+  setWhatUserIsDoing,
 } = userSlice.actions;
 
 export const selectUserName = (state: RootState) => state.user.name;

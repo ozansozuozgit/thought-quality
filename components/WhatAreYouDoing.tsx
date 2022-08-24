@@ -2,9 +2,9 @@ import _debounce from 'lodash/debounce';
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setNote} from '../features/user/userSlice';
+import {setWhatUserIsDoing} from '../features/user/userSlice';
 
-const Thoughts = (props: any) => {
+const WhatAreYouDoing = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>('');
@@ -12,7 +12,7 @@ const Thoughts = (props: any) => {
   const user = useAppSelector(state => state.user);
 
   function handleDebounceFn(inputValue: string) {
-    dispatch(setNote(inputValue));
+    dispatch(setWhatUserIsDoing(inputValue));
   }
 
   function handleChange(text: string) {
@@ -21,21 +21,21 @@ const Thoughts = (props: any) => {
   }
 
   useEffect(() => {
-    if (user.note === '') {
+    if (user.whatUserIsDoing === '') {
       setValue('');
     }
-  }, [user.note]);
+  }, [user.whatUserIsDoing]);
   return (
-    <View style={styles.thoughtsContainer}>
+    <View style={styles.container}>
       <TextInput
         {...props}
         editable
         maxLength={500}
-        placeholder="Strongest thoughts/feelings?"
+        placeholder="I am working out. etc..."
         style={
           active
-            ? [styles.thoughts, {backgroundColor: '#fff', color: '#000'}]
-            : styles.thoughts
+            ? [styles.activity, {backgroundColor: '#fff', color: '#000'}]
+            : styles.activity
         }
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
@@ -49,12 +49,12 @@ const Thoughts = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-  thoughtsContainer: {
+  container: {
     justifyContent: 'center',
     alignItems: 'center',
     maxHeight: '10%',
   },
-  thoughts: {
+  activity: {
     width: '92%',
     backgroundColor: '#e6f5fb',
     color: '#000',
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Thoughts;
+export default WhatAreYouDoing;

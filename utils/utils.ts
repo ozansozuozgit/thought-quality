@@ -24,6 +24,7 @@ export async function addSessionToFirebase(user: UserState) {
       createdAt: firestore.FieldValue.serverTimestamp(),
       // createdAt: firestore.Timestamp.fromDate(customDate),
       emotionName: user.emotion?.name,
+      whatUserIsDoing: user.whatUserIsDoing,
     })
     .then(querySnapshot => {
       console.log('Session added!');
@@ -214,19 +215,16 @@ export async function deleteSessionFromFirebase(
       return false;
     });
 }
-export async function updateNoteInFirebase(
+export async function updateNoteAndActivityInFirebase(
   collectionName: string,
   docID: string,
   note: string,
+  whatUserIsDoing: string,
 ) {
-  console.log({collectionName});
-  console.log({docID});
-  console.log({note});
-
   return await firestore()
     .collection(collectionName)
     .doc(docID)
-    .update({note})
+    .update({note, whatUserIsDoing})
     .then(result => {
       console.log('result', result);
       // if (!result.exists) return false;
@@ -251,6 +249,7 @@ function formatDatabaseReturnData(querySnapshot: any) {
       sessionID: doc.data().sessionID,
       emotionQuality: doc.data().emotionQuality,
       createdAtMilliSeconds: doc.data().createdAt.toMillis(),
+      whatUserIsDoing: doc.data().whatUserIsDoing,
     });
     // console.log(doc.id, ' => ', doc.data());
   });
