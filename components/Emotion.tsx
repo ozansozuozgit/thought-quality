@@ -1,42 +1,84 @@
-import React from 'react';
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Keyboard, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useAppSelector, useAppDispatch} from '../app/hooks';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setEmotion} from '../features/user/userSlice';
-import {Keyboard} from 'react-native';
+import {getEmotionCategory} from '../utils/utils';
 
 export default function Emotions({emotion}: any) {
   const user = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
+  const [active, setActive] = useState<boolean>(false);
+  const [selectedEmotion, setSelectedEmotion] = useState<string>('');
   const {name, icon, quality} = emotion;
 
-  const emotionHandler = (name: string, quality: number) => {
+  const emotionCategory = getEmotionCategory(name);
+
+  const emotionHandler = (nameSelected: string, qualitySelected: number) => {
     Keyboard.dismiss(); // To make thoughts textarea unfocus
-    dispatch(setEmotion({name, quality}));
+    dispatch(setEmotion({name: nameSelected, quality: qualitySelected}));
   };
+
+  useEffect(() => {
+    setSelectedEmotion(name);
+  }, []);
+
   return (
     <TouchableOpacity
       style={
-        user.emotion?.name === name
+        user.emotion?.name === name ||
+        emotionCategory.includes(user.emotion?.name || '')
           ? [styles.emotionContainer, {backgroundColor: '#e6f5fb'}]
           : styles.emotionContainer
       }
-      onPress={() => emotionHandler(name, quality)}>
+      onPress={() => {
+        setSelectedEmotion(name);
+        emotionHandler(name, quality);
+      }}
+      onLongPress={() => setActive(true)}>
       <View style={styles.emotionSecondaryContainer}>
         <MaterialIcons
           name={icon}
           size={32}
-          color={user.emotion?.name === name ? '#343434' : '#fff'}
+          color={
+            user.emotion?.name === name ||
+            emotionCategory.includes(user.emotion?.name || '')
+              ? '#343434'
+              : '#fff'
+          }
         />
         <Text
           style={
-            user.emotion?.name === name
+            user.emotion?.name === name ||
+            emotionCategory.includes(user.emotion?.name || '')
               ? [styles.emotionLabel, {color: '#343434'}]
               : styles.emotionLabel
           }>
-          {name}
+          {selectedEmotion}
         </Text>
       </View>
+      <Menu opened={active}>
+        <MenuTrigger />
+        <MenuOptions>
+          {emotionCategory.map((emotionName: string) => (
+            <MenuOption
+              key={emotionName}
+              text={emotionName}
+              onSelect={() => {
+                setSelectedEmotion(emotionName);
+                setActive(false);
+                emotionHandler(emotionName, 0);
+              }}
+            />
+          ))}
+        </MenuOptions>
+      </Menu>
     </TouchableOpacity>
   );
 }

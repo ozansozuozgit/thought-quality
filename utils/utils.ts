@@ -185,7 +185,9 @@ export async function deleteAllSessionsFromFirebase(
     .where('uid', '==', uid)
     .get()
     .then(querySnapshot => {
-      if (querySnapshot.size === 0) return false;
+      if (querySnapshot.size === 0) {
+        return false;
+      }
       querySnapshot.forEach(snapshot => snapshot.ref.delete());
       return true;
     })
@@ -204,7 +206,9 @@ export async function deleteSessionFromFirebase(
     .doc(docID)
     .get()
     .then(result => {
-      if (!result.exists) return false;
+      if (!result.exists) {
+        return false;
+      }
       result.ref.delete();
       console.log('Document successfully deleted!');
       return true;
@@ -277,12 +281,87 @@ export function returnIcon(emotionName: string) {
   } else if (emotionName === 'Fear') {
     iconName = 'emoticon-frown-outline';
     iconColor = '#c53723';
+  } else if (emotionName === 'Hopeful') {
+    iconName = 'emoticon-excited-outline';
+    iconColor = '#477cdd';
+  } else if (emotionName === 'Cheerful') {
+    iconName = 'emoticon-excited-outline';
+    iconColor = '#3f6ec5';
+  } else if (emotionName === 'Excited') {
+    iconName = 'emoticon-excited-outline';
+    iconColor = '#3761ac';
+  } else if (emotionName === 'Inspired') {
+    iconName = 'emoticon-excited-outline';
+    iconColor = '#2f5394';
+  } else if (emotionName === 'Affection') {
+    iconName = 'emoticon-kiss-outline';
+    iconColor = '#8f47aa';
+  } else if (emotionName === 'Lust') {
+    iconName = 'emoticon-kiss-outline';
+    iconColor = '#b272ca';
+  } else if (emotionName === 'Compassion') {
+    iconName = 'emoticon-kiss-outline';
+    iconColor = '#6f3784';
+  } else if (emotionName === 'Passion') {
+    iconName = 'emoticon-kiss-outline';
+    iconColor = '#c595d7';
+  } else if (emotionName === 'Content') {
+    iconName = 'emoticon-neutral-outline';
+    iconColor = '#139c01';
+  } else if (emotionName === 'Calm') {
+    iconName = 'emoticon-neutral-outline';
+    iconColor = '#44bd34';
+  } else if (emotionName === 'Relaxed') {
+    iconName = 'emoticon-neutral-outline';
+    iconColor = '#0f7901';
+  } else if (emotionName === 'Serene') {
+    iconName = 'emoticon-neutral-outline';
+    iconColor = '#73ce67';
+  } else if (emotionName === 'Frustrated') {
+    iconName = 'emoticon-angry-outline';
+    iconColor = '#e33400';
+  } else if (emotionName === 'Irritated') {
+    iconName = 'emoticon-angry-outline';
+    iconColor = '#fd6133';
+  } else if (emotionName === 'Furious') {
+    iconName = 'emoticon-angry-outline';
+    iconColor = '#b02900';
+  } else if (emotionName === 'Annoyed') {
+    iconName = 'emoticon-angry-outline';
+    iconColor = '#fd754d';
+  } else if (emotionName === 'Lonely') {
+    iconName = 'emoticon-sad-outline';
+    iconColor = '#e67e00';
+  } else if (emotionName === 'Guilt') {
+    iconName = 'emoticon-sad-outline';
+    iconColor = '#ffa333';
+  } else if (emotionName === 'Gloomy') {
+    iconName = 'emoticon-sad-outline';
+    iconColor = '#b36200';
+  } else if (emotionName === 'Depressed') {
+    iconName = 'emoticon-sad-outline';
+    iconColor = '#ffba66';
+  } else if (emotionName === 'Anxious') {
+    iconName = 'emoticon-frown-outline';
+    iconColor = '#b13220';
+  } else if (emotionName === 'Nervous') {
+    iconName = 'emoticon-frown-outline';
+    iconColor = '#d15f4f';
+  } else if (emotionName === 'Scared') {
+    iconName = 'emoticon-frown-outline';
+    iconColor = '#9e2c1c';
+  } else if (emotionName === 'Terrified') {
+    iconName = 'emoticon-frown-outline';
+    iconColor = '#8a2719';
   }
+
   return {iconName, iconColor};
 }
 
 export const diffInDaysFromToday = (endDate: string | undefined = '') => {
-  if (endDate === undefined) return '';
+  if (endDate === undefined) {
+    return '';
+  }
   let today = moment(new Date().toISOString().slice(0, 10)) ?? '';
   const diffInDays = moment(today).diff(endDate, 'days');
 
@@ -356,4 +435,41 @@ export const useTogglePasswordVisibility = () => {
     rightIcon,
     handlePasswordVisibility,
   };
+};
+
+export const getEmotionCategory = (category: string) => {
+  const loveCategories = ['Love', 'Affection', 'Lust', 'Compassion', 'Passion'];
+  const joyCategories = ['Joy', 'Cheerful', 'Excited', 'Hopeful', 'Inspired'];
+  const neutralCategories = ['Neutral', 'Content', 'Calm', 'Relaxed', 'Serene'];
+  const angerCategories = [
+    'Anger',
+    'Frustrated',
+    'Irritated',
+    'Furious',
+    'Annoyed',
+  ];
+  const sadnessCategories = [
+    'Sadness',
+    'Lonely',
+    'Guilt',
+    'Gloomy',
+    'Depressed',
+  ];
+  const fearCategories = ['Fear', 'Anxious', 'Nervous', 'Scared', 'Terrified'];
+
+  if (category === 'Love') {
+    return loveCategories;
+  } else if (category === 'Joy') {
+    return joyCategories;
+  } else if (category === 'Neutral') {
+    return neutralCategories;
+  } else if (category === 'Anger') {
+    return angerCategories;
+  } else if (category === 'Sadness') {
+    return sadnessCategories;
+  } else if (category === 'Fear') {
+    return fearCategories;
+  } else {
+    return [];
+  }
 };

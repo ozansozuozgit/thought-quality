@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,Text} from 'react-native';
 // import {View} from '../components/Themed';
 import Emotion from '../components/Emotion';
 

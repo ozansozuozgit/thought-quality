@@ -83,10 +83,10 @@ const BarChart = ({showToast}: any) => {
                 },
               }}
               data={userGraphData ?? [{x: 1, y: 1}]}
-              animate={{
-                duration: 1500,
-                onLoad: {duration: 1500},
-              }}
+              // animate={{
+              //   duration: 1500,
+              //   onLoad: {duration: 1500},
+              // }}
             />
           </VictoryChart>
         </View>

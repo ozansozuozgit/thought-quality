@@ -1,14 +1,15 @@
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import React, {useState, useEffect} from 'react';
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import {Navigation, LoginRegisterNavigation} from './navigation';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useAppDispatch} from './app/hooks';
 import {setUserDetailsFromGoogle} from './features/user/userSlice';
+import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
+import {LoginRegisterNavigation, Navigation} from './navigation';
 import {diffInDaysFromToday, firestoreReturnDisplayName} from './utils/utils';
 // import SplashScreen from 'react-native-splash-screen';
 import * as Sentry from '@sentry/react-native';
+import {MenuProvider} from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 
 const App = () => {
@@ -59,14 +60,16 @@ const App = () => {
 
   return (
     <>
-      <SafeAreaProvider>
-        {user ? (
-          <Navigation colorScheme={colorScheme} />
-        ) : (
-          <LoginRegisterNavigation colorScheme={colorScheme} />
-        )}
-      </SafeAreaProvider>
-      <Toast />
+      <MenuProvider>
+        <SafeAreaProvider>
+          {user ? (
+            <Navigation colorScheme={colorScheme} />
+          ) : (
+            <LoginRegisterNavigation colorScheme={colorScheme} />
+          )}
+        </SafeAreaProvider>
+        <Toast />
+      </MenuProvider>
     </>
   );
 };

@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    // backgroundColor: '#e6f5fb',
     height: '100%',
   },
   title: {
@@ -148,13 +147,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 20,
     padding: 15,
-    // borderWidth: 1,
     borderColor: '#e6f5fb',
   },
   iconContainer: {
-    // backgroundColor: '#e6f5fb',
     borderRadius: 15,
-    // padding: 10,
     marginTop: '5%',
     marginBottom: '5%',
     alignSelf: 'center',
@@ -171,13 +167,9 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   note: {
-    // marginTop: 10,
     width: '90%',
     fontSize: 16,
-    // lineHeight: 25,
-    // marginBottom: 10,
     color: '#343434',
-    // minHeight: '45%',
-    height:100
+    height: 100,
   },
 });

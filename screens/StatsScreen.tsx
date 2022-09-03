@@ -24,7 +24,7 @@ export default function StatsScreen() {
             alignItems: 'center',
           }}>
           <PieChart />
-          {/* <BarChart /> */}
+          <BarChart />
           <LineChart />
         </ScrollView>
       </View>

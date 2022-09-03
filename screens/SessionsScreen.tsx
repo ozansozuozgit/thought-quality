@@ -22,7 +22,7 @@ export default function SessionsScreen({
           <Text style={{fontSize: 22, fontWeight: 'bold', paddingBottom: 5}}>
             Sessions
           </Text>
-          <ScrollView contentContainerStyle={{paddingBottom: '80%'}}>
+          <ScrollView contentContainerStyle={{paddingBottom: '100%'}}>
             {!!user?.sessions?.length &&
               user?.filteredSessions === null &&
               user.sessions?.map((session, index) => (
