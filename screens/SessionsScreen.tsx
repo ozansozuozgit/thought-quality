@@ -12,32 +12,29 @@ export default function SessionsScreen({
 }: RootTabScreenProps<'SessionsScreen'>) {
   const user = useAppSelector(state => state.user);
 
+  const renderSessions = () => {
+    if (user.filteredSessions !== null && user.filteredSessions.length > 0) {
+      return user.filteredSessions.map((session, index) => (
+        <Session session={session} key={session.sessionID ?? index} />
+      ));
+    } else if (user.sessions !== null && user.sessions.length > 0) {
+      return user.sessions.map((session, index) => (
+        <Session session={session} key={session.sessionID ?? index} />
+      ));
+    } else {
+      return <Text style={styles.noSessions}>No Sessions</Text>;
+    }
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: '#292A2F'}}>
       <View style={styles.container}>
         <DatePicker />
         <FilterPicker />
-
         <View style={styles.secondaryContainer}>
-          <Text style={{fontSize: 22, fontWeight: 'bold', paddingBottom: 5}}>
-            Sessions
-          </Text>
+          <Text style={styles.title}>Sessions</Text>
           <ScrollView contentContainerStyle={{paddingBottom: '100%'}}>
-            {!!user?.sessions?.length &&
-              user?.filteredSessions === null &&
-              user.sessions?.map((session, index) => (
-                <Session session={session} key={session.sessionID ?? index} />
-              ))}
-            {!!user?.filteredSessions?.length &&
-              user.filteredSessions?.map((session, index) => (
-                <Session session={session} key={session.sessionID ?? index} />
-              ))}
-            {!user?.sessions?.length && !!user?.filteredSessions !== null && (
-              <Text style={styles.noSessions}>No Sessions</Text>
-            )}
-            {/* {user?.sessions?.length && !user?.filteredSessions !== null && (
-              <Text style={styles.noSessions}>No Sessions</Text>
-            )} */}
+            {renderSessions()}
           </ScrollView>
         </View>
       </View>
@@ -47,7 +44,6 @@ export default function SessionsScreen({
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === 'ios' ? '15%' : 0,
     alignItems: 'center',
     height: '100%',
     position: 'relative',
@@ -58,44 +54,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginTop: '10%',
+    marginTop: '0%',
     marginBottom: '5%',
     marginLeft: '3%',
-  },
-  secondaryTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: '5%',
-    textAlign: 'center',
-    paddingBottom: 10,
-    paddingTop: 10,
   },
   noSessions: {
     textAlign: 'center',
     marginTop: 50,
     fontSize: 22,
     fontWeight: 'bold',
-  },
-  dropdown: {
-    backgroundColor: '#e6f5fb',
-    width: '100%',
-    display: 'none',
-  },
-  iconContainer: {
-    backgroundColor: '#fdfdfd4f',
-    borderRadius: 15,
-    width: '20%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#343434',
-    borderWidth: 1,
-    marginLeft: '5%',
-  },
-  icon: {},
-  filterContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '80%',
-    zIndex: 122,
   },
 });

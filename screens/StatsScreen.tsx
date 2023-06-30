@@ -25,7 +25,7 @@ export default function StatsScreen() {
           }}>
           <PieChart />
           <BarChart />
-          <LineChart />
+          {/* <LineChart /> */}
         </ScrollView>
       </View>
     </SafeAreaView>

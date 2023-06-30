@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react';
-
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useAppSelector} from '../app/hooks';
+import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
 import {View} from '../components/Themed';
 import {SessionType} from '../types';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {limitCharacter, returnIcon, convertMsToHM} from '../utils/utils';
-import AppleStyleSwipeableRow from '../components/AppleStyleSwipeableRow';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {useAppSelector} from '../app/hooks';
-import {firestoreGetDataCreatedBefore} from '../utils/utils';
+import {
+  convertMsToHM,
+  firestoreGetDataCreatedBefore,
+  limitCharacter,
+  returnIcon,
+} from '../utils/utils';
 
 export default function LatestSession() {
   const navigation = useNavigation();
@@ -24,28 +27,32 @@ export default function LatestSession() {
     iconColor: string;
   }>({iconName: 'circle-outline', iconColor: '#fff'});
 
-  async function fetchLatestSession() {
-    const endDate = new Date(new Date().setDate(new Date().getDate() - 7));
-    if (!user.uid?.length) return;
-    console.log('user.uid', user.uid);
-    const querySnapshot: any = await firestoreGetDataCreatedBefore(
-      user.uid ?? '',
-      endDate,
-      1,
-    );
-    if (!querySnapshot.length) {
-      setLatestSession({});
-      return;
+  const fetchLatestSession = async () => {
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() - 7);
+    if (!user.uid) return;
+
+    try {
+      const querySnapshot: any = await firestoreGetDataCreatedBefore(
+        user.uid,
+        endDate,
+        1,
+      );
+
+      if (!querySnapshot.length) {
+        setLatestSession(null);
+        return;
+      }
+
+      const session = querySnapshot[0];
+      setLatestSession(session);
+
+      const {iconName, iconColor} = returnIcon(session.emotionName);
+      setIconDetails({iconName, iconColor});
+    } catch (error) {
+      console.log('Error fetching latest session:', error);
     }
-    setLatestSession(querySnapshot[0]);
-    const {iconName, iconColor} = returnIcon(querySnapshot[0].emotionName);
-
-    setIconDetails({iconName, iconColor});
-  }
-
-  useEffect(() => {
-    fetchLatestSession();
-  }, []);
+  };
 
   useEffect(() => {
     fetchLatestSession();
@@ -57,15 +64,16 @@ export default function LatestSession() {
     }, []),
   );
 
-  const dateIsToday = () => {
-    let now = +new Date();
+  const formatDate = (date: Date | undefined) => {
+    if (!date) return '';
+    const now = new Date();
     const oneDay = 60 * 60 * 24 * 1000;
-    let sessionCreatedToday =
-      now - latestSession?.createdAtMilliSeconds < oneDay;
-    if (sessionCreatedToday) {
-      return convertMsToHM(now - latestSession?.createdAtMilliSeconds) ?? '';
+
+    if (now - date < oneDay) {
+      return convertMsToHM(now - date) || '';
     }
-    return latestSession?.createdAt?.toString() ?? '';
+
+    return date.toString() || '';
   };
 
   return (
@@ -74,20 +82,19 @@ export default function LatestSession() {
         {latestSession && (
           <TouchableOpacity
             style={styles.sessionContainer}
-            onPress={() => {
-              navigation.navigate(
-                'SessionView' as never,
-                {
-                  emotionName: latestSession.emotionName ?? '',
-                  createdAt: latestSession.createdAt ?? '',
-                  note: latestSession.note ?? '',
-                  iconName: iconDetails.iconName ?? '',
-                  iconColor: iconDetails.iconColor ?? '',
-                  sessionID: latestSession.sessionID ?? '',
-                } as never,
-              );
-            }}>
-            <Text style={styles.date}>{dateIsToday()}</Text>
+            onPress={() =>
+              navigation.navigate('SessionView', {
+                emotionName: latestSession.emotionName ?? '',
+                createdAt: latestSession.createdAt ?? '',
+                note: latestSession.note ?? '',
+                iconName: iconDetails.iconName ?? '',
+                iconColor: iconDetails.iconColor ?? '',
+                sessionID: latestSession.sessionID ?? '',
+              } as any)
+            }>
+            <Text style={styles.date}>
+              {formatDate(latestSession.createdAt)}
+            </Text>
             <View style={styles.infoContainer}>
               <MaterialIcons
                 name={iconDetails.iconName}
@@ -97,7 +104,7 @@ export default function LatestSession() {
               />
               <Text style={styles.note}>
                 {limitCharacter(
-                  latestSession?.note ?? 'Create your first session! :)',
+                  latestSession.note ?? 'Create your first session! :)',
                   40,
                 )}
               </Text>
@@ -110,12 +117,15 @@ export default function LatestSession() {
 }
 
 const styles = StyleSheet.create({
-  container: {width: '90%', marginLeft: '5%', marginTop: -15},
+  container: {
+    width: '90%',
+    marginLeft: '5%',
+    marginTop: -15,
+  },
   sessionContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#c7edfc',
-    // borderWidth: 1,
     padding: 20,
     marginTop: 15,
     borderRadius: 10,

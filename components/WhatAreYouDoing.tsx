@@ -1,4 +1,3 @@
-import _debounce from 'lodash/debounce';
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
@@ -8,7 +7,7 @@ const WhatAreYouDoing = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>('');
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 500), []);
+  const debounceFn = useCallback(handleDebounceFn, []);
   const user = useAppSelector(state => state.user);
 
   function handleDebounceFn(inputValue: string) {
@@ -25,25 +24,29 @@ const WhatAreYouDoing = (props: any) => {
       setValue('');
     }
   }, [user.whatUserIsDoing]);
+
   return (
     <View style={styles.container}>
-      <TextInput
-        {...props}
-        editable
-        maxLength={500}
-        placeholder="I am working out. etc..."
+      <View
         style={
           active
-            ? [styles.activity, {backgroundColor: '#fff', color: '#000'}]
-            : styles.activity
-        }
-        onFocus={() => setActive(true)}
-        onBlur={() => setActive(false)}
-        onChangeText={handleChange}
-        value={value}
-        multiline
-        numberOfLines={4}
-      />
+            ? [styles.activityContainer, {backgroundColor: '#fff'}]
+            : styles.activityContainer
+        }>
+        <TextInput
+          {...props}
+          editable
+          maxLength={500}
+          placeholder="I am working out, etc..."
+          style={styles.activity}
+          onFocus={() => setActive(true)}
+          onBlur={() => setActive(false)}
+          onChangeText={handleChange}
+          value={value}
+          multiline
+          numberOfLines={4}
+        />
+      </View>
     </View>
   );
 };
@@ -54,15 +57,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     maxHeight: '10%',
   },
-  activity: {
+  activityContainer: {
     width: '92%',
     backgroundColor: '#e6f5fb',
+    borderRadius: 5,
+  },
+  activity: {
     color: '#000',
     fontSize: 16,
     borderColor: 'grey',
-
-    // borderWidth: 1,
-    borderRadius: 5,
     padding: 15,
     height: '100%',
   },

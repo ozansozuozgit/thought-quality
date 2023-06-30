@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setEmotion} from '../features/user/userSlice';
 import {getEmotionCategory} from '../utils/utils';
 
-export default function Emotions({emotion}: any) {
+const Emotions = ({emotion}: any) => {
   const user = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
   const [active, setActive] = useState<boolean>(false);
@@ -31,12 +31,16 @@ export default function Emotions({emotion}: any) {
 
   return (
     <TouchableOpacity
-      style={
-        user.emotion?.name === name ||
-        emotionCategory.includes(user.emotion?.name || '')
-          ? [styles.emotionContainer, {backgroundColor: '#e6f5fb'}]
-          : styles.emotionContainer
-      }
+      style={[
+        styles.emotionContainer,
+        {
+          backgroundColor:
+            user.emotion?.name === name ||
+            emotionCategory.includes(user.emotion?.name || '')
+              ? '#e6f5fb'
+              : 'transparent',
+        },
+      ]}
       onPress={() => {
         setSelectedEmotion(name);
         emotionHandler(name, quality);
@@ -54,12 +58,16 @@ export default function Emotions({emotion}: any) {
           }
         />
         <Text
-          style={
-            user.emotion?.name === name ||
-            emotionCategory.includes(user.emotion?.name || '')
-              ? [styles.emotionLabel, {color: '#343434'}]
-              : styles.emotionLabel
-          }>
+          style={[
+            styles.emotionLabel,
+            {
+              color:
+                user.emotion?.name === name ||
+                emotionCategory.includes(user.emotion?.name || '')
+                  ? '#343434'
+                  : '#fff',
+            },
+          ]}>
           {selectedEmotion}
         </Text>
       </View>
@@ -81,7 +89,7 @@ export default function Emotions({emotion}: any) {
       </Menu>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   emotionContainer: {
@@ -91,9 +99,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginTop: 15,
     borderRadius: 12,
-    // borderWidth: 1,
     borderColor: 'grey',
-    // backgroundColor: '#e8f0fe',
     backgroundColor: 'transparent',
     width: '30%',
     padding: 10,
@@ -104,10 +110,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  emotionImage: {
-    height: 32,
-    width: 32,
-  },
   emotionSecondaryContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -115,3 +117,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
+
+export default Emotions;

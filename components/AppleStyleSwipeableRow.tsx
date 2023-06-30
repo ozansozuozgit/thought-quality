@@ -1,41 +1,20 @@
 import React from 'react';
 import {
+  Alert,
   Animated,
+  I18nManager,
   StyleSheet,
   Text,
   View,
-  I18nManager,
-  Alert,
 } from 'react-native';
-
 import {RectButton} from 'react-native-gesture-handler';
-
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Toast from 'react-native-toast-message';
 import {useAppDispatch} from '../app/hooks';
 import {removeSession} from '../features/user/userSlice';
 import {deleteSessionFromFirebase} from '../utils/utils';
-import Toast from 'react-native-toast-message';
 
 export default function AppleStyleSwipeableRow(props: any) {
-  // const renderLeftActions = (progress: any, dragX: any) => {
-  //   const trans = dragX.interpolate({
-  //     inputRange: [0, 50, 100, 101],
-  //     outputRange: [-20, 0, 0, 1],
-  //   });
-  //   return (
-  //     <RectButton style={styles.leftAction}>
-  //       <Animated.Text
-  //         style={[
-  //           styles.actionText,
-  //           {
-  //             transform: [{translateX: trans}],
-  //           },
-  //         ]}>
-  //         Archive
-  //       </Animated.Text>
-  //     </RectButton>
-  //   );
-  // };
   const dispatch = useAppDispatch();
 
   const confirmationAlert = () =>
@@ -69,21 +48,20 @@ export default function AppleStyleSwipeableRow(props: any) {
   const renderRightAction = (
     text: string,
     color: string,
-    x: number,
+    translateXValue: number,
     progress: any,
   ) => {
-    const trans = progress.interpolate({
+    const translateX = progress.interpolate({
       inputRange: [0, 1],
-      outputRange: [x, 0],
+      outputRange: [translateXValue, 0],
     });
     const pressHandler = () => {
       confirmationAlert();
     };
+    const rectButtonStyle = [styles.rightAction, {backgroundColor: color}];
     return (
-      <Animated.View style={{flex: 1, transform: [{translateX: trans}]}}>
-        <RectButton
-          style={[styles.rightAction, {backgroundColor: color}]}
-          onPress={pressHandler}>
+      <Animated.View style={{flex: 1, transform: [{translateX}]}}>
+        <RectButton style={rectButtonStyle} onPress={pressHandler}>
           <Text style={styles.actionText}>{text}</Text>
         </RectButton>
       </Animated.View>
@@ -91,24 +69,22 @@ export default function AppleStyleSwipeableRow(props: any) {
   };
 
   const renderRightActions = (progress: any) => {
-    if (!props.allowSwipe) return;
+    if (!props.allowSwipe) return null;
+    const flexDirection = I18nManager.isRTL ? 'row-reverse' : 'row';
     return (
-      <View
-        style={{
-          width: 100,
-          flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-        }}>
+      <View style={{width: 100, flexDirection}}>
         {renderRightAction('Delete', '#dd2c00', 100, progress)}
       </View>
     );
   };
+
   const {children} = props;
+
   return (
     <Swipeable
       friction={2}
       leftThreshold={30}
       rightThreshold={40}
-      // renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}>
       {children}
     </Swipeable>
@@ -116,11 +92,6 @@ export default function AppleStyleSwipeableRow(props: any) {
 }
 
 const styles = StyleSheet.create({
-  leftAction: {
-    flex: 1,
-    backgroundColor: '#497AFC',
-    justifyContent: 'center',
-  },
   actionText: {
     color: 'white',
     fontSize: 16,

@@ -15,8 +15,8 @@ import SubmitSession from '../components/SubmitSession';
 import {SecondaryTitle, View} from '../components/Themed';
 import Thoughts from '../components/Thoughts';
 import WhatAreYouDoing from '../components/WhatAreYouDoing';
-// import {RootTabScreenProps} from '../types';
 import {onCreateTriggerNotification} from '../utils/utils';
+
 const MainScreen = () => {
   useEffect(() => {
     requestNotifications(['alert', 'sound'])
@@ -45,45 +45,30 @@ const MainScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: '#292A2F'}}>
-      <ScrollView contentContainerStyle={{paddingBottom: '70%'}}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        keyboardShouldPersistTaps="handled">
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container} darkColor="#f4f4f4">
-            <SecondaryTitle style={{marginBottom: 2}}>
-              Select Emotion{' '}
-              <Text style={{fontSize: 14, fontWeight: '400', color: '#BCA5D9'}}>
-                {' '}
-                (Required)
-              </Text>{' '}
+          <View style={styles.contentContainer}>
+            <SecondaryTitle style={styles.title}>
+              Select Emotion <Text style={styles.requiredText}>(Required)</Text>
             </SecondaryTitle>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: '400',
-                color: '#fff',
-                marginLeft: '3%',
-              }}>
+            <Text style={styles.infoText}>
               Press and hold emotion for more options.
             </Text>
             <Emotions />
 
-            <SecondaryTitle>
+            <SecondaryTitle style={styles.title}>
               Enter Thoughts
-              <Text style={{fontSize: 14, fontWeight: '400', color: '#BCA5D9'}}>
-                {' '}
-                (Optional)
-              </Text>
+              <Text style={styles.optionalText}> (Optional)</Text>
             </SecondaryTitle>
 
             <Thoughts />
 
-            {/* <View style={styles.separator} /> */}
-            <SecondaryTitle style={{fontSize: 20}}>
-              What are you doing right now?{' '}
-              <Text style={{fontSize: 14, fontWeight: '400', color: '#BCA5D9'}}>
-                {' '}
-                (Optional)
-              </Text>
+            <SecondaryTitle style={styles.title}>
+              What are you doing right now?
+              <Text style={styles.optionalText}> (Optional)</Text>
             </SecondaryTitle>
             <WhatAreYouDoing />
             <SubmitSession />
@@ -96,17 +81,37 @@ const MainScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    // justifyContent: 'center',
+    flex: 1,
     backgroundColor: '#292A2F',
   },
-  separator: {
-    height: 2,
-    width: '70%',
-    alignSelf: 'center',
-    backgroundColor: '#e6f5fb',
-    marginTop: 10,
-    // marginBottom: 10,
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: '70%',
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  title: {
+    marginBottom: 2,
+    color: '#fff',
+    fontSize: 18, // Adjust the font size as desired
+  },
+  requiredText: {
+    fontSize: 12, // Adjust the font size as desired
+    fontWeight: '400',
+    color: '#BCA5D9',
+  },
+  infoText: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#fff',
+    marginLeft: '3%',
+  },
+  optionalText: {
+    fontSize: 12, // Adjust the font size as desired
+    fontWeight: '400',
+    color: '#BCA5D9',
   },
 });
 

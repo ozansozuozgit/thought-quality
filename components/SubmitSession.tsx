@@ -1,24 +1,28 @@
-import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
-import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {setLatestSessionToggle, setNote,setWhatUserIsDoing} from '../features/user/userSlice';
-import {addSessionToFirebase} from '../utils/utils';
+import React, { useCallback } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import {
+  setLatestSessionToggle,
+  setNote,
+  setWhatUserIsDoing,
+} from '../features/user/userSlice';
+import { addSessionToFirebase } from '../utils/utils';
 
 const SubmitSession = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user);
 
-  const showToast = () => {
+  const showToast = useCallback(() => {
     Toast.show({
       type: 'success',
       text1: 'Session was recorded 👍',
     });
-  };
-  async function submitThoughtQuality() {
-    // const customDate = new Date(new Date().setDate(new Date().getDate() - 40));
-    const result = await addSessionToFirebase(user);
-    if (result) {
+  }, []);
+
+  function submitThoughtQuality() {
+    const result = addSessionToFirebase(user);
+    if (result as any) {
       showToast();
       dispatch(setLatestSessionToggle(!user.latestSessionToggle));
       dispatch(setNote(''));
@@ -27,6 +31,7 @@ const SubmitSession = () => {
       console.log('error');
     }
   }
+
   return (
     <View style={styles.submitButtonContainer}>
       <TouchableOpacity
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
   submitLabel: {
     color: '#343434',
     padding: 10,
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
     fontWeight: 'bold',
   },

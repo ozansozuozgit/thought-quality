@@ -11,7 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		5D51B8CD2892398300273D82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D51B8CC2892398300273D82 /* GoogleService-Info.plist */; };
+		5D0637CD28E29FC8003D55A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D0637CC28E29FC8003D55A9 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9F5041494B21B245FFD40835 /* libPods-thoughtQualityRn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B14A9B917677F7EB5069C38A /* libPods-thoughtQualityRn.a */; };
 		B9BB4E2F2C26D0A9C45A4736 /* libPods-thoughtQualityRn-thoughtQualityRnTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997E58FA27554C17AED388E0 /* libPods-thoughtQualityRn-thoughtQualityRnTests.a */; };
@@ -37,7 +37,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = thoughtQualityRn/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = thoughtQualityRn/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = thoughtQualityRn/main.m; sourceTree = "<group>"; };
-		5D51B8CC2892398300273D82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5D0637CC28E29FC8003D55A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5D55107728B1E6C1000BFA89 /* thoughtQualityRn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = thoughtQualityRn.entitlements; path = thoughtQualityRn/thoughtQualityRn.entitlements; sourceTree = "<group>"; };
 		5DB2B99128976F5500EB672D /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		5DB2B99228976F5500EB672D /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				5D51B8CC2892398300273D82 /* GoogleService-Info.plist */,
+				5D0637CC28E29FC8003D55A9 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* thoughtQualityRn */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* thoughtQualityRnTests */,
@@ -290,7 +290,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				5D51B8CD2892398300273D82 /* GoogleService-Info.plist in Resources */,
+				5D0637CD28E29FC8003D55A9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

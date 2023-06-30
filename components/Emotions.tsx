@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, View,Text} from 'react-native';
-// import {View} from '../components/Themed';
+import {StyleSheet, View} from 'react-native';
 import Emotion from '../components/Emotion';
 
-export default function Emotions() {
-  const emotions: Array<{name: string; icon: string; quality: number}> = [
+const Emotions = () => {
+  const emotions = [
     {name: 'Love', icon: 'emoticon-kiss-outline', quality: 6},
     {name: 'Joy', icon: 'emoticon-excited-outline', quality: 5},
     {name: 'Neutral', icon: 'emoticon-neutral-outline', quality: 4},
@@ -12,6 +11,7 @@ export default function Emotions() {
     {name: 'Sadness', icon: 'emoticon-sad-outline', quality: 2},
     {name: 'Fear', icon: 'emoticon-frown-outline', quality: 1},
   ];
+
   return (
     <View style={styles.emotionsContainer}>
       {emotions.map(emotion => (
@@ -19,7 +19,7 @@ export default function Emotions() {
       ))}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   emotionsContainer: {
@@ -30,3 +30,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+export default Emotions;

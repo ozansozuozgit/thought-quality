@@ -8,7 +8,7 @@ const Thoughts = (props: any) => {
   const [active, setActive] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>('');
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 500), []);
+  const debounceFn = useCallback(handleDebounceFn, []);
   const user = useAppSelector(state => state.user);
 
   function handleDebounceFn(inputValue: string) {
@@ -25,25 +25,29 @@ const Thoughts = (props: any) => {
       setValue('');
     }
   }, [user.note]);
+
   return (
     <View style={styles.thoughtsContainer}>
-      <TextInput
-        {...props}
-        editable
-        maxLength={500}
-        placeholder="Strongest thoughts/feelings?"
+      <View
         style={
           active
-            ? [styles.thoughts, {backgroundColor: '#fff', color: '#000'}]
-            : styles.thoughts
-        }
-        onFocus={() => setActive(true)}
-        onBlur={() => setActive(false)}
-        onChangeText={handleChange}
-        value={value}
-        multiline
-        numberOfLines={4}
-      />
+            ? [styles.thoughtsWrapper, {backgroundColor: '#fff'}]
+            : styles.thoughtsWrapper
+        }>
+        <TextInput
+          {...props}
+          editable
+          maxLength={500}
+          placeholder="Strongest thoughts/feelings?"
+          style={styles.thoughts}
+          onFocus={() => setActive(true)}
+          onBlur={() => setActive(false)}
+          onChangeText={handleChange}
+          value={value}
+          multiline
+          numberOfLines={4}
+        />
+      </View>
     </View>
   );
 };
@@ -54,15 +58,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     maxHeight: '10%',
   },
-  thoughts: {
+  thoughtsWrapper: {
     width: '92%',
     backgroundColor: '#e6f5fb',
+    borderRadius: 5,
+  },
+  thoughts: {
     color: '#000',
     fontSize: 16,
     borderColor: 'grey',
-
-    // borderWidth: 1,
-    borderRadius: 5,
     padding: 15,
     height: '100%',
   },
